@@ -4,6 +4,24 @@ var expect = require( "chai" ).expect,
     Taxon = require( "../../lib/models/taxon" );
 
 describe( "Observation", function( ) {
+  describe( "constructor", function( ) {
+    it( "should assign latitude and longitude attributes", function( ) {
+      const lat = "38";
+      const lon = "-123";
+      var o = new Observation( {
+        geojson: {
+          coordinates: [
+            lon,
+            lat
+          ],
+          type: "Point"
+        }
+      });
+      expect( o.latitude ).to.eq( lat );
+      expect( o.longitude ).to.eq( lon );
+    });
+  });
+
   describe( "typifyResponse", function( ) {
     it( "turns response results into Observations", function( ) {
       var r = { results: [{ name: "modelname" }] };
