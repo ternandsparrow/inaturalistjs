@@ -1,4 +1,7 @@
 # inaturalistjs
+[![Build Status](https://travis-ci.org/inaturalist/inaturalistjs.svg?branch=master)](https://travis-ci.org/inaturalist/inaturalistjs)
+[![Coverage Status](https://coveralls.io/repos/github/inaturalist/inaturalistjs/badge.svg?branch=master)](https://coveralls.io/github/inaturalist/inaturalistjs?branch=master)
+
 JavaScript package for iNaturalist.org. Supports CRUD for iNat data.
 
 #### Searching Observations
