@@ -1,0 +1,8 @@
+language: node_js
+
+node_js:
+  - "5.8.0"
+
+notifications:
+  slack:
+    secure: bcIcJyCnW6RwnqD0avAyk0yU3rZZasA3Rbt+0APWeEzmtuN33baw+rDInPontflrwCkXxyRNmP9k4xuU33y7QTkYrMfPtryclVrolAvwfMAiPNAm//1o7OkTRtKSfr4GxEgNhmlQLkqOrIdysm+9rpzwK+FkUDEOfqxvsm0jSk0=

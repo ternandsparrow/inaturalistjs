@@ -35,7 +35,7 @@ describe( "Observation", function( ) {
     });
 
     it( "is the first photo if present", function( ) {
-      let url1 = "http://localhost:3000/attachments/local_photos/files/519/square/pic1.jpg",
+      let url1 = "http://localhost:3000/attachments/local_photos/files/519/square.jpg",
           url2 = "http://localhost:3000/attachments/local_photos/files/520/square/pic2.jpg"
       let o = new Observation({
         photos: [
@@ -70,6 +70,41 @@ describe( "Observation", function( ) {
       });
       expect( o.photo( "medium" ) ).to.match( /medium/ );
       expect( o.photo( "large" ) ).to.match( /large/ );
+      expect( o.photo( ) ).to.match( /square/ );
+    });
+
+    it( "returns if the photo has no url", function( ) {
+      let o = new Observation({ photos: [{ url: null }] });
+      expect( o.photo( ) ).to.be.undefined;
+    });
+  });
+
+  describe( "hasPhotos", function( ) {
+    it( "returns true if there are photos", function( ) {
+      var w = new Observation({ photos: [ true ] });
+      expect( w.hasPhotos( ) ).to.be.true;
+      var wo = new Observation({ photos: [ ] });
+      expect( wo.hasPhotos( ) ).to.be.false;
+    });
+  });
+
+  describe( "hasSounds", function( ) {
+    it( "returns true if there are sounds", function( ) {
+      var w = new Observation({ sounds: [ true ] });
+      expect( w.hasSounds( ) ).to.be.true;
+      var wo = new Observation({ sounds: [ ] });
+      expect( wo.hasSounds( ) ).to.be.false;
+    });
+  });
+
+  describe( "hasMedia", function( ) {
+    it( "returns true if there are photos or sounds", function( ) {
+      var w = new Observation({ photos: [ true ] });
+      expect( w.hasMedia( ) ).to.be.true;
+      w = new Observation({ sounds: [ true ] });
+      expect( w.hasMedia( ) ).to.be.true;
+      var wo = new Observation({ photos: [ ], sounds: [ ] });
+      expect( wo.hasMedia( ) ).to.be.false;
     });
   });
 
