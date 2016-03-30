@@ -10,31 +10,4 @@ describe( "iNaturalistAPI", function( ) {
     });
   });
 
-  describe( "htmlDocumentHostConfig", function( ) {
-    it( "returns the content attribute of the selector", function( ) {
-      global.document = { querySelector: function( ) {
-        return { getAttribute: function( ) {
-          return "test";
-        }};
-      }};
-      expect( iNaturalistAPI.htmlDocumentHostConfig( ) ).to.eq( "test" );
-      global.document = undefined;
-    });
-  });
-
-  describe( "nodeHostConfig", function( ) {
-    it( "returns undefined if there is no node env", function( ) {
-      var env = process.env;
-      process.env = undefined;
-      expect( iNaturalistAPI.nodeHostConfig( ) ).to.be.undefined;
-      process.env = env;
-    });
-
-    it( "returns undefined if there is no node env", function( ) {
-      process.env.API_HOST = "test";
-      expect( iNaturalistAPI.nodeHostConfig( ) ).to.eq( "test" );
-      process.env.API_HOST = undefined;
-    });
-  });
-
 });
