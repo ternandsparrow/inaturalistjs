@@ -5,6 +5,39 @@ var expect = require( "chai" ).expect,
 
 describe( "Observation", function( ) {
 
+  describe( "create", function( ) {
+    it( "posts to /observations", function( done ) {
+      nock( "http://localhost:3000" ).
+        post( "/observations", { body: "testbody" } ).
+        reply( 200, { id: 1 } );
+      observations.create({ body: "testbody" }).then( function( ) {
+        done( );
+      });
+    });
+  });
+
+  describe( "update", function( ) {
+    it( "puts to /observations/:id", function( done ) {
+      nock( "http://localhost:3000" ).
+        put( "/observations/1", { id: 1, body: "testbody" }).
+        reply( 200, { id: 1 } );
+      observations.update({ id: 1, body: "testbody" }).then( function( ) {
+        done( );
+      });
+    });
+  });
+
+  describe( "delete", function( ) {
+    it( "deletes to /observations/:id", function( done ) {
+      nock( "http://localhost:3000" ).
+        delete( "/observations/1", { id: 1 }).
+        reply( 200, { id: 1 } );
+      observations.delete({ id: 1 }).then( function( ) {
+        done( );
+      });
+    });
+  });
+
   describe( "fetch", function( ) {
     it( "fetches observations by ID", function( done ) {
       nock( "http://localhost:4000" ).
