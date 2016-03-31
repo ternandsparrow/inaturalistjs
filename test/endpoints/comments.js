@@ -31,16 +31,6 @@ describe( "Comments", function( ) {
         done( );
       });
     });
-
-    it( "can post to the Rails write API", function( done ) {
-      nock( "http://localhost:3000", { reqheaders: { Authorization: "key" } }).
-        post( "/comments", { body: "testbody" }).
-        reply( 200, { id: 1 } );
-      comments.create({ body: "testbody" },
-                      { rails: true, api_token: "key", same_origin: true }).then( function( ) {
-        done( );
-      });
-    });
   });
 
   describe( "update", function( ) {

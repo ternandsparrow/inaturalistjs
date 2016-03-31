@@ -10,4 +10,33 @@ describe( "iNaturalistAPI", function( ) {
     });
   });
 
+  describe( "methodHostPrefix", function( ) {
+    it( "returns an empty string if using same_origin", function( ) {
+      expect( iNaturalistAPI.methodHostPrefix({ same_origin: true }) ).to.eq( "" );
+    });
+  });
+
+  describe( "csrf", function( ) {
+    it( "returns an empty string if using same_origin", function( ) {
+      global.document = { querySelector: function( ) {
+        return { getAttribute: function( ) { return "test"; }};
+      }};
+      expect( iNaturalistAPI.csrf( ) ).to.deep.eq({
+        param: "test",
+        token: "test"
+      });
+      global.document = undefined;
+    });
+  });
+
+  describe( "apiToken", function( ) {
+    it( "returns an empty string if using same_origin", function( ) {
+      global.document = { querySelector: function( ) {
+        return { getAttribute: function( ) { return "test"; }};
+      }};
+      expect( iNaturalistAPI.apiToken( ) ).to.eq( "test" );
+      global.document = undefined;
+    });
+  });
+
 });

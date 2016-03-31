@@ -6,13 +6,15 @@ JavaScript package for iNaturalist.org. Supports CRUD for iNat data.
 
 #### Searching Observations
 ```javascript
-import iNaturalistJS from "inaturalistjs";
-
-iNaturalistJS.observations.search({ taxon_id: 4 }).
-  then( function( response ) { });
+import inatjs from "inaturalistjs";
+inatjs.observations.search({ taxon_id: 4 }).then( rsp => { });
 ```
 
-#### Creating Comments (with JWT api_token)
+#### Creating
+
+Create and update methods accept a JSON object with the new instance properties
+nested under the instance class name
+
 ```javascript
 var params = {
   comment: {
@@ -22,37 +24,90 @@ var params = {
     user_id: 67890
   }
 };
-
-var options = { api_token: "... iNaturalist API token ..." };
-
-iNaturalistJS.comments.create( params, options ).
-  then( function( comment ) { });
+inatjs.comments.create( params ).then( c => { } );
 ```
 
-#### Creating Comments (intrasite, with csrf token)
+#### Updating
+
+Updates also need the ID of the record being updated
+
 ```javascript
 var params = {
-  comment: {
-    body: "... comment body ...",
-    parent_type: "Observation",
-    parent_id: 12345,
-    user_id: 67890,
-    authenticity_token: "... csrf token ..."
-  }
+  id: 1,
+  comment: { ... }
 };
-
-var options = { same_origin: true };
-
-iNaturalistJS.comments.create( params, options ).
-  then( function( comment ) { });
+inatjs.comments.update( params ).then( c => { } );
 ```
 
-#### Deleting Comments
+#### Deleting
+
+Deletes only need the ID
+
 ```javascript
-var params = { id: 123 };
+inatjs.comments.delete({ id: 1 }).then( () => { } );
+```
 
+#### API Token
+
+In order to use methods requiring authentication, you'll need to use an
+iNaturalist API Token. For now, these are found at
+http://www.inaturalist.org/users/api_token . If running in the browser,
+iNaturalistJS will look for an `inaturalist-api-token` meta tag and use that for
+authenticating requests
+
+```
+<meta name="inaturalist-api-token" content="... api token ...">
+```
+
+Alternatively, the token can be passed as an option
+
+```javascript
 var options = { api_token: "... iNaturalist API token ..." };
+inatjs.comments.create( params, options ).then( c => { } );
+```
 
-iNaturalistJS.comments.delete( params, options ).
-  then( function( comment ) { });
+#### CSRF Token (intrasite only)
+
+If you happen to be running the iNaturalist Rails codebase, CSRF tokens can
+be used for authenticating requests made from the browser. If a CSRF token is
+available, all requests will be made to the same origin from which the call
+was made. iNaturalistJS will look for the following meta tags
+
+```
+<meta name="csrf-param" content="... param ...">
+<meta name="csrf-token" content="... token ...">
+```
+
+Alternatively, the token can be passed as a parameter (use the actual
+name of the paramater and not csrf_param)
+
+```javascript
+var params = {
+  csrf_param: "... csrf token ..."
+  comment: { ... }
+};
+inatjs.comments.create( params ).then( c => { } );
+```
+
+#### Available Methods
+```
+inatjs.comments.create( params, opts ).then( c => { ... } );
+inatjs.comments.update( params, opts ).then( c => { ... } );
+inatjs.comments.delete( params, opts ).then( () => { ... } );
+
+inatjs.identifications.create( params, opts ).then( i => { ... } );
+inatjs.identifications.update( params, opts ).then( i => { ... } );
+inatjs.identifications.delete( params, opts ).then( () => { ... } );
+
+inatjs.observations.create( params, opts ).then( o => { ... } );
+inatjs.observations.update( params, opts ).then( o => { ... } );
+inatjs.observations.delete( params, opts ).then( () => { ... } );
+inatjs.observations.fetch( params, opts ).then( rsp => { ... } );
+inatjs.observations.search( params, opts ).then( rsp => { ... } );
+
+inatjs.projects.join( params, opts ).then( () => { ... } );
+inatjs.projects.leave( params, opts ).then( () => { ... } );
+
+inatjs.taxa.fetch( params, opts ).then( rsp => { ... } );
+inatjs.taxa.autocomplete( params, opts ).then( rsp => { ... } );
 ```
