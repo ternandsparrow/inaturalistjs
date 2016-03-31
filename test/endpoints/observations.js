@@ -82,6 +82,28 @@ describe( "Observation", function( ) {
     });
   });
 
+  describe( "setQualityMetric", function( ) {
+    it( "posts to /observations/:id/quality/:metric", function( done ) {
+      nock( "http://localhost:3000" ).
+        post( "/observations/1/quality/wild", { id: 1, metric: "wild", agree: "true" }).
+        reply( 200, { id: 1 } );
+      observations.setQualityMetric({ id: 1, metric: "wild", agree: "true" }).then( function( ) {
+        done( );
+      });
+    });
+  });
+
+  describe( "deleteQualityMetric", function( ) {
+    it( "deleted to /observations/:id/quality/:metric", function( done ) {
+      nock( "http://localhost:3000" ).
+        delete( "/observations/1/quality/wild", { id: 1, metric: "wild" }).
+        reply( 200, { id: 1 } );
+      observations.deleteQualityMetric({ id: 1, metric: "wild" }).then( function( ) {
+        done( );
+      });
+    });
+  });
+
   describe( "fetch", function( ) {
     it( "fetches observations by ID", function( done ) {
       nock( "http://localhost:4000" ).

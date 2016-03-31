@@ -45,7 +45,7 @@ describe( "Comments", function( ) {
 
     it( "throws errors", function( done ) {
       comments.update({ any: "thing" }).catch( function( e ) {
-        expect( e.message ).to.eq( "ID required" );
+        expect( e.message ).to.eq( "id required" );
         done( );
       });
     });
@@ -63,7 +63,7 @@ describe( "Comments", function( ) {
 
     it( "throws errors", function( done ) {
       comments.delete({ any: "thing" }).catch( function( e ) {
-        expect( e.message ).to.eq( "ID required" );
+        expect( e.message ).to.eq( "id required" );
         done( );
       });
     });

@@ -125,7 +125,7 @@ values
 
 ```js
 import inatjs from "inaturalistjs";
-inatjs.setConfig({ apiHost: "...", railsApiHost: "..."" })
+inatjs.setConfig({ apiHost: "...", railsApiHost: "..."" });
 ```
 
 #### Available Methods
@@ -158,6 +158,8 @@ inatjs.observations.fave( params, opts ).then( o => { ... } );
 inatjs.observations.unfave( params, opts ).then( o => { ... } );
 inatjs.observations.review( params, opts ).then( () => { ... } );
 inatjs.observations.unreview( params, opts ).then( () => { ... } );
+inatjs.observations.setQualityMetric( params, opts ).then( () => { ... } );
+inatjs.observations.deleteQualityMetric( params, opts ).then( () => { ... } );
 
 inatjs.projects.join( params, opts ).then( () => { ... } );
 inatjs.projects.leave( params, opts ).then( () => { ... } );
