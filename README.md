@@ -2,15 +2,17 @@
 [![Build Status](https://travis-ci.org/inaturalist/inaturalistjs.svg?branch=master)](https://travis-ci.org/inaturalist/inaturalistjs)
 [![Coverage Status](https://coveralls.io/repos/github/inaturalist/inaturalistjs/badge.svg?branch=master)](https://coveralls.io/github/inaturalist/inaturalistjs?branch=master)
 
-JavaScript package for iNaturalist.org. Supports CRUD for iNat data.
+JavaScript package for iNaturalist.org. Supports CRUD for iNat data. This
+is an isomorphic library that can be used in the browser and within
+node.js code. Each method returns a JavaScript Promise
 
-#### Searching Observations
+#### Simple Example
 ```javascript
 import inatjs from "inaturalistjs";
 inatjs.observations.search({ taxon_id: 4 }).then( rsp => { });
 ```
 
-#### Creating
+#### Creating Records
 
 Create and update methods accept a JSON object with the new instance properties
 nested under the instance class name
@@ -27,7 +29,7 @@ var params = {
 inatjs.comments.create( params ).then( c => { } );
 ```
 
-#### Updating
+#### Updating Records
 
 Updates also need the ID of the record being updated
 
@@ -39,13 +41,22 @@ var params = {
 inatjs.comments.update( params ).then( c => { } );
 ```
 
-#### Deleting
+#### Deleting Records
 
 Deletes only need the ID
 
 ```javascript
 inatjs.comments.delete({ id: 1 }).then( () => { } );
 ```
+
+#### Errors
+
+Any non-200 response code is considered an error, and the promise will fail. Be
+sure to catch these errors:
+
+inatjs.comments.delete({ id: 0 }).then( () => { }).catch( e => {
+  console.log( "Delete failed:", e );
+})
 
 #### API Token
 
@@ -90,6 +101,19 @@ inatjs.comments.create( params ).then( c => { } );
 ```
 
 #### Available Methods
+
+##### Public
+
+```
+inatjs.observations.fetch( params, opts ).then( rsp => { ... } );
+inatjs.observations.search( params, opts ).then( rsp => { ... } );
+
+inatjs.taxa.fetch( params, opts ).then( rsp => { ... } );
+inatjs.taxa.autocomplete( params, opts ).then( rsp => { ... } );
+```
+
+##### Authenticated
+
 ```
 inatjs.comments.create( params, opts ).then( c => { ... } );
 inatjs.comments.update( params, opts ).then( c => { ... } );
@@ -102,12 +126,7 @@ inatjs.identifications.delete( params, opts ).then( () => { ... } );
 inatjs.observations.create( params, opts ).then( o => { ... } );
 inatjs.observations.update( params, opts ).then( o => { ... } );
 inatjs.observations.delete( params, opts ).then( () => { ... } );
-inatjs.observations.fetch( params, opts ).then( rsp => { ... } );
-inatjs.observations.search( params, opts ).then( rsp => { ... } );
 
 inatjs.projects.join( params, opts ).then( () => { ... } );
 inatjs.projects.leave( params, opts ).then( () => { ... } );
-
-inatjs.taxa.fetch( params, opts ).then( rsp => { ... } );
-inatjs.taxa.autocomplete( params, opts ).then( rsp => { ... } );
 ```
