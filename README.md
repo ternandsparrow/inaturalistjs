@@ -7,7 +7,7 @@ is an isomorphic library that can be used in the browser and within
 node.js code. Each method returns a JavaScript Promise
 
 #### Simple Example
-```javascript
+```js
 import inatjs from "inaturalistjs";
 inatjs.observations.search({ taxon_id: 4 }).then( rsp => { });
 ```
@@ -17,7 +17,7 @@ inatjs.observations.search({ taxon_id: 4 }).then( rsp => { });
 Create and update methods accept a JSON object with the new instance properties
 nested under the instance class name
 
-```javascript
+```js
 var params = {
   comment: {
     body: "... comment body ...",
@@ -33,7 +33,7 @@ inatjs.comments.create( params ).then( c => { } );
 
 Updates also need the ID of the record being updated
 
-```javascript
+```js
 var params = {
   id: 1,
   comment: { ... }
@@ -45,7 +45,7 @@ inatjs.comments.update( params ).then( c => { } );
 
 Deletes only need the ID
 
-```javascript
+```js
 inatjs.comments.delete({ id: 1 }).then( () => { } );
 ```
 
@@ -54,9 +54,11 @@ inatjs.comments.delete({ id: 1 }).then( () => { } );
 Any non-200 response code is considered an error, and the promise will fail. Be
 sure to catch these errors:
 
+```js
 inatjs.comments.delete({ id: 0 }).then( () => { }).catch( e => {
   console.log( "Delete failed:", e );
-})
+});
+```
 
 #### API Token
 
@@ -66,13 +68,13 @@ http://www.inaturalist.org/users/api_token . If running in the browser,
 iNaturalistJS will look for an `inaturalist-api-token` meta tag and use that for
 authenticating requests
 
-```
+```html
 <meta name="inaturalist-api-token" content="... api token ...">
 ```
 
 Alternatively, the token can be passed as an option
 
-```javascript
+```js
 var options = { api_token: "... iNaturalist API token ..." };
 inatjs.comments.create( params, options ).then( c => { } );
 ```
@@ -84,7 +86,7 @@ be used for authenticating requests made from the browser. If a CSRF token is
 available, all requests will be made to the same origin from which the call
 was made. iNaturalistJS will look for the following meta tags
 
-```
+```html
 <meta name="csrf-param" content="... param ...">
 <meta name="csrf-token" content="... token ...">
 ```
@@ -92,7 +94,7 @@ was made. iNaturalistJS will look for the following meta tags
 Alternatively, the token can be passed as a parameter (use the actual
 name of the paramater and not csrf_param)
 
-```javascript
+```js
 var params = {
   csrf_param: "... csrf token ..."
   comment: { ... }
@@ -100,11 +102,37 @@ var params = {
 inatjs.comments.create( params ).then( c => { } );
 ```
 
+#### Configuring API Host
+
+It might be necessary to change the API host to which this library sends queries
+(for example if you're a developer). Do not include the protocol in the host
+(for example set API_HOST=api.example.com). These values can be set in the
+browser with meta tags:
+
+```html
+<meta name="config:inaturalist_api_host" content="... host ...">
+<meta name="config:inaturalist_write_api_host" content="... host ...">
+```
+
+This can be done on the node.js end with environment variables:
+
+```bash
+API_HOST=a WRITE_API_HOST=b node app.js
+```
+
+And finally, in any environment there is a setConfig method for setting these
+values
+
+```js
+import inatjs from "inaturalistjs";
+inatjs.setConfig({ apiHost: "...", railsApiHost: "..."" })
+```
+
 #### Available Methods
 
 ##### Public
 
-```
+```js
 inatjs.observations.fetch( params, opts ).then( rsp => { ... } );
 inatjs.observations.search( params, opts ).then( rsp => { ... } );
 
@@ -114,7 +142,7 @@ inatjs.taxa.autocomplete( params, opts ).then( rsp => { ... } );
 
 ##### Authenticated
 
-```
+```js
 inatjs.comments.create( params, opts ).then( c => { ... } );
 inatjs.comments.update( params, opts ).then( c => { ... } );
 inatjs.comments.delete( params, opts ).then( () => { ... } );
@@ -126,6 +154,10 @@ inatjs.identifications.delete( params, opts ).then( () => { ... } );
 inatjs.observations.create( params, opts ).then( o => { ... } );
 inatjs.observations.update( params, opts ).then( o => { ... } );
 inatjs.observations.delete( params, opts ).then( () => { ... } );
+inatjs.observations.fave( params, opts ).then( o => { ... } );
+inatjs.observations.unfave( params, opts ).then( o => { ... } );
+inatjs.observations.review( params, opts ).then( () => { ... } );
+inatjs.observations.unreview( params, opts ).then( () => { ... } );
 
 inatjs.projects.join( params, opts ).then( () => { ... } );
 inatjs.projects.leave( params, opts ).then( () => { ... } );

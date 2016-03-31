@@ -38,6 +38,50 @@ describe( "Observation", function( ) {
     });
   });
 
+  describe( "fave", function( ) {
+    it( "posts to /votes/vote/observation/:id", function( done ) {
+      nock( "http://localhost:3000" ).
+        post( "/votes/vote/observation/1", { id: 1 }).
+        reply( 200, { id: 1 } );
+      observations.fave({ id: 1 }).then( function( ) {
+        done( );
+      });
+    });
+  });
+
+  describe( "unfave", function( ) {
+    it( "deletes to /votes/unvote/observation/:id", function( done ) {
+      nock( "http://localhost:3000" ).
+        delete( "/votes/unvote/observation/1", { id: 1 }).
+        reply( 200, { id: 1 } );
+      observations.unfave({ id: 1 }).then( function( ) {
+        done( );
+      });
+    });
+  });
+
+  describe( "review", function( ) {
+    it( "posts to /observations/:id/review", function( done ) {
+      nock( "http://localhost:3000" ).
+        post( "/observations/1/review", { id: 1, reviewed: "true" }).
+        reply( 200, { id: 1 } );
+      observations.review({ id: 1 }).then( function( ) {
+        done( );
+      });
+    });
+  });
+
+  describe( "unreview", function( ) {
+    it( "posts to /observations/:id/review", function( done ) {
+      nock( "http://localhost:3000" ).
+        post( "/observations/1/review", { id: 1, reviewed: "false" }).
+        reply( 200, { id: 1 } );
+      observations.unreview({ id: 1 }).then( function( ) {
+        done( );
+      });
+    });
+  });
+
   describe( "fetch", function( ) {
     it( "fetches observations by ID", function( done ) {
       nock( "http://localhost:4000" ).
