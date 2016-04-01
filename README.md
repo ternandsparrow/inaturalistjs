@@ -161,9 +161,9 @@ inatjs.observations.unreview( params, opts ).then( () => { ... } );
 inatjs.observations.setQualityMetric( params, opts ).then( () => { ... } );
 inatjs.observations.deleteQualityMetric( params, opts ).then( () => { ... } );
 
-inatjs.observation_field_values.create( params, opts ).then( v => { ... } );
-inatjs.observation_field_values.update( params, opts ).then( v => { ... } );
-inatjs.observation_field_values.delete( params, opts ).then( () => { ... } );
+inatjs.observationFieldValues.create( params, opts ).then( v => { ... } );
+inatjs.observationFieldValues.update( params, opts ).then( v => { ... } );
+inatjs.observationFieldValues.delete( params, opts ).then( () => { ... } );
 
 inatjs.projects.join( params, opts ).then( () => { ... } );
 inatjs.projects.leave( params, opts ).then( () => { ... } );
