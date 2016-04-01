@@ -41,7 +41,7 @@ describe( "iNaturalistAPI", function( ) {
     });
   });
 
-  describe( "basicPost", function( ) {
+  describe( "post", function( ) {
     it( "will use CSRF if there is no API token", function( done ) {
       var stubApiToken = sinon.stub( iNaturalistAPI, "apiToken", () => { return false; });
       var stubCSRF = sinon.stub( iNaturalistAPI, "csrf", () => {
@@ -51,7 +51,7 @@ describe( "iNaturalistAPI", function( ) {
         post( "/observations", { taxon_id: 4 } ).
         reply( 200, { id: 1 } );
       var params = { taxon_id: 4 };
-      iNaturalistAPI.basicPost( "observations", params ).then( () => {
+      iNaturalistAPI.post( "observations", params ).then( () => {
         stubApiToken.restore( );
         stubCSRF.restore( );
         done( );

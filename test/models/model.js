@@ -10,18 +10,18 @@ describe( "Model", function( ) {
     });
   });
 
-  describe( "typifyResponse", function( ) {
+  describe( "typifyResultsResponse", function( ) {
     it( "turns response results into types", function( ) {
       var r = { results: [{ name: "modelname" }] };
       expect( r.results[0].constructor.name ).to.eq( "Object" );
-      Model.typifyResponse( r, Model );
+      Model.typifyResultsResponse( r, Model );
       expect( r.results[0].constructor.name ).to.eq( "Model" );
       expect( r.results[0].name ).to.eq( "modelname" );
     });
 
     it( "does nothing if there are no results", function( ) {
       var r = { count: 156 };
-      Model.typifyResponse( r, Model );
+      Model.typifyResultsResponse( r, Model );
       expect( r ).to.deep.eq({ count: 156 });
     });
   });
