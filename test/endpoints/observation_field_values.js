@@ -1,5 +1,5 @@
 var nock = require( "nock" ),
-    observation_field_values = require( "../../lib/endpoints/observation_field_values" );
+    observationFieldValues = require( "../../lib/endpoints/observation_field_values" );
 
 describe( "ObservationFieldValues", function( ) {
 
@@ -8,7 +8,7 @@ describe( "ObservationFieldValues", function( ) {
       nock( "http://localhost:3000" ).
         post( "/observation_field_values", { body: "testbody" } ).
         reply( 200, { id: 1 } );
-      observation_field_values.create({ body: "testbody" }).then( function( ) {
+      observationFieldValues.create({ body: "testbody" }).then( function( ) {
         done( );
       });
     });
@@ -19,7 +19,7 @@ describe( "ObservationFieldValues", function( ) {
       nock( "http://localhost:3000" ).
         put( "/observation_field_values/1", { id: 1, body: "testbody" }).
         reply( 200, { id: 1 } );
-      observation_field_values.update({ id: 1, body: "testbody" }).then( function( ) {
+      observationFieldValues.update({ id: 1, body: "testbody" }).then( function( ) {
         done( );
       });
     });
@@ -30,7 +30,7 @@ describe( "ObservationFieldValues", function( ) {
       nock( "http://localhost:3000" ).
         delete( "/observation_field_values/1", { id: 1 }).
         reply( 200, { id: 1 } );
-      observation_field_values.delete({ id: 1 }).then( function( ) {
+      observationFieldValues.delete({ id: 1 }).then( function( ) {
         done( );
       });
     });

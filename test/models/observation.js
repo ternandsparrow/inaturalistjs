@@ -22,11 +22,11 @@ describe( "Observation", function( ) {
     });
   });
 
-  describe( "typifyResponse", function( ) {
+  describe( "typifyResultsResponse", function( ) {
     it( "turns response results into Observations", function( ) {
       var r = { results: [{ name: "modelname" }] };
       expect( r.results[0].constructor.name ).to.eq( "Object" );
-      Observation.typifyResponse( r );
+      Observation.typifyResultsResponse( r );
       expect( r.results[0].constructor.name ).to.eq( "Observation" );
       expect( r.results[0].name ).to.eq( "modelname" );
     });
@@ -41,7 +41,7 @@ describe( "Observation", function( ) {
         ]
       };
       expect( r.results[0].taxon ).to.be.an.instanceOf( Object );
-      Observation.typifyResponse( r );
+      Observation.typifyResultsResponse( r );
       expect( r.results[0].taxon ).to.be.an.instanceOf( Taxon );
     });
   });
