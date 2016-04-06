@@ -125,7 +125,7 @@ values
 
 ```js
 import inatjs from "inaturalistjs";
-inatjs.setConfig({ apiHost: "...", railsApiHost: "..."" });
+inatjs.setConfig({ apiHost: "...", writeApiHost: "..."" });
 ```
 
 #### Available Methods
