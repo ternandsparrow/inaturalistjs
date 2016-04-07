@@ -22,8 +22,7 @@
     "isomorphic-fetch": "^2.2.1",
     "babel-loader": "^6.2.4",
     "babel-core": "^6.2.7",
-    "webpack": "^1.12.14",
-    "form-data": "*"
+    "webpack": "^1.12.14"
   },
   "devDependencies": {
     "babel-eslint": "^5.0.0",
