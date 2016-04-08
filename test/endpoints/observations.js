@@ -72,9 +72,9 @@ describe( "Observation", function( ) {
   });
 
   describe( "unreview", function( ) {
-    it( "posts to /observations/:id/review", function( done ) {
+    it( "deletes to /observations/:id/review", function( done ) {
       nock( "http://localhost:3000" ).
-        post( "/observations/1/review", { id: 1, reviewed: "false" }).
+        delete( "/observations/1/review", { id: 1 }).
         reply( 200, { id: 1 } );
       observations.unreview({ id: 1 }).then( function( ) {
         done( );
