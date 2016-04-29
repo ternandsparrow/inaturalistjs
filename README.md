@@ -136,6 +136,8 @@ inatjs.setConfig({ apiHost: "...", writeApiHost: "..."" });
 inatjs.observations.fetch( params, opts ).then( rsp => { ... } );
 inatjs.observations.search( params, opts ).then( rsp => { ... } );
 
+inatjs.places.fetch( params, opts ).then( rsp => { ... } );
+
 inatjs.taxa.fetch( params, opts ).then( rsp => { ... } );
 inatjs.taxa.autocomplete( params, opts ).then( rsp => { ... } );
 ```
