@@ -168,4 +168,24 @@ describe( "Observation", function( ) {
       });
     });
   });
+
+  describe( "identifiers", function( ) {
+    it( "returns an array of users", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/observations/identifiers" ).
+        reply( 200, function( uri ) {
+          const r = Object.assign( testHelper.mockResponse( uri ), {
+            results: [
+              { count: 2, user: { id: 1 } },
+              { count: 1, user: { id: 2 } }
+            ]
+          } );
+          return r;
+        } );
+      observations.identifiers( ).then( function( r ) {
+        expect( r.results[0].user.constructor.name ).to.eq( "User" );
+        done( );
+      } );
+    } );
+  } );
 });
