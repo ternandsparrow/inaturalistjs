@@ -29,6 +29,18 @@ describe( "Photo", function( ) {
       expect( p.photoUrl( ) ).to.eq( "test" );
       expect( p.photoUrl( "medium" ) ).to.eq( "changed" );
     });
+
+    it( "should return multiple sizes regardless of file extension", function( ) {
+      let p = new Photo({
+        attribution: "no rights reserved",
+        id: 519,
+        license_code: "cc0",
+        url: "http://static.inaturalist.org/photos/3789931/square.bmp"
+      });
+      expect( p.photoUrl( "medium" ) ).to.match( /medium/ );
+      expect( p.photoUrl( "large" ) ).to.match( /large/ );
+      expect( p.photoUrl( ) ).to.match( /square/ );
+    });
   });
 
 });
