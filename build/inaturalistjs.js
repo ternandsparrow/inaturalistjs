@@ -137,7 +137,7 @@
 	      if (params) {
 	        query = "?" + querystring.stringify(params);
 	      }
-	      return _fetch("http://" + iNaturalistAPI.apiHost + "/" + route + "/" + ids.join(",") + query).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
+	      return _fetch("//" + iNaturalistAPI.apiHost + "/" + route + "/" + ids.join(",") + query).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
 	    }
 	  }, {
 	    key: "get",
@@ -146,7 +146,7 @@
 	      if (params) {
 	        query = "?" + querystring.stringify(params);
 	      }
-	      return _fetch("http://" + iNaturalistAPI.apiHost + "/" + route + query).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
+	      return _fetch("//" + iNaturalistAPI.apiHost + "/" + route + query).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
 	    }
 	  }, {
 	    key: "post",
@@ -234,7 +234,7 @@
 	      if (options.same_origin) {
 	        return "";
 	      }
-	      return "http://" + iNaturalistAPI.writeApiHost;
+	      return "//" + iNaturalistAPI.writeApiHost;
 	    }
 	  }, {
 	    key: "csrf",
