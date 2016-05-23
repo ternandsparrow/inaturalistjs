@@ -292,8 +292,8 @@
 	      var envWriteHostConfig = util.browserMetaTagContent("config:inaturalist_write_api_host") || util.nodeENV("WRITE_API_HOST");
 	      iNaturalistAPI.apiHost = config.apiHost || envHostConfig || "localhost:4000/v1";
 	      iNaturalistAPI.writeApiHost = config.writeApiHost || envWriteHostConfig || "localhost:3000";
-	      iNaturalistAPI.apiHostProtocol = config.apiHostSSL ? "https://" : "http://";
-	      iNaturalistAPI.writeHostProtocol = config.writeHostSSL ? "https://" : "http://";
+	      iNaturalistAPI.apiHostProtocol = config.apiHostSSL ? "https://" : "//";
+	      iNaturalistAPI.writeHostProtocol = config.writeHostSSL ? "https://" : "//";
 	    }
 	  }, {
 	    key: "interpolateRouteParams",
