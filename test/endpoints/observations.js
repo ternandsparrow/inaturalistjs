@@ -123,7 +123,7 @@ describe( "Observation", function( ) {
       nock( "http://localhost:4000" ).
         get( "/v1/observations/1,2" ).
         reply( 200, testHelper.mockResponse );
-      observations.fetch([ 1, 2]).then( function( r ) {
+      observations.fetch([ 1, 2 ]).then( function( r ) {
         expect( r.test_uri ).to.eq( "/v1/observations/1,2" );
         expect( r.total_results ).to.eq( 1 );
         done( );
@@ -140,6 +140,17 @@ describe( "Observation", function( ) {
         done( );
       });
     });
+
+    it( "should accept params", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/observations/1,2?locale=es" ).
+        reply( 200, testHelper.mockResponse );
+      observations.fetch( [ 1, 2 ], { locale: "es" } ).then( function( r ) {
+        expect( r.test_uri ).to.eq( "/v1/observations/1,2?locale=es" ); // does this really test anything?
+        expect( r.results[0].id ).to.eq( 1 );
+        done( );
+      } );
+    } );
   });
 
   describe( "search", function( ) {

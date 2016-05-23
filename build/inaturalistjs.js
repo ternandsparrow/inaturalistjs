@@ -129,11 +129,15 @@
 
 	  _createClass(iNaturalistAPI, null, [{
 	    key: "fetch",
-	    value: function fetch(route, ids) {
+	    value: function fetch(route, ids, params) {
 	      if (!Array.isArray(ids)) {
 	        ids = [ids];
 	      }
-	      return _fetch("http://" + iNaturalistAPI.apiHost + "/" + route + "/" + ids.join(",")).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
+	      var query = "";
+	      if (params) {
+	        query = "?" + querystring.stringify(params);
+	      }
+	      return _fetch("http://" + iNaturalistAPI.apiHost + "/" + route + "/" + ids.join(",") + query).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
 	    }
 	  }, {
 	    key: "get",
@@ -1415,8 +1419,8 @@
 	    }
 	  }, {
 	    key: "fetch",
-	    value: function fetch(ids) {
-	      return iNaturalistAPI.fetch("observations", ids).then(Observation.typifyResultsResponse);
+	    value: function fetch(ids, params) {
+	      return iNaturalistAPI.fetch("observations", ids, params).then(Observation.typifyResultsResponse);
 	    }
 	  }, {
 	    key: "search",
