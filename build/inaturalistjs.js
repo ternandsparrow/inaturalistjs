@@ -137,7 +137,7 @@
 	      if (params) {
 	        query = "?" + querystring.stringify(params);
 	      }
-	      return _fetch("//" + iNaturalistAPI.apiHost + "/" + route + "/" + ids.join(",") + query).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
+	      return _fetch("" + iNaturalistAPI.apiHostProtocol + iNaturalistAPI.apiHost + ("/" + route + "/" + ids.join(",") + query)).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
 	    }
 	  }, {
 	    key: "get",
@@ -146,7 +146,7 @@
 	      if (params) {
 	        query = "?" + querystring.stringify(params);
 	      }
-	      return _fetch("//" + iNaturalistAPI.apiHost + "/" + route + query).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
+	      return _fetch("" + iNaturalistAPI.apiHostProtocol + iNaturalistAPI.apiHost + ("/" + route + query)).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
 	    }
 	  }, {
 	    key: "post",
@@ -234,7 +234,7 @@
 	      if (options.same_origin) {
 	        return "";
 	      }
-	      return "//" + iNaturalistAPI.writeApiHost;
+	      return "" + iNaturalistAPI.writeHostProtocol + iNaturalistAPI.writeApiHost;
 	    }
 	  }, {
 	    key: "csrf",
@@ -292,6 +292,8 @@
 	      var envWriteHostConfig = util.browserMetaTagContent("config:inaturalist_write_api_host") || util.nodeENV("WRITE_API_HOST");
 	      iNaturalistAPI.apiHost = config.apiHost || envHostConfig || "localhost:4000/v1";
 	      iNaturalistAPI.writeApiHost = config.writeApiHost || envWriteHostConfig || "localhost:3000";
+	      iNaturalistAPI.apiHostProtocol = config.apiHostSSL ? "https://" : "//";
+	      iNaturalistAPI.writeHostProtocol = config.writeHostSSL ? "https://" : "//";
 	    }
 	  }, {
 	    key: "interpolateRouteParams",
@@ -1336,7 +1338,7 @@
 	      if (!this.url) {
 	        return;
 	      } else {
-	        this.cachedPhotos[size] = this.url.replace(/square.(jpe?g|png|gif|\?)/i, function (match, $1) {
+	        this.cachedPhotos[size] = this.url.replace(/square.(\w+\??)/i, function (match, $1) {
 	          return size + "." + $1;
 	        });
 	        this.cachedPhotos[size] = this.cachedPhotos[size].replace(/\/square\//, "/" + size + "/");
