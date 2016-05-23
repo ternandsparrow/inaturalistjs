@@ -137,7 +137,7 @@
 	      if (params) {
 	        query = "?" + querystring.stringify(params);
 	      }
-	      return _fetch("http://" + iNaturalistAPI.apiHost + "/" + route + "/" + ids.join(",") + query).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
+	      return _fetch("" + iNaturalistAPI.apiHostProtocol + iNaturalistAPI.apiHost + ("/" + route + "/" + ids.join(",") + query)).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
 	    }
 	  }, {
 	    key: "get",
@@ -146,7 +146,7 @@
 	      if (params) {
 	        query = "?" + querystring.stringify(params);
 	      }
-	      return _fetch("http://" + iNaturalistAPI.apiHost + "/" + route + query).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
+	      return _fetch("" + iNaturalistAPI.apiHostProtocol + iNaturalistAPI.apiHost + ("/" + route + query)).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
 	    }
 	  }, {
 	    key: "post",
@@ -234,7 +234,7 @@
 	      if (options.same_origin) {
 	        return "";
 	      }
-	      return "http://" + iNaturalistAPI.writeApiHost;
+	      return "" + iNaturalistAPI.writeHostProtocol + iNaturalistAPI.writeApiHost;
 	    }
 	  }, {
 	    key: "csrf",
@@ -292,6 +292,8 @@
 	      var envWriteHostConfig = util.browserMetaTagContent("config:inaturalist_write_api_host") || util.nodeENV("WRITE_API_HOST");
 	      iNaturalistAPI.apiHost = config.apiHost || envHostConfig || "localhost:4000/v1";
 	      iNaturalistAPI.writeApiHost = config.writeApiHost || envWriteHostConfig || "localhost:3000";
+	      iNaturalistAPI.apiHostProtocol = config.apiHostSSL ? "https://" : "http://";
+	      iNaturalistAPI.writeHostProtocol = config.writeHostSSL ? "https://" : "http://";
 	    }
 	  }, {
 	    key: "interpolateRouteParams",
