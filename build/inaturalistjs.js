@@ -1338,10 +1338,10 @@
 	      if (!this.url) {
 	        return;
 	      } else {
-	        this.cachedPhotos[size] = this.url.replace(/square.(\w+\??)/i, function (match, $1) {
-	          return size + "." + $1;
-	        });
-	        this.cachedPhotos[size] = this.cachedPhotos[size].replace(/\/square\//, "/" + size + "/");
+	        // this.cachedPhotos[size] = this.url.replace( /square(.?\w*\??)/i, ( match, $1 ) => {
+	        //   return `${size}${$1}`;
+	        // });
+	        this.cachedPhotos[size] = this.url.replace("square", size);
 	      }
 	      return this.cachedPhotos[size];
 	    }
