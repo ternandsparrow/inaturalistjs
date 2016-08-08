@@ -20,6 +20,13 @@ describe( "Observation", function( ) {
       expect( o.latitude ).to.eq( lat );
       expect( o.longitude ).to.eq( lon );
     });
+
+    it( "creates a identifications", function( ) {
+      var o = new Observation({ identifications: [ { id: 22, body: "testbody" } ] });
+      expect( o.identifications[0].constructor.name ).to.eq( "Identification" );
+      expect( o.identifications[0].id ).to.eq( 22 );
+      expect( o.identifications[0].body ).to.eq( "testbody" );
+    });
   });
 
   describe( "typifyResultsResponse", function( ) {

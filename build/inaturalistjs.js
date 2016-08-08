@@ -49,22 +49,24 @@
 	module.exports = {
 	  comments: __webpack_require__(1),
 	  identifications: __webpack_require__(13),
-	  observations: __webpack_require__(17),
-	  observationFieldValues: __webpack_require__(20),
+	  observationFieldValues: __webpack_require__(17),
+	  observations: __webpack_require__(19),
 	  photos: __webpack_require__(22),
 	  places: __webpack_require__(23),
-	  projects: __webpack_require__(25),
-	  taxa: __webpack_require__(27),
-	  users: __webpack_require__(28),
+	  posts: __webpack_require__(25),
+	  projects: __webpack_require__(27),
+	  taxa: __webpack_require__(29),
+	  users: __webpack_require__(30),
 	  Comment: __webpack_require__(12),
 	  Identification: __webpack_require__(14),
-	  Observation: __webpack_require__(18),
-	  ObservationFieldValue: __webpack_require__(21),
+	  Observation: __webpack_require__(20),
+	  ObservationFieldValue: __webpack_require__(18),
 	  Photo: __webpack_require__(16),
 	  Place: __webpack_require__(24),
+	  Post: __webpack_require__(26),
+	  Project: __webpack_require__(28),
 	  Taxon: __webpack_require__(15),
-	  Project: __webpack_require__(26),
-	  User: __webpack_require__(19)
+	  User: __webpack_require__(21)
 	};
 
 /***/ },
@@ -141,12 +143,14 @@
 	    }
 	  }, {
 	    key: "get",
-	    value: function get(route, params) {
+	    value: function get(route, params, options) {
 	      var query = "";
 	      if (params) {
 	        query = "?" + querystring.stringify(params);
 	      }
-	      return _fetch("" + iNaturalistAPI.apiHostProtocol + iNaturalistAPI.apiHost + ("/" + route + query)).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
+	      var apiToken = iNaturalistAPI.apiToken(options);
+	      var headers = apiToken ? { Authorization: apiToken } : {};
+	      return _fetch("" + iNaturalistAPI.apiHostProtocol + iNaturalistAPI.apiHost + ("/" + route + query), { headers: headers }).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
 	    }
 	  }, {
 	    key: "post",
@@ -248,6 +252,7 @@
 	  }, {
 	    key: "apiToken",
 	    value: function apiToken(options) {
+	      options = options || {};
 	      var token = util.browserMetaTagContent("inaturalist-api-token");
 	      if (token) {
 	        return token;
@@ -292,8 +297,8 @@
 	      var envWriteHostConfig = util.browserMetaTagContent("config:inaturalist_write_api_host") || util.nodeENV("WRITE_API_HOST");
 	      iNaturalistAPI.apiHost = config.apiHost || envHostConfig || "localhost:4000/v1";
 	      iNaturalistAPI.writeApiHost = config.writeApiHost || envWriteHostConfig || "localhost:3000";
-	      iNaturalistAPI.apiHostProtocol = config.apiHostSSL ? "https://" : "//";
-	      iNaturalistAPI.writeHostProtocol = config.writeHostSSL ? "https://" : "//";
+	      iNaturalistAPI.apiHostProtocol = config.apiHostSSL ? "https://" : "http://";
+	      iNaturalistAPI.writeHostProtocol = config.writeHostSSL ? "https://" : "http://";
 	    }
 	  }, {
 	    key: "interpolateRouteParams",
@@ -1101,6 +1106,15 @@
 	      return new type(response);
 	    }
 	  }, {
+	    key: "typifyArrayResponse",
+	    value: function typifyArrayResponse(response, type) {
+	      var arr = [];
+	      for (var key in response) {
+	        arr.push(new type(response[key]));
+	      }
+	      return arr;
+	    }
+	  }, {
 	    key: "typifyResultsResponse",
 	    value: function typifyResultsResponse(response, type) {
 	      if (type && response.results) {
@@ -1338,9 +1352,6 @@
 	      if (!this.url) {
 	        return;
 	      } else {
-	        // this.cachedPhotos[size] = this.url.replace( /square(.?\w*\??)/i, ( match, $1 ) => {
-	        //   return `${size}${$1}`;
-	        // });
 	        this.cachedPhotos[size] = this.url.replace("square", size);
 	      }
 	      return this.cachedPhotos[size];
@@ -1363,8 +1374,87 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(2),
-	    Observation = __webpack_require__(18),
-	    User = __webpack_require__(19);
+	    ObservationFieldValue = __webpack_require__(18);
+
+	var observationFieldValues = function () {
+	  function observationFieldValues() {
+	    _classCallCheck(this, observationFieldValues);
+	  }
+
+	  _createClass(observationFieldValues, null, [{
+	    key: "create",
+	    value: function create(params, options) {
+	      return iNaturalistAPI.post("observation_field_values", params, options).then(ObservationFieldValue.typifyInstanceResponse);
+	    }
+	  }, {
+	    key: "update",
+	    value: function update(params, options) {
+	      return iNaturalistAPI.put("observation_field_values/:id", params, options).then(ObservationFieldValue.typifyInstanceResponse);
+	    }
+	  }, {
+	    key: "delete",
+	    value: function _delete(params, options) {
+	      return iNaturalistAPI.delete("observation_field_values/:id", params, options);
+	    }
+	  }]);
+
+	  return observationFieldValues;
+	}();
+
+	module.exports = observationFieldValues;
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Model = __webpack_require__(11);
+
+	var ObservationFieldValue = function (_Model) {
+	  _inherits(ObservationFieldValue, _Model);
+
+	  function ObservationFieldValue() {
+	    _classCallCheck(this, ObservationFieldValue);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ObservationFieldValue).apply(this, arguments));
+	  }
+
+	  _createClass(ObservationFieldValue, null, [{
+	    key: "typifyInstanceResponse",
+	    value: function typifyInstanceResponse(response) {
+	      return _get(Object.getPrototypeOf(ObservationFieldValue), "typifyInstanceResponse", this).call(this, response, ObservationFieldValue);
+	    }
+	  }]);
+
+	  return ObservationFieldValue;
+	}(Model);
+
+	module.exports = ObservationFieldValue;
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var iNaturalistAPI = __webpack_require__(2),
+	    Observation = __webpack_require__(20),
+	    User = __webpack_require__(21);
 
 	var observations = function () {
 	  function observations() {
@@ -1450,7 +1540,7 @@
 	module.exports = observations;
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1547,7 +1637,7 @@
 	module.exports = Observation;
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1584,85 +1674,6 @@
 	}(Model);
 
 	module.exports = User;
-
-/***/ },
-/* 20 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var iNaturalistAPI = __webpack_require__(2),
-	    ObservationFieldValue = __webpack_require__(21);
-
-	var observationFieldValues = function () {
-	  function observationFieldValues() {
-	    _classCallCheck(this, observationFieldValues);
-	  }
-
-	  _createClass(observationFieldValues, null, [{
-	    key: "create",
-	    value: function create(params, options) {
-	      return iNaturalistAPI.post("observation_field_values", params, options).then(ObservationFieldValue.typifyInstanceResponse);
-	    }
-	  }, {
-	    key: "update",
-	    value: function update(params, options) {
-	      return iNaturalistAPI.put("observation_field_values/:id", params, options).then(ObservationFieldValue.typifyInstanceResponse);
-	    }
-	  }, {
-	    key: "delete",
-	    value: function _delete(params, options) {
-	      return iNaturalistAPI.delete("observation_field_values/:id", params, options);
-	    }
-	  }]);
-
-	  return observationFieldValues;
-	}();
-
-	module.exports = observationFieldValues;
-
-/***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Model = __webpack_require__(11);
-
-	var ObservationFieldValue = function (_Model) {
-	  _inherits(ObservationFieldValue, _Model);
-
-	  function ObservationFieldValue() {
-	    _classCallCheck(this, ObservationFieldValue);
-
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ObservationFieldValue).apply(this, arguments));
-	  }
-
-	  _createClass(ObservationFieldValue, null, [{
-	    key: "typifyInstanceResponse",
-	    value: function typifyInstanceResponse(response) {
-	      return _get(Object.getPrototypeOf(ObservationFieldValue), "typifyInstanceResponse", this).call(this, response, ObservationFieldValue);
-	    }
-	  }]);
-
-	  return ObservationFieldValue;
-	}(Model);
-
-	module.exports = ObservationFieldValue;
 
 /***/ },
 /* 22 */
@@ -1778,7 +1789,76 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(2),
-	    Project = __webpack_require__(26);
+	    Post = __webpack_require__(26);
+
+	var posts = function () {
+	  function posts() {
+	    _classCallCheck(this, posts);
+	  }
+
+	  _createClass(posts, null, [{
+	    key: "for_user",
+	    value: function for_user() {
+	      return iNaturalistAPI.get("posts/for_user").then(Post.typifyArrayResponse);
+	    }
+	  }]);
+
+	  return posts;
+	}();
+
+	module.exports = posts;
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Model = __webpack_require__(11);
+
+	var Post = function (_Model) {
+	  _inherits(Post, _Model);
+
+	  function Post() {
+	    _classCallCheck(this, Post);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Post).apply(this, arguments));
+	  }
+
+	  _createClass(Post, null, [{
+	    key: "typifyArrayResponse",
+	    value: function typifyArrayResponse(response) {
+	      return _get(Object.getPrototypeOf(Post), "typifyArrayResponse", this).call(this, response, Post);
+	    }
+	  }]);
+
+	  return Post;
+	}(Model);
+
+	module.exports = Post;
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var iNaturalistAPI = __webpack_require__(2),
+	    Project = __webpack_require__(28);
 
 	var projects = function () {
 	  function projects() {
@@ -1808,7 +1888,7 @@
 	module.exports = projects;
 
 /***/ },
-/* 26 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1847,7 +1927,7 @@
 	module.exports = Project;
 
 /***/ },
-/* 27 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1882,7 +1962,7 @@
 	module.exports = taxa;
 
 /***/ },
-/* 28 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1892,7 +1972,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(2),
-	    User = __webpack_require__(19);
+	    User = __webpack_require__(21);
 
 	var users = function () {
 	  function users() {
