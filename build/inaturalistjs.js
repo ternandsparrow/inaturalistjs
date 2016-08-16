@@ -1798,8 +1798,8 @@
 
 	  _createClass(posts, null, [{
 	    key: "for_user",
-	    value: function for_user() {
-	      return iNaturalistAPI.get("posts/for_user").then(Post.typifyArrayResponse);
+	    value: function for_user(params, options) {
+	      return iNaturalistAPI.get("posts/for_user", params, options).then(Post.typifyArrayResponse);
 	    }
 	  }]);
 
