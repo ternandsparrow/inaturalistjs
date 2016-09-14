@@ -199,4 +199,36 @@ describe( "Observation", function( ) {
       } );
     } );
   } );
+
+  describe( "histogram", function( ) {
+    it( "returns a histogram", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/observations/histogram" ).
+        reply( 200, function( uri ) {
+          const r = Object.assign( testHelper.mockResponse( uri ), {
+            results: {
+              month_of_year: {
+                1: 219,
+                2: 148,
+                3: 126,
+                4: 104,
+                5: 113,
+                6: 311,
+                7: 101,
+                8: 93,
+                9: 118,
+                10: 197,
+                11: 139,
+                12: 121
+              }
+            }
+          } );
+          return r;
+        } );
+      observations.histogram( ).then( function( r ) {
+        expect( r.results.month_of_year ).to.be.an( "object" );
+        done( );
+      } );
+    } );
+  } )
 });

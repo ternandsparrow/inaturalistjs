@@ -1532,6 +1532,11 @@
 	        return response;
 	      });
 	    }
+	  }, {
+	    key: "histogram",
+	    value: function histogram(params) {
+	      return iNaturalistAPI.get("observations/histogram", params);
+	    }
 	  }]);
 
 	  return observations;
