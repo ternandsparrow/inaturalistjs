@@ -181,7 +181,7 @@ describe( "Observation", function( ) {
   });
 
   describe( "identifiers", function( ) {
-    it( "returns an array of users", function( done ) {
+    it( "returns an array of objects that contain users", function( done ) {
       nock( "http://localhost:4000" ).
         get( "/v1/observations/identifiers" ).
         reply( 200, function( uri ) {
@@ -195,6 +195,28 @@ describe( "Observation", function( ) {
         } );
       observations.identifiers( ).then( function( r ) {
         expect( r.results[0].user.constructor.name ).to.eq( "User" );
+        done( );
+      } );
+    } );
+  } );
+
+  describe( "observers", function( ) {
+    it( "returns an array of objects that contain users and counts", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/observations/observers" ).
+        reply( 200, function( uri ) {
+          const r = Object.assign( testHelper.mockResponse( uri ), {
+            results: [
+              { observation_count: 2, species_count: 2, user: { id: 1 } },
+              { observation_count: 1, species_count: 1, user: { id: 2 } }
+            ]
+          } );
+          return r;
+        } );
+      observations.observers( ).then( function( r ) {
+        expect( r.results[0].user.constructor.name ).to.eq( "User" );
+        expect( r.results[0].observation_count ).to.exist;
+        expect( r.results[0].species_count ).to.exist;
         done( );
       } );
     } );
