@@ -1533,6 +1533,19 @@
 	      });
 	    }
 	  }, {
+	    key: "observers",
+	    value: function observers(params) {
+	      return iNaturalistAPI.get("observations/observers", params).then(function (response) {
+	        if (response.results) {
+	          response.results = response.results.map(function (r) {
+	            r.user = new User(r.user);
+	            return r;
+	          });
+	        }
+	        return response;
+	      });
+	    }
+	  }, {
 	    key: "histogram",
 	    value: function histogram(params) {
 	      return iNaturalistAPI.get("observations/histogram", params);
