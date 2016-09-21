@@ -136,6 +136,8 @@ inatjs.setConfig({ apiHost: "...", writeApiHost: "..."" });
 inatjs.observations.fetch( params, opts ).then( rsp => { ... } );
 inatjs.observations.search( params, opts ).then( rsp => { ... } );
 inatjs.observations.identifiers( params, opts ).then( rsp => { ... } );
+inatjs.observations.observers( params, opts ).then( rsp => { ... } );
+inatjs.observations.speciesCounts( params, opts ).then( rsp => { ... } );
 
 inatjs.places.fetch( params, opts ).then( rsp => { ... } );
 

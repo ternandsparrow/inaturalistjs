@@ -1454,6 +1454,7 @@
 
 	var iNaturalistAPI = __webpack_require__(2),
 	    Observation = __webpack_require__(20),
+	    Taxon = __webpack_require__(15),
 	    User = __webpack_require__(21);
 
 	var observations = function () {
@@ -1539,6 +1540,19 @@
 	        if (response.results) {
 	          response.results = response.results.map(function (r) {
 	            r.user = new User(r.user);
+	            return r;
+	          });
+	        }
+	        return response;
+	      });
+	    }
+	  }, {
+	    key: "speciesCounts",
+	    value: function speciesCounts(params) {
+	      return iNaturalistAPI.get("observations/species_counts", params).then(function (response) {
+	        if (response.results) {
+	          response.results = response.results.map(function (r) {
+	            r.taxon = new Taxon(r.taxon);
 	            return r;
 	          });
 	        }
