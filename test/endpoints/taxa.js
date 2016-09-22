@@ -28,15 +28,16 @@ describe( "Taxa", function( ) {
         done( );
       } );
     } );
-    it( "photos are Photos", function( done ) {
+    it( "defaultPhotos are Photos", function( done ) {
       nock( "http://localhost:4000" ).
         get( "/v1/taxa/1" ).
         reply( 200, testHelper.taxonResponse );
       taxa.fetch( 1 ).then( function( r ) {
-        expect( r.results[0].photos[0].constructor.name ).to.eq( "Photo" );
+        expect( r.results[0].defaultPhotos[0].constructor.name ).to.eq( "Photo" );
+        expect( r.results[0].defaultPhotos[0].photoUrl( "large" ) ).to.match( /219b9ab6c5_b/ );
         done( );
       } );
-    } )
+    } );
   });
 
   describe( "autocomplete", function( ) {

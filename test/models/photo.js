@@ -53,6 +53,14 @@ describe( "Photo", function( ) {
       expect( p.photoUrl( "large" ) ).to.match( /large/ );
       expect( p.photoUrl( ) ).to.match( /square/ );
     });
+
+    it( "should return explicit photo URLs if present", function( ) {
+      const url = "http://static.inaturalist.org/photos/123/l.jpg";
+      let p = new Photo({
+        large_url: url
+      });
+      expect( p.photoUrl( "large" ) ).to.eq( url );
+    } );
   });
 
 });
