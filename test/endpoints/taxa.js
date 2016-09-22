@@ -19,6 +19,24 @@ describe( "Taxa", function( ) {
         done( );
       });
     });
+    it( "defaultPhoto is a Photo", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/taxa/1" ).
+        reply( 200, testHelper.taxonResponse );
+      taxa.fetch( 1 ).then( function( r ) {
+        expect( r.results[0].defaultPhoto.constructor.name ).to.eq( "Photo" );
+        done( );
+      } );
+    } );
+    it( "photos are Photos", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/taxa/1" ).
+        reply( 200, testHelper.taxonResponse );
+      taxa.fetch( 1 ).then( function( r ) {
+        expect( r.results[0].photos[0].constructor.name ).to.eq( "Photo" );
+        done( );
+      } );
+    } )
   });
 
   describe( "autocomplete", function( ) {
