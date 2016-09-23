@@ -63,4 +63,49 @@ describe( "Photo", function( ) {
     } );
   });
 
+  describe( "dimensions", function( ) {
+    it( "return original by default", function( ) {
+      const originalDimensions = {
+        width: 1365,
+        height: 2048
+      }
+      let p = new Photo({
+        url: "http://static.inaturalist.org/photos/3789931/square",
+        original_dimensions: originalDimensions
+      });
+      expect( p.dimensions( ) ).to.eq( originalDimensions )
+    } );
+    it( "calculate based on size", function( ) {
+      const originalDimensions = {
+        width: 1365,
+        height: 2048
+      }
+      let p = new Photo({
+        url: "http://static.inaturalist.org/photos/3789931/square",
+        original_dimensions: originalDimensions
+      });
+      expect( p.dimensions( "medium" ).height ).to.eq( 500 )
+      expect( p.dimensions( "medium" ).width ).to.eq( 333 )
+    } );
+    it( "should return nothing for any size if no dimensions", function( ) {
+      let p = new Photo({
+        url: "http://static.inaturalist.org/photos/3789931/square"
+      } );
+      expect( p.dimensions( ) ).not.to.exist;
+      expect( p.dimensions( "medium" ) ).not.to.exist;
+    } );
+    it( "should return nothing if original is smaller than requested size", function( ) {
+      const originalDimensions = {
+        width: 300,
+        height: 300
+      }
+      let p = new Photo({
+        url: "http://static.inaturalist.org/photos/3789931/square",
+        original_dimensions: originalDimensions
+      } );
+      expect( p.dimensions( ).width ).to.eq( originalDimensions.width );
+      expect( p.dimensions( "medium" ) ).not.to.exist;
+    } );
+  } );
+
 });
