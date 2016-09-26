@@ -1380,7 +1380,6 @@
 	      }
 	      var w = this.original_dimensions.width;
 	      var h = this.original_dimensions.height;
-
 	      if (Math.max(w, h) < longEdges[size]) {
 	        return null;
 	      }
