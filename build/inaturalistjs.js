@@ -1285,9 +1285,12 @@
 	    if (_this.default_photo && _this.default_photo !== undefined) {
 	      _this.defaultPhoto = new Photo(_this.default_photo);
 	    }
-	    if (_this.photos && _this.photos !== undefined) {
-	      _this.defaultPhotos = _this.photos.map(function (p) {
-	        return new Photo(p);
+	    if (_this.taxon_photos && _this.taxon_photos !== undefined) {
+	      _this.taxonPhotos = _this.taxon_photos.map(function (tp) {
+	        return {
+	          taxon: new Taxon(tp.taxon),
+	          photo: new Photo(tp.photo)
+	        };
 	      });
 	    }
 	    return _this;
