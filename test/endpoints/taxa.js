@@ -28,13 +28,14 @@ describe( "Taxa", function( ) {
         done( );
       } );
     } );
-    it( "defaultPhotos are Photos", function( done ) {
+    it( "taxonPhotos have a Taxon and a Photo", function( done ) {
       nock( "http://localhost:4000" ).
         get( "/v1/taxa/1" ).
         reply( 200, testHelper.taxonResponse );
       taxa.fetch( 1 ).then( function( r ) {
-        expect( r.results[0].defaultPhotos[0].constructor.name ).to.eq( "Photo" );
-        expect( r.results[0].defaultPhotos[0].photoUrl( "large" ) ).to.match( /219b9ab6c5_b/ );
+        expect( r.results[0].taxonPhotos[0].taxon.constructor.name ).to.eq( "Taxon" );
+        expect( r.results[0].taxonPhotos[0].photo.constructor.name ).to.eq( "Photo" );
+        expect( r.results[0].taxonPhotos[0].photo.photoUrl( "large" ) ).to.match( /219b9ab6c5_b/ );
         done( );
       } );
     } );
