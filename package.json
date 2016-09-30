@@ -1,6 +1,6 @@
 {
   "name": "inaturalistjs",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "inaturalistjs",
   "author": "iNaturalist",
   "license": "MIT",
@@ -19,9 +19,10 @@
     "coveralls": "NODE_ENV=test istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec --recursive && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "dependencies": {
-    "isomorphic-fetch": "^2.2.1",
-    "babel-loader": "^6.2.4",
     "babel-core": "^6.2.7",
+    "babel-loader": "^6.2.4",
+    "gulp-mocha": "^3.0.1",
+    "isomorphic-fetch": "^2.2.1",
     "webpack": "^1.12.14"
   },
   "devDependencies": {
