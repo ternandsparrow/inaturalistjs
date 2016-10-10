@@ -39,6 +39,15 @@ describe( "Taxa", function( ) {
         done( );
       } );
     } );
+    it( "conservationStatus is a ConservationStatus", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/taxa/1" ).
+        reply( 200, testHelper.taxonResponse );
+      taxa.fetch( 1 ).then( function( r ) {
+        expect( r.results[0].conservationStatus.constructor.name ).to.eq( "ConservationStatus" );
+        done( );
+      } );
+    } );
     it( "conservationStatuses are ConservationStatuses", function( done ) {
       nock( "http://localhost:4000" ).
         get( "/v1/taxa/1" ).
