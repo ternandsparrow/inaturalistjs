@@ -49,24 +49,24 @@
 	module.exports = {
 	  comments: __webpack_require__(1),
 	  identifications: __webpack_require__(13),
-	  observationFieldValues: __webpack_require__(17),
-	  observations: __webpack_require__(19),
-	  photos: __webpack_require__(22),
-	  places: __webpack_require__(23),
-	  posts: __webpack_require__(25),
-	  projects: __webpack_require__(27),
-	  taxa: __webpack_require__(29),
-	  users: __webpack_require__(30),
+	  observationFieldValues: __webpack_require__(18),
+	  observations: __webpack_require__(20),
+	  photos: __webpack_require__(23),
+	  places: __webpack_require__(24),
+	  posts: __webpack_require__(26),
+	  projects: __webpack_require__(28),
+	  taxa: __webpack_require__(30),
+	  users: __webpack_require__(31),
 	  Comment: __webpack_require__(12),
 	  Identification: __webpack_require__(14),
-	  Observation: __webpack_require__(20),
-	  ObservationFieldValue: __webpack_require__(18),
+	  Observation: __webpack_require__(21),
+	  ObservationFieldValue: __webpack_require__(19),
 	  Photo: __webpack_require__(16),
-	  Place: __webpack_require__(24),
-	  Post: __webpack_require__(26),
-	  Project: __webpack_require__(28),
+	  Place: __webpack_require__(25),
+	  Post: __webpack_require__(27),
+	  Project: __webpack_require__(29),
 	  Taxon: __webpack_require__(15),
-	  User: __webpack_require__(21)
+	  User: __webpack_require__(22)
 	};
 
 /***/ },
@@ -1272,7 +1272,8 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var Model = __webpack_require__(11),
-	    Photo = __webpack_require__(16);
+	    Photo = __webpack_require__(16),
+	    ConservationStatus = __webpack_require__(17);
 
 	var Taxon = function (_Model) {
 	  _inherits(Taxon, _Model);
@@ -1291,6 +1292,11 @@
 	          taxon: new Taxon(tp.taxon),
 	          photo: new Photo(tp.photo)
 	        };
+	      });
+	    }
+	    if (_this.conservation_statuses && _this.conservation_statuses !== undefined) {
+	      _this.conservationStatuses = _this.conservation_statuses.map(function (cs) {
+	        return new ConservationStatus(cs);
 	      });
 	    }
 	    return _this;
@@ -1413,10 +1419,160 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Model = __webpack_require__(11);
+
+	var ConservationStatus = function (_Model) {
+	  _inherits(ConservationStatus, _Model);
+
+	  function ConservationStatus() {
+	    _classCallCheck(this, ConservationStatus);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ConservationStatus).apply(this, arguments));
+	  }
+
+	  _createClass(ConservationStatus, [{
+	    key: "iucnStatus",
+	    value: function iucnStatus() {
+	      switch (this.iucn) {
+	        case 0:
+	          return "not evaluated";
+	        case 5:
+	          return "data deficient";
+	        case 10:
+	          return "least concern";
+	        case 20:
+	          return "near threatened";
+	        case 30:
+	          return "vulnerable";
+	        case 40:
+	          return "endangered";
+	        case 50:
+	          return "critically endangered";
+	        case 60:
+	          return "extinct in the wild";
+	        case 70:
+	          return "extinct";
+	        default:
+	          return null;
+	      }
+	    }
+	  }, {
+	    key: "iucnStatusCode",
+	    value: function iucnStatusCode() {
+	      return {
+	        "not evaluated": "NE",
+	        "data deficient": "DD",
+	        "least concern": "LC",
+	        "near threatened": "NT",
+	        "vulnerable": "VU",
+	        "endangered": "EN",
+	        "critically endangered": "CR",
+	        "extinct in the wild": "EW",
+	        "extinct": "EX"
+	      }[this.iucnStatus()];
+	    }
+	  }, {
+	    key: "statusText",
+	    value: function statusText() {
+	      switch (this.authority) {
+	        case "IUCN Red List":
+	          return this.iucnStatus();
+	        case "NatureServe":
+	          return this.natureServeStatus();
+	        case "Norma Oficial 059":
+	          return this.normaStatus();
+	        default:
+	          switch (this.status.toLowerCase()) {
+	            case ("se", "fe", "le", "e"):
+	              return "endangered";
+	            case ("st", "ft", "lt", "t"):
+	              return "threatened";
+	            case "sc":
+	              return "special concern";
+	            case "c":
+	              return "candidate";
+	            default:
+	              if (this.description && this.description.length < 50) {
+	                return this.description + " (" + this.status + ")";
+	              } else {
+	                return this.status;
+	              }
+	          }
+	      }
+	    }
+	  }, {
+	    key: "natureServeStatus",
+	    value: function natureServeStatus() {
+	      var status = this.status || "";
+	      var matches = status.match(/T(.)/);
+	      var nsStatus = matches ? matches[1] : status[1];
+	      switch (nsStatus) {
+	        case "X":
+	          return "extinct";
+	        case "H":
+	          return "possibly extinct";
+	        case "1":
+	          return "critically imperiled";
+	        case "2":
+	          return "imperiled";
+	        case "3":
+	          return "vulnerable";
+	        case "4":
+	          return "apparently secure";
+	        case "5":
+	          return "secure";
+	        default:
+	          return this.status;
+	      }
+	    }
+	  }, {
+	    key: "normaStatus",
+	    value: function normaStatus() {
+	      switch (this.status) {
+	        case "P":
+	          return "en peligro de extinción";
+	        case "A":
+	          return "amenazada";
+	        case "Pr":
+	          return "sujeta a protección especial";
+	        case "Ex":
+	          return "probablemente extinta en el medio silvestre";
+	        default:
+	          return status;
+	      }
+	    }
+	  }], [{
+	    key: "typifyInstanceResponse",
+	    value: function typifyInstanceResponse(response) {
+	      return _get(Object.getPrototypeOf(ConservationStatus), "typifyInstanceResponse", this).call(this, response, ConservationStatus);
+	    }
+	  }]);
+
+	  return ConservationStatus;
+	}(Model);
+
+	module.exports = ConservationStatus;
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(2),
-	    ObservationFieldValue = __webpack_require__(18);
+	    ObservationFieldValue = __webpack_require__(19);
 
 	var observationFieldValues = function () {
 	  function observationFieldValues() {
@@ -1446,7 +1602,7 @@
 	module.exports = observationFieldValues;
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1485,7 +1641,7 @@
 	module.exports = ObservationFieldValue;
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1495,9 +1651,9 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(2),
-	    Observation = __webpack_require__(20),
+	    Observation = __webpack_require__(21),
 	    Taxon = __webpack_require__(15),
-	    User = __webpack_require__(21);
+	    User = __webpack_require__(22);
 
 	var observations = function () {
 	  function observations() {
@@ -1614,7 +1770,7 @@
 	module.exports = observations;
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1711,7 +1867,7 @@
 	module.exports = Observation;
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1750,7 +1906,7 @@
 	module.exports = User;
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1779,7 +1935,7 @@
 	module.exports = photos;
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1789,7 +1945,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(2),
-	    Place = __webpack_require__(24);
+	    Place = __webpack_require__(25);
 
 	var places = function () {
 	  function places() {
@@ -1814,7 +1970,7 @@
 	module.exports = places;
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1853,7 +2009,7 @@
 	module.exports = Place;
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1863,7 +2019,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(2),
-	    Post = __webpack_require__(26);
+	    Post = __webpack_require__(27);
 
 	var posts = function () {
 	  function posts() {
@@ -1883,7 +2039,7 @@
 	module.exports = posts;
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1922,7 +2078,7 @@
 	module.exports = Post;
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1932,7 +2088,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(2),
-	    Project = __webpack_require__(28);
+	    Project = __webpack_require__(29);
 
 	var projects = function () {
 	  function projects() {
@@ -1962,7 +2118,7 @@
 	module.exports = projects;
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2001,7 +2157,7 @@
 	module.exports = Project;
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2036,7 +2192,7 @@
 	module.exports = taxa;
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2046,7 +2202,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(2),
-	    User = __webpack_require__(21);
+	    User = __webpack_require__(22);
 
 	var users = function () {
 	  function users() {
