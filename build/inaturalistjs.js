@@ -2185,8 +2185,8 @@
 
 	  _createClass(taxa, null, [{
 	    key: "fetch",
-	    value: function fetch(ids) {
-	      return iNaturalistAPI.fetch("taxa", ids).then(Taxon.typifyResultsResponse);
+	    value: function fetch(ids, params) {
+	      return iNaturalistAPI.fetch("taxa", ids, params).then(Taxon.typifyResultsResponse);
 	    }
 	  }, {
 	    key: "autocomplete",

@@ -19,6 +19,15 @@ describe( "Taxa", function( ) {
         done( );
       });
     });
+    it( "passes params through to the API", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/taxa/1?preferred_place_id=1" ).
+        reply( 200, testHelper.mockResponse );
+      taxa.fetch( 1, { preferred_place_id: 1 } ).then( function( r ) {
+        expect( r.test_uri ).to.eq( "/v1/taxa/1?preferred_place_id=1" );
+        done( );
+      } );
+    } );
     it( "defaultPhoto is a Photo", function( done ) {
       nock( "http://localhost:4000" ).
         get( "/v1/taxa/1" ).
