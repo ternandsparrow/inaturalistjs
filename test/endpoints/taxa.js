@@ -66,6 +66,24 @@ describe( "Taxa", function( ) {
         done( );
       } );
     } );
+    it( "ancestorTaxa are Taxa", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/taxa/1" ).
+        reply( 200, testHelper.taxonResponse );
+      taxa.fetch( 1 ).then( function( r ) {
+        expect( r.results[0].ancestorTaxa[0].constructor.name ).to.eq( "Taxon" );
+        done( );
+      } );
+    } );
+    it( "childTaxa are Taxa", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/taxa/1" ).
+        reply( 200, testHelper.taxonResponse );
+      taxa.fetch( 1 ).then( function( r ) {
+        expect( r.results[0].childTaxa[0].constructor.name ).to.eq( "Taxon" );
+        done( );
+      } );
+    } );
   });
 
   describe( "autocomplete", function( ) {

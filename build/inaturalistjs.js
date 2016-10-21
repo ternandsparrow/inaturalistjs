@@ -1302,6 +1302,16 @@
 	        return new ConservationStatus(cs);
 	      });
 	    }
+	    if (_this.ancestors && _this.ancestors !== undefined) {
+	      _this.ancestorTaxa = _this.ancestors.map(function (a) {
+	        return new Taxon(a);
+	      });
+	    }
+	    if (_this.children && _this.children !== undefined) {
+	      _this.childTaxa = _this.children.map(function (a) {
+	        return new Taxon(a);
+	      });
+	    }
 	    return _this;
 	  }
 
