@@ -1181,7 +1181,8 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(2),
-	    Identification = __webpack_require__(14);
+	    Identification = __webpack_require__(14),
+	    Taxon = __webpack_require__(15);
 
 	var identifications = function () {
 	  function identifications() {
@@ -1202,6 +1203,19 @@
 	    key: "delete",
 	    value: function _delete(params, options) {
 	      return iNaturalistAPI.delete("identifications/:id", params, options);
+	    }
+	  }, {
+	    key: "similar_species",
+	    value: function similar_species(params, options) {
+	      return iNaturalistAPI.get("identifications/similar_species", params, options).then(function (response) {
+	        if (response.results) {
+	          response.results = response.results.map(function (r) {
+	            r.taxon = new Taxon(r.taxon);
+	            return r;
+	          });
+	        }
+	        return response;
+	      });
 	    }
 	  }]);
 
