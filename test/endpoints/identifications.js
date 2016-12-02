@@ -1,4 +1,5 @@
 var nock = require( "nock" ),
+    expect = require( "chai" ).expect,
     identifications = require( "../../lib/endpoints/identifications" );
 
 describe( "Identifications", function( ) {
@@ -35,5 +36,38 @@ describe( "Identifications", function( ) {
       });
     });
   });
+
+  describe( "similar_species", function( ) {
+    it( "returns Taxon objects", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/identifications/similar_species?taxon_id=4778").
+        reply( 200, {
+          total_results: 1,
+          page: 1,
+          per_page: 1,
+          results: [ {
+            count: 5,
+            taxon: {
+              observations_count: 5749,
+              is_active: true,
+              iconic_taxon_id: 3,
+              rank_level: 10,
+              parent_id: 4755,
+              name: "Cathartes aura",
+              rank: "species",
+              id: 4756,
+              iconic_taxon_name: "Aves",
+              preferred_common_name: "Turkey Vulture"
+            }
+          } ]
+        } );
+      identifications.similar_species( { taxon_id: 4778 } ).then( function( r ) {
+        expect( r.results[0].taxon.constructor.name ).to.eq( "Taxon" );
+        expect( r.results[0].taxon.name ).to.eq( "Cathartes aura" );
+        expect( r.results[0].count ).to.eq( 5 );
+        done( );
+      } );
+    } );
+  } );
 
 });
