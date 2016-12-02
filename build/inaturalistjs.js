@@ -168,6 +168,12 @@
 	        Accept: "application/json",
 	        "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, DELETE, HEAD"
 	      };
+	      if (options.user_agent) {
+	        headers["user-agent"] = options.user_agent;
+	      }
+	      if (options.remote_ip) {
+	        headers["x-forwarded-for"] = options.remote_ip;
+	      }
 	      // set up authentication
 	      var csrf = iNaturalistAPI.csrf();
 	      var apiToken = iNaturalistAPI.apiToken(options);
