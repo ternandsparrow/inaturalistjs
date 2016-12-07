@@ -102,7 +102,7 @@
 	      if (params) {
 	        query = "?" + querystring.stringify(params);
 	      }
-	      return _fetch("" + iNaturalistAPI.apiHostProtocol + iNaturalistAPI.apiHost + ("/" + route + "/" + ids.join(",") + query)).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
+	      return _fetch("" + iNaturalistAPI.apiURL + ("/" + route + "/" + ids.join(",") + query)).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
 	    }
 	  }, {
 	    key: "get",
@@ -113,7 +113,7 @@
 	      }
 	      var apiToken = iNaturalistAPI.apiToken(options);
 	      var headers = apiToken ? { Authorization: apiToken } : {};
-	      return _fetch("" + iNaturalistAPI.apiHostProtocol + iNaturalistAPI.apiHost + ("/" + route + query), { headers: headers }).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
+	      return _fetch("" + iNaturalistAPI.apiURL + ("/" + route + query), { headers: headers }).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
 	    }
 	  }, {
 	    key: "post",
@@ -207,7 +207,7 @@
 	      if (options.same_origin) {
 	        return "";
 	      }
-	      return "" + iNaturalistAPI.writeHostProtocol + iNaturalistAPI.writeApiHost;
+	      return "" + iNaturalistAPI.writeApiURL;
 	    }
 	  }, {
 	    key: "csrf",
@@ -262,14 +262,10 @@
 	    key: "setConfig",
 	    value: function setConfig(config) {
 	      config = config || {};
-	      var envHostConfig = util.browserMetaTagContent("config:inaturalist_api_host") || util.nodeENV("API_HOST");
-	      var envWriteHostConfig = util.browserMetaTagContent("config:inaturalist_write_api_host") || util.nodeENV("WRITE_API_HOST");
-	      var envApiHostSSL = (util.browserMetaTagContent("config:inaturalist_api_host_ssl") || util.nodeENV("API_HOST_SSL")) === "true";
-	      var envWriteHostSSL = (util.browserMetaTagContent("config:inaturalist_write_host_ssl") || util.nodeENV("WRITE_HOST_SSL")) === "true";
-	      iNaturalistAPI.apiHost = config.apiHost || envHostConfig || "localhost:4000/v1";
-	      iNaturalistAPI.writeApiHost = config.writeApiHost || envWriteHostConfig || "localhost:3000";
-	      iNaturalistAPI.apiHostProtocol = config.apiHostSSL || envApiHostSSL ? "https://" : "http://";
-	      iNaturalistAPI.writeHostProtocol = config.writeHostSSL || envWriteHostSSL ? "https://" : "http://";
+	      var envURLConfig = util.browserMetaTagContent("config:inaturalist_api_url") || util.nodeENV("API_URL");
+	      var envWriteURLConfig = util.browserMetaTagContent("config:inaturalist_write_api_url") || util.nodeENV("WRITE_API_URL");
+	      iNaturalistAPI.apiURL = config.apiURL || envURLConfig || "http://localhost:4000/v1";
+	      iNaturalistAPI.writeApiURL = envWriteURLConfig || envURLConfig || config.writeApiURL || config.apiURL || "http://localhost:3000";
 	    }
 	  }, {
 	    key: "interpolateRouteParams",
