@@ -262,10 +262,29 @@
 	    key: "setConfig",
 	    value: function setConfig(config) {
 	      config = config || {};
-	      var envURLConfig = util.browserMetaTagContent("config:inaturalist_api_url") || util.nodeENV("API_URL");
-	      var envWriteURLConfig = util.browserMetaTagContent("config:inaturalist_write_api_url") || util.nodeENV("WRITE_API_URL");
+	      var legacyEnv = iNaturalistAPI.legacyEnvConfig(config);
+	      var envURLConfig = legacyEnv.apiURL || util.browserMetaTagContent("config:inaturalist_api_url") || util.nodeENV("API_URL");
+	      var envWriteURLConfig = legacyEnv.writeApiURL || util.browserMetaTagContent("config:inaturalist_write_api_url") || util.nodeENV("WRITE_API_URL");
 	      iNaturalistAPI.apiURL = config.apiURL || envURLConfig || "http://localhost:4000/v1";
 	      iNaturalistAPI.writeApiURL = envWriteURLConfig || envURLConfig || config.writeApiURL || config.apiURL || "http://localhost:3000";
+	    }
+	  }, {
+	    key: "legacyEnvConfig",
+	    value: function legacyEnvConfig(config) {
+	      var oldVariables = {
+	        envHostConfig: config.apiHost || util.browserMetaTagContent("config:inaturalist_api_host") || util.nodeENV("API_HOST"),
+	        envWriteHostConfig: config.writeApiHost || util.browserMetaTagContent("config:inaturalist_write_api_host") || util.nodeENV("WRITE_API_HOST"),
+	        envApiHostSSL: config.apiHostSSL || (util.browserMetaTagContent("config:inaturalist_api_host_ssl") || util.nodeENV("API_HOST_SSL")) === "true",
+	        envWriteHostSSL: config.writeApiHostSSL || (util.browserMetaTagContent("config:inaturalist_write_host_ssl") || util.nodeENV("WRITE_HOST_SSL")) === "true"
+	      };
+	      var updatedVariables = {};
+	      if (oldVariables.envHostConfig) {
+	        updatedVariables.apiURL = (oldVariables.envApiHostSSL ? "https://" : "http://") + oldVariables.envHostConfig;
+	      }
+	      if (oldVariables.envWriteHostConfig) {
+	        updatedVariables.writeApiURL = (oldVariables.envWriteHostSSL ? "https://" : "http://") + oldVariables.envWriteHostConfig;
+	      }
+	      return updatedVariables;
 	    }
 	  }, {
 	    key: "interpolateRouteParams",
