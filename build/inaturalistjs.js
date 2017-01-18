@@ -54,22 +54,22 @@
 	  identifications: __webpack_require__(13),
 	  observationFieldValues: __webpack_require__(18),
 	  observations: __webpack_require__(20),
-	  photos: __webpack_require__(23),
-	  places: __webpack_require__(24),
-	  posts: __webpack_require__(26),
-	  projects: __webpack_require__(28),
-	  taxa: __webpack_require__(30),
-	  users: __webpack_require__(31),
+	  photos: __webpack_require__(24),
+	  places: __webpack_require__(25),
+	  posts: __webpack_require__(27),
+	  projects: __webpack_require__(29),
+	  taxa: __webpack_require__(31),
+	  users: __webpack_require__(32),
 	  Comment: __webpack_require__(12),
 	  Identification: __webpack_require__(14),
-	  Observation: __webpack_require__(21),
+	  Observation: __webpack_require__(22),
 	  ObservationFieldValue: __webpack_require__(19),
 	  Photo: __webpack_require__(16),
-	  Place: __webpack_require__(25),
-	  Post: __webpack_require__(27),
-	  Project: __webpack_require__(29),
+	  Place: __webpack_require__(26),
+	  Post: __webpack_require__(28),
+	  Project: __webpack_require__(30),
 	  Taxon: __webpack_require__(15),
-	  User: __webpack_require__(22)
+	  User: __webpack_require__(23)
 	};
 
 /***/ },
@@ -1710,9 +1710,10 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(1),
-	    Observation = __webpack_require__(21),
+	    ControlledTerm = __webpack_require__(21),
+	    Observation = __webpack_require__(22),
 	    Taxon = __webpack_require__(15),
-	    User = __webpack_require__(22);
+	    User = __webpack_require__(23);
 
 	var observations = function () {
 	  function observations() {
@@ -1817,6 +1818,20 @@
 	      });
 	    }
 	  }, {
+	    key: "popularFieldValues",
+	    value: function popularFieldValues(params) {
+	      return iNaturalistAPI.get("observations/popular_field_values", params).then(function (response) {
+	        if (response.results) {
+	          response.results = response.results.map(function (r) {
+	            r.controlled_attribute = new ControlledTerm(r.controlled_attribute);
+	            r.controlled_value = new ControlledTerm(r.controlled_value);
+	            return r;
+	          });
+	        }
+	        return response;
+	      });
+	    }
+	  }, {
 	    key: "histogram",
 	    value: function histogram(params) {
 	      return iNaturalistAPI.get("observations/histogram", params);
@@ -1830,6 +1845,41 @@
 
 /***/ },
 /* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Model = __webpack_require__(10);
+
+	var ControlledTerm = function (_Model) {
+	  _inherits(ControlledTerm, _Model);
+
+	  function ControlledTerm(attrs) {
+	    _classCallCheck(this, ControlledTerm);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ControlledTerm).call(this, attrs));
+
+	    if (_this.values) {
+	      _this.values = _this.values.map(function (v) {
+	        return new ControlledTerm(v);
+	      });
+	    }
+	    return _this;
+	  }
+
+	  return ControlledTerm;
+	}(Model);
+
+	module.exports = ControlledTerm;
+
+/***/ },
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1926,7 +1976,7 @@
 	module.exports = Observation;
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1965,7 +2015,7 @@
 	module.exports = User;
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1994,7 +2044,7 @@
 	module.exports = photos;
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2004,7 +2054,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(1),
-	    Place = __webpack_require__(25);
+	    Place = __webpack_require__(26);
 
 	var places = function () {
 	  function places() {
@@ -2029,7 +2079,7 @@
 	module.exports = places;
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2068,7 +2118,7 @@
 	module.exports = Place;
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2078,7 +2128,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(1),
-	    Post = __webpack_require__(27);
+	    Post = __webpack_require__(28);
 
 	var posts = function () {
 	  function posts() {
@@ -2098,7 +2148,7 @@
 	module.exports = posts;
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2137,7 +2187,7 @@
 	module.exports = Post;
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2147,7 +2197,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(1),
-	    Project = __webpack_require__(29);
+	    Project = __webpack_require__(30);
 
 	var projects = function () {
 	  function projects() {
@@ -2177,7 +2227,7 @@
 	module.exports = projects;
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2216,7 +2266,7 @@
 	module.exports = Project;
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2251,7 +2301,7 @@
 	module.exports = taxa;
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2261,7 +2311,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(1),
-	    User = __webpack_require__(22);
+	    User = __webpack_require__(23);
 
 	var users = function () {
 	  function users() {
