@@ -94,7 +94,7 @@
 
 	  _createClass(iNaturalistAPI, null, [{
 	    key: "fetch",
-	    value: function fetch(route, ids, params) {
+	    value: function fetch(route, ids, params, options) {
 	      if (!Array.isArray(ids)) {
 	        ids = [ids];
 	      }
@@ -102,16 +102,19 @@
 	      if (params) {
 	        query = "?" + querystring.stringify(params);
 	      }
-	      return _fetch("" + iNaturalistAPI.apiURL + ("/" + route + "/" + ids.join(",") + query)).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
+	      var apiToken = iNaturalistAPI.apiToken(options);
+	      var headers = apiToken ? { Authorization: apiToken } : {};
+	      return _fetch("" + iNaturalistAPI.apiURL + ("/" + route + "/" + ids.join(",") + query), { headers: headers }).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
 	    }
 	  }, {
 	    key: "get",
 	    value: function get(route, params, options) {
+	      options = options || {};
 	      var query = "";
 	      if (params) {
 	        query = "?" + querystring.stringify(params);
 	      }
-	      var apiToken = iNaturalistAPI.apiToken(options);
+	      var apiToken = options.useAuth ? iNaturalistAPI.apiToken(options) : null;
 	      var headers = apiToken ? { Authorization: apiToken } : {};
 	      return _fetch("" + iNaturalistAPI.apiURL + ("/" + route + query), { headers: headers }).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
 	    }
@@ -1776,7 +1779,7 @@
 	  }, {
 	    key: "search",
 	    value: function search(params) {
-	      return iNaturalistAPI.get("observations", params).then(Observation.typifyResultsResponse);
+	      return iNaturalistAPI.get("observations", params, { useAuth: true }).then(Observation.typifyResultsResponse);
 	    }
 	  }, {
 	    key: "identifiers",
