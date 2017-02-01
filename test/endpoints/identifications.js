@@ -70,4 +70,37 @@ describe( "Identifications", function( ) {
     } );
   } );
 
+  describe( "identifiers", function( ) {
+    it( "returns objects with users", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/identifications/identifiers" ).
+        reply( 200, {
+          total_results: 6,
+          page: 1,
+          per_page: 1,
+          results: [
+            {
+              count: 10,
+              user: {
+                id: 6,
+                login: "finn",
+                login_autocomplete: "finn",
+                name: "",
+                name_autocomplete: "",
+                icon: null,
+                observations_count: 3403,
+                identifications_count: 0,
+                journal_posts_count: 0,
+                activity_count: 3403
+              }
+            }
+          ]
+        } );
+      identifications.identifiers( ).then( function( r ) {
+        expect( r.results[0].user.constructor.name ).to.eq( "User" );
+        done( );
+      } );
+    } );
+  } )
+
 });
