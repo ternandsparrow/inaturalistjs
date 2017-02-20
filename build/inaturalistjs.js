@@ -1892,6 +1892,13 @@
 	    value: function histogram(params) {
 	      return iNaturalistAPI.get("observations/histogram", params);
 	    }
+	  }, {
+	    key: "updates",
+	    value: function updates(params, options) {
+	      options = options || {};
+	      options.useAuth = true;
+	      return iNaturalistAPI.get("observations/updates", params, options);
+	    }
 	  }]);
 
 	  return observations;
@@ -2339,6 +2346,13 @@
 	    key: "fetch",
 	    value: function fetch(ids) {
 	      return iNaturalistAPI.fetch("users", ids).then(User.typifyResultsResponse);
+	    }
+	  }, {
+	    key: "me",
+	    value: function me(options) {
+	      options = options || {};
+	      options.useAuth = true;
+	      return iNaturalistAPI.get("users/me", null, options).then(User.typifyResultsResponse);
 	    }
 	  }]);
 
