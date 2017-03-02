@@ -28,7 +28,7 @@ describe( "ObservationFieldValues", function( ) {
   describe( "delete", function( ) {
     it( "deletes to /observation_field_values", function( done ) {
       nock( "http://localhost:3000" ).
-        delete( "/observation_field_values/1", { id: 1 }).
+        delete( "/observation_field_values/1?id=1", { id: 1 }).
         reply( 200, { id: 1 } );
       observationFieldValues.delete({ id: 1 }).then( function( ) {
         done( );

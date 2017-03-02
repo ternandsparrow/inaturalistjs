@@ -29,7 +29,7 @@ describe( "Identifications", function( ) {
   describe( "delete", function( ) {
     it( "deletes to /identifications", function( done ) {
       nock( "http://localhost:3000" ).
-        delete( "/identifications/1", { id: 1 }).
+        delete( "/identifications/1?id=1", { id: 1 }).
         reply( 200, { id: 1 } );
       identifications.delete({ id: 1 }).then( function( ) {
         done( );

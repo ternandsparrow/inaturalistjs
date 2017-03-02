@@ -30,7 +30,7 @@ describe( "Observation", function( ) {
   describe( "delete", function( ) {
     it( "deletes to /observations/:id", function( done ) {
       nock( "http://localhost:3000" ).
-        delete( "/observations/1", { id: 1 }).
+        delete( "/observations/1?id=1", { id: 1 }).
         reply( 200, { id: 1 } );
       observations.delete({ id: 1 }).then( function( ) {
         done( );
@@ -52,7 +52,7 @@ describe( "Observation", function( ) {
   describe( "unfave", function( ) {
     it( "deletes to /votes/unvote/observation/:id", function( done ) {
       nock( "http://localhost:3000" ).
-        delete( "/votes/unvote/observation/1", { id: 1 }).
+        delete( "/votes/unvote/observation/1?id=1", { id: 1 }).
         reply( 200, { id: 1 } );
       observations.unfave({ id: 1 }).then( function( ) {
         done( );
@@ -74,7 +74,7 @@ describe( "Observation", function( ) {
   describe( "unreview", function( ) {
     it( "deletes to /observations/:id/review", function( done ) {
       nock( "http://localhost:3000" ).
-        delete( "/observations/1/review", { id: 1 }).
+        delete( "/observations/1/review?id=1", { id: 1 }).
         reply( 200, { id: 1 } );
       observations.unreview({ id: 1 }).then( function( ) {
         done( );
@@ -96,7 +96,7 @@ describe( "Observation", function( ) {
   describe( "deleteQualityMetric", function( ) {
     it( "deleted to /observations/:id/quality/:metric", function( done ) {
       nock( "http://localhost:3000" ).
-        delete( "/observations/1/quality/wild", { id: 1, metric: "wild" }).
+        delete( "/observations/1/quality/wild?id=1&metric=wild", { id: 1, metric: "wild" }).
         reply( 200, { id: 1 } );
       observations.deleteQualityMetric({ id: 1, metric: "wild" }).then( function( ) {
         done( );
