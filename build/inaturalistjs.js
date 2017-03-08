@@ -2170,8 +2170,8 @@
 	    }
 	  }, {
 	    key: "subscriptions",
-	    value: function subscriptions(params, options) {
-	      return iNaturalistAPI.get("observations/:id/subscriptions", params, options);
+	    value: function subscriptions(params) {
+	      return iNaturalistAPI.get("observations/:id/subscriptions", params, { useAuth: true });
 	    }
 	  }]);
 
@@ -2486,6 +2486,16 @@
 	    key: "leave",
 	    value: function leave(params, options) {
 	      return iNaturalistAPI.delete("projects/:id/leave", params, options);
+	    }
+	  }, {
+	    key: "add",
+	    value: function add(params, options) {
+	      return iNaturalistAPI.post("projects/:id/add", params, options);
+	    }
+	  }, {
+	    key: "remove",
+	    value: function remove(params, options) {
+	      return iNaturalistAPI.delete("projects/:id/remove", params, options);
 	    }
 	  }]);
 
