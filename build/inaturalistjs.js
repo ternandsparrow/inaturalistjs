@@ -2606,6 +2606,11 @@
 	    value: function update(params, options) {
 	      return iNaturalistAPI.put("users/:id", params, options).then(User.typifyInstanceResponse);
 	    }
+	  }, {
+	    key: "update_session",
+	    value: function update_session(params, options) {
+	      return iNaturalistAPI.put("users/update_session", params, options);
+	    }
 	  }]);
 
 	  return users;
