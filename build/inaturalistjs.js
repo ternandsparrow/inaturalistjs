@@ -55,7 +55,7 @@
 	  controlled_terms: __webpack_require__(15),
 	  flags: __webpack_require__(17),
 	  identifications: __webpack_require__(19),
-	  observationFieldValues: __webpack_require__(25),
+	  observation_field_values: __webpack_require__(25),
 	  observations: __webpack_require__(27),
 	  photos: __webpack_require__(29),
 	  places: __webpack_require__(30),
@@ -277,6 +277,9 @@
 	  }, {
 	    key: "thenWrap",
 	    value: function thenWrap(response) {
+	      if (Array.isArray(response)) {
+	        return response;
+	      }
 	      return new iNaturalistAPIResponse(response);
 	    }
 	  }, {
@@ -2177,7 +2180,7 @@
 	  }, {
 	    key: "taxonSummary",
 	    value: function taxonSummary(params) {
-	      return iNaturalistAPI.get("observations/:id/taxon_summary", params, { useAuth: true });
+	      return iNaturalistAPI.get("observations/:id/taxon_summary", params);
 	    }
 	  }]);
 
