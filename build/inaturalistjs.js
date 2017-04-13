@@ -2182,6 +2182,13 @@
 	    value: function taxonSummary(params) {
 	      return iNaturalistAPI.get("observations/:id/taxon_summary", params);
 	    }
+	  }, {
+	    key: "updates",
+	    value: function updates(params, options) {
+	      options = options || {};
+	      options.useAuth = true;
+	      return iNaturalistAPI.get("observations/updates", params, options);
+	    }
 	  }]);
 
 	  return observations;
@@ -2698,6 +2705,13 @@
 	    key: "update_session",
 	    value: function update_session(params, options) {
 	      return iNaturalistAPI.put("users/update_session", params, options);
+	    }
+	  }, {
+	    key: "me",
+	    value: function me(options) {
+	      options = options || {};
+	      options.useAuth = true;
+	      return iNaturalistAPI.get("users/me", null, options).then(User.typifyResultsResponse);
 	    }
 	  }]);
 
