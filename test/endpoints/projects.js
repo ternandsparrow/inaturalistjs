@@ -35,7 +35,7 @@ describe( "Projects", function( ) {
   describe( "leave", function( ) {
     it( "delets to /projects/:id/leave", function( done ) {
       nock( "http://localhost:3000" ).
-        delete( "/projects/1/leave" ).
+        delete( "/projects/1/leave?id=1" ).
         reply( 200, { } );
       projects.leave({ id: 1 }).then( function( ) {
         done( );
