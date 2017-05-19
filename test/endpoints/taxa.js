@@ -98,4 +98,16 @@ describe( "Taxa", function( ) {
     });
   });
 
+  describe( "suggest", function( ) {
+    it( "returns taxon objects", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/taxa/suggest" ).
+        reply( 200, testHelper.suggestResponse );
+      taxa.suggest( ).then( r => {
+        expect( r.results[0].taxon.constructor.name ).to.eq( "Taxon" );
+        done( );
+      } );
+    } );
+  } )
+
 });
