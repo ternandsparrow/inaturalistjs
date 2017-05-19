@@ -2666,6 +2666,17 @@
 	    value: function autocomplete(params) {
 	      return iNaturalistAPI.get("taxa/autocomplete", params).then(Taxon.typifyResultsResponse);
 	    }
+	  }, {
+	    key: "suggest",
+	    value: function suggest(params) {
+	      return iNaturalistAPI.get("taxa/suggest", params).then(function (response) {
+	        response.results = response.results.map(function (r) {
+	          r.taxon = new Taxon(r.taxon);
+	          return r;
+	        });
+	        return response;
+	      });
+	    }
 	  }]);
 
 	  return taxa;
