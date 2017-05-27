@@ -2342,8 +2342,8 @@
 
 	  _createClass(places, null, [{
 	    key: "fetch",
-	    value: function fetch(ids) {
-	      return iNaturalistAPI.fetch("places", ids).then(Place.typifyResultsResponse);
+	    value: function fetch(ids, params) {
+	      return iNaturalistAPI.fetch("places", ids, params).then(Place.typifyResultsResponse);
 	    }
 	  }, {
 	    key: "autocomplete",
