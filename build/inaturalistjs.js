@@ -2225,7 +2225,10 @@
 
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Observation).call(this, attrs));
 
-	    if (_this.geojson && _this.geojson.coordinates) {
+	    if (_this.private_geojson && _this.private_geojson.coordinates) {
+	      _this.latitude = _this.private_geojson.coordinates[1];
+	      _this.longitude = _this.private_geojson.coordinates[0];
+	    } else if (_this.geojson && _this.geojson.coordinates) {
 	      _this.latitude = _this.geojson.coordinates[1];
 	      _this.longitude = _this.geojson.coordinates[0];
 	    }
