@@ -1699,6 +1699,17 @@
 	      return this.cachedPhotos[size];
 	    }
 	  }, {
+	    key: "flaggedAsCopyrighted",
+	    value: function flaggedAsCopyrighted() {
+	      for (var index in this.flags) {
+	        var flag = this.flags[index];
+	        if (!flag.resolved && flag.flag === "copyright infringement") {
+	          return true;
+	        }
+	      }
+	      return false;
+	    }
+	  }, {
 	    key: "dimensions",
 	    value: function dimensions(size) {
 	      var longEdges = {
