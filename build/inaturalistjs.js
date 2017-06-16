@@ -2275,7 +2275,15 @@
 	  }, {
 	    key: "hasPhotos",
 	    value: function hasPhotos() {
-	      return this.photos && this.photos.length > 0;
+	      if (!this.photos || this.photos.length === 0) {
+	        return false;
+	      }
+	      for (var i in this.photos) {
+	        if (this.photos[i].url) {
+	          return true;
+	        }
+	      }
+	      return false;
 	    }
 	  }, {
 	    key: "hasSounds",
