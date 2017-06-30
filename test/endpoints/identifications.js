@@ -101,6 +101,6 @@ describe( "Identifications", function( ) {
         done( );
       } );
     } );
-  } )
+  } );
 
 });
