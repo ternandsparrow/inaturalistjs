@@ -1731,6 +1731,17 @@
 	      return this.cachedPhotos[size];
 	    }
 	  }, {
+	    key: "flaggedAsCopyrighted",
+	    value: function flaggedAsCopyrighted() {
+	      for (var index in this.flags) {
+	        var flag = this.flags[index];
+	        if (!flag.resolved && flag.flag === "copyright infringement") {
+	          return true;
+	        }
+	      }
+	      return false;
+	    }
+	  }, {
 	    key: "dimensions",
 	    value: function dimensions(size) {
 	      var longEdges = {
@@ -2257,7 +2268,10 @@
 
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Observation).call(this, attrs));
 
-	    if (_this.geojson && _this.geojson.coordinates) {
+	    if (_this.private_geojson && _this.private_geojson.coordinates) {
+	      _this.latitude = _this.private_geojson.coordinates[1];
+	      _this.longitude = _this.private_geojson.coordinates[0];
+	    } else if (_this.geojson && _this.geojson.coordinates) {
 	      _this.latitude = _this.geojson.coordinates[1];
 	      _this.longitude = _this.geojson.coordinates[0];
 	    }
@@ -2293,7 +2307,15 @@
 	  }, {
 	    key: "hasPhotos",
 	    value: function hasPhotos() {
-	      return this.photos && this.photos.length > 0;
+	      if (!this.photos || this.photos.length === 0) {
+	        return false;
+	      }
+	      for (var i in this.photos) {
+	        if (this.photos[i].url) {
+	          return true;
+	        }
+	      }
+	      return false;
 	    }
 	  }, {
 	    key: "hasSounds",

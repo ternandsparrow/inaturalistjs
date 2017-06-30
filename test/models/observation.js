@@ -106,10 +106,15 @@ describe( "Observation", function( ) {
 
   describe( "hasPhotos", function( ) {
     it( "returns true if there are photos", function( ) {
-      var w = new Observation({ photos: [ true ] });
+      var w = new Observation({ photos: [ { url: "photoURL" } ] });
       expect( w.hasPhotos( ) ).to.be.true;
       var wo = new Observation({ photos: [ ] });
       expect( wo.hasPhotos( ) ).to.be.false;
+    });
+
+    it( "returns false if there are no photos with URLs", function( ) {
+      var w = new Observation({ photos: [ { url: null } ] });
+      expect( w.hasPhotos( ) ).to.be.false;
     });
   });
 
@@ -124,7 +129,7 @@ describe( "Observation", function( ) {
 
   describe( "hasMedia", function( ) {
     it( "returns true if there are photos or sounds", function( ) {
-      var w = new Observation({ photos: [ true ] });
+      var w = new Observation({ photos: [ { url: "photoURL" } ] });
       expect( w.hasMedia( ) ).to.be.true;
       w = new Observation({ sounds: [ true ] });
       expect( w.hasMedia( ) ).to.be.true;
