@@ -2723,7 +2723,7 @@
 	  }, {
 	    key: "suggest",
 	    value: function suggest(params) {
-	      return iNaturalistAPI.get("taxa/suggest", params).then(function (response) {
+	      return iNaturalistAPI.get("taxa/suggest", params, { useAuth: true }).then(function (response) {
 	        response.results = response.results.map(function (r) {
 	          r.taxon = new Taxon(r.taxon);
 	          return r;
