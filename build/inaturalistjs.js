@@ -63,8 +63,9 @@
 	  posts: __webpack_require__(33),
 	  projects: __webpack_require__(35),
 	  project_observations: __webpack_require__(37),
-	  taxa: __webpack_require__(39),
-	  users: __webpack_require__(40),
+	  sounds: __webpack_require__(39),
+	  taxa: __webpack_require__(40),
+	  users: __webpack_require__(41),
 	  Annotation: __webpack_require__(12),
 	  Comment: __webpack_require__(14),
 	  ControlledTerm: __webpack_require__(16),
@@ -2736,6 +2737,35 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	var iNaturalistAPI = __webpack_require__(1);
+
+	var sounds = function () {
+	  function sounds() {
+	    _classCallCheck(this, sounds);
+	  }
+
+	  _createClass(sounds, null, [{
+	    key: "create",
+	    value: function create(params, options) {
+	      return iNaturalistAPI.upload("sounds", params, options);
+	    }
+	  }]);
+
+	  return sounds;
+	}();
+
+	module.exports = sounds;
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 	var iNaturalistAPI = __webpack_require__(1),
 	    Taxon = __webpack_require__(21);
 
@@ -2773,7 +2803,7 @@
 	module.exports = taxa;
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
