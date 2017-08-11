@@ -57,26 +57,27 @@
 	  identifications: __webpack_require__(19),
 	  observation_field_values: __webpack_require__(25),
 	  observation_photos: __webpack_require__(27),
-	  observations: __webpack_require__(28),
-	  photos: __webpack_require__(30),
-	  places: __webpack_require__(31),
-	  posts: __webpack_require__(33),
-	  projects: __webpack_require__(35),
-	  project_observations: __webpack_require__(37),
-	  sounds: __webpack_require__(39),
-	  taxa: __webpack_require__(40),
-	  users: __webpack_require__(41),
+	  observation_sounds: __webpack_require__(28),
+	  observations: __webpack_require__(29),
+	  photos: __webpack_require__(31),
+	  places: __webpack_require__(32),
+	  posts: __webpack_require__(34),
+	  projects: __webpack_require__(36),
+	  project_observations: __webpack_require__(38),
+	  sounds: __webpack_require__(40),
+	  taxa: __webpack_require__(41),
+	  users: __webpack_require__(42),
 	  Annotation: __webpack_require__(12),
 	  Comment: __webpack_require__(14),
 	  ControlledTerm: __webpack_require__(16),
 	  Flag: __webpack_require__(18),
 	  Identification: __webpack_require__(20),
-	  Observation: __webpack_require__(29),
+	  Observation: __webpack_require__(30),
 	  ObservationFieldValue: __webpack_require__(26),
 	  Photo: __webpack_require__(22),
-	  Place: __webpack_require__(32),
-	  Post: __webpack_require__(34),
-	  Project: __webpack_require__(36),
+	  Place: __webpack_require__(33),
+	  Post: __webpack_require__(35),
+	  Project: __webpack_require__(37),
 	  Taxon: __webpack_require__(21),
 	  User: __webpack_require__(24)
 	};
@@ -2103,9 +2104,38 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	var iNaturalistAPI = __webpack_require__(1);
+
+	var observationSounds = function () {
+	  function observationSounds() {
+	    _classCallCheck(this, observationSounds);
+	  }
+
+	  _createClass(observationSounds, null, [{
+	    key: "create",
+	    value: function create(params, options) {
+	      return iNaturalistAPI.upload("observation_sounds", params, options);
+	    }
+	  }]);
+
+	  return observationSounds;
+	}();
+
+	module.exports = observationSounds;
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 	var iNaturalistAPI = __webpack_require__(1),
 	    ControlledTerm = __webpack_require__(16),
-	    Observation = __webpack_require__(29),
+	    Observation = __webpack_require__(30),
 	    Taxon = __webpack_require__(21),
 	    User = __webpack_require__(24);
 
@@ -2275,7 +2305,7 @@
 	module.exports = observations;
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2383,7 +2413,7 @@
 	module.exports = Observation;
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2412,7 +2442,7 @@
 	module.exports = photos;
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2422,7 +2452,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(1),
-	    Place = __webpack_require__(32);
+	    Place = __webpack_require__(33);
 
 	var places = function () {
 	  function places() {
@@ -2452,7 +2482,7 @@
 	module.exports = places;
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2491,7 +2521,7 @@
 	module.exports = Place;
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2501,7 +2531,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(1),
-	    Post = __webpack_require__(34);
+	    Post = __webpack_require__(35);
 
 	var posts = function () {
 	  function posts() {
@@ -2521,7 +2551,7 @@
 	module.exports = posts;
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2560,7 +2590,7 @@
 	module.exports = Post;
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2570,7 +2600,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(1),
-	    Project = __webpack_require__(36);
+	    Project = __webpack_require__(37);
 
 	var projects = function () {
 	  function projects() {
@@ -2610,7 +2640,7 @@
 	module.exports = projects;
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2649,7 +2679,7 @@
 	module.exports = Project;
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2659,7 +2689,7 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(1),
-	    ProjectObservation = __webpack_require__(38);
+	    ProjectObservation = __webpack_require__(39);
 
 	var projectObservations = function () {
 	  function projectObservations() {
@@ -2689,7 +2719,7 @@
 	module.exports = projectObservations;
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2728,7 +2758,7 @@
 	module.exports = ProjectObservation;
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2757,7 +2787,7 @@
 	module.exports = sounds;
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2803,7 +2833,7 @@
 	module.exports = taxa;
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
