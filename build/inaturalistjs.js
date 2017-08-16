@@ -1538,6 +1538,20 @@
 	      });
 	    }
 	  }, {
+	    key: "recent_taxa",
+	    value: function recent_taxa(params, options) {
+	      return iNaturalistAPI.get("identifications/recent_taxa", params, options).then(function (response) {
+	        if (response.results) {
+	          response.results = response.results.map(function (r) {
+	            r.taxon = new Taxon(r.taxon);
+	            r.identification = new Identification(r.identification);
+	            return r;
+	          });
+	        }
+	        return response;
+	      });
+	    }
+	  }, {
 	    key: "identifiers",
 	    value: function identifiers(params, options) {
 	      return iNaturalistAPI.get("identifications/identifiers", params, options).then(function (response) {
