@@ -55,10 +55,10 @@
 	  controlled_terms: __webpack_require__(15),
 	  flags: __webpack_require__(17),
 	  identifications: __webpack_require__(19),
-	  observation_field_values: __webpack_require__(25),
-	  observation_photos: __webpack_require__(27),
-	  observation_sounds: __webpack_require__(28),
-	  observations: __webpack_require__(29),
+	  observation_field_values: __webpack_require__(26),
+	  observation_photos: __webpack_require__(28),
+	  observation_sounds: __webpack_require__(29),
+	  observations: __webpack_require__(30),
 	  photos: __webpack_require__(31),
 	  places: __webpack_require__(32),
 	  posts: __webpack_require__(34),
@@ -72,8 +72,8 @@
 	  ControlledTerm: __webpack_require__(16),
 	  Flag: __webpack_require__(18),
 	  Identification: __webpack_require__(20),
-	  Observation: __webpack_require__(30),
-	  ObservationFieldValue: __webpack_require__(26),
+	  Observation: __webpack_require__(25),
+	  ObservationFieldValue: __webpack_require__(27),
 	  Photo: __webpack_require__(22),
 	  Place: __webpack_require__(33),
 	  Post: __webpack_require__(35),
@@ -1502,7 +1502,8 @@
 	var iNaturalistAPI = __webpack_require__(1),
 	    Identification = __webpack_require__(20),
 	    Taxon = __webpack_require__(21),
-	    User = __webpack_require__(24);
+	    User = __webpack_require__(24),
+	    Observation = __webpack_require__(25);
 
 	var identifications = function () {
 	  function identifications() {
@@ -1545,6 +1546,8 @@
 	          response.results = response.results.map(function (r) {
 	            r.taxon = new Taxon(r.taxon);
 	            r.identification = new Identification(r.identification);
+	            delete r.identification.observation.identifications;
+	            r.identification.observation = new Observation(r.identification.observation);
 	            return r;
 	          });
 	        }
@@ -2008,10 +2011,118 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Model = __webpack_require__(10),
+	    Taxon = __webpack_require__(21),
+	    Photo = __webpack_require__(22),
+	    Identification = __webpack_require__(20);
+
+	var Observation = function (_Model) {
+	  _inherits(Observation, _Model);
+
+	  function Observation(attrs) {
+	    _classCallCheck(this, Observation);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Observation).call(this, attrs));
+
+	    if (_this.private_geojson && _this.private_geojson.coordinates) {
+	      _this.latitude = _this.private_geojson.coordinates[1];
+	      _this.longitude = _this.private_geojson.coordinates[0];
+	    } else if (_this.geojson && _this.geojson.coordinates) {
+	      _this.latitude = _this.geojson.coordinates[1];
+	      _this.longitude = _this.geojson.coordinates[0];
+	    }
+	    if (_this.taxon) {
+	      _this.taxon = new Taxon(_this.taxon);
+	    }
+	    if (_this.photos && _this.photos.length > 0) {
+	      _this.photos = _this.photos.map(function (p) {
+	        return new Photo(p);
+	      });
+	    }
+	    if (_this.identifications && _this.identifications.length > 0) {
+	      _this.identifications = _this.identifications.map(function (i) {
+	        return new Identification(i);
+	      });
+	    }
+	    return _this;
+	  }
+
+	  _createClass(Observation, [{
+	    key: "photo",
+	    value: function photo(size) {
+	      this.cachedPhotos = this.cachedPhotos || {};
+	      size = size || "square";
+	      if (this.cachedPhotos[size]) {
+	        return this.cachedPhotos[size];
+	      }
+	      if (this.photos && this.photos.length > 0) {
+	        this.cachedPhotos[size] = this.photos[0].photoUrl(size);
+	      }
+	      return this.cachedPhotos[size];
+	    }
+	  }, {
+	    key: "hasPhotos",
+	    value: function hasPhotos() {
+	      if (!this.photos || this.photos.length === 0) {
+	        return false;
+	      }
+	      for (var i in this.photos) {
+	        if (this.photos[i].url) {
+	          return true;
+	        }
+	      }
+	      return false;
+	    }
+	  }, {
+	    key: "hasSounds",
+	    value: function hasSounds() {
+	      return this.sounds && this.sounds.length > 0;
+	    }
+	  }, {
+	    key: "hasMedia",
+	    value: function hasMedia() {
+	      if (this.hasPhotos() || this.hasSounds()) {
+	        return true;
+	      }
+	      return false;
+	    }
+	  }], [{
+	    key: "typifyResultsResponse",
+	    value: function typifyResultsResponse(response) {
+	      return _get(Object.getPrototypeOf(Observation), "typifyResultsResponse", this).call(this, response, Observation);
+	    }
+	  }, {
+	    key: "typifyInstanceResponse",
+	    value: function typifyInstanceResponse(response) {
+	      return _get(Object.getPrototypeOf(Observation), "typifyInstanceResponse", this).call(this, response, Observation);
+	    }
+	  }]);
+
+	  return Observation;
+	}(Model);
+
+	module.exports = Observation;
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var iNaturalistAPI = __webpack_require__(1),
-	    ObservationFieldValue = __webpack_require__(26);
+	    ObservationFieldValue = __webpack_require__(27);
 
 	var observationFieldValues = function () {
 	  function observationFieldValues() {
@@ -2041,7 +2152,7 @@
 	module.exports = observationFieldValues;
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2080,7 +2191,7 @@
 	module.exports = ObservationFieldValue;
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2109,7 +2220,7 @@
 	module.exports = observationPhotos;
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2138,7 +2249,7 @@
 	module.exports = observationSounds;
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2149,7 +2260,7 @@
 
 	var iNaturalistAPI = __webpack_require__(1),
 	    ControlledTerm = __webpack_require__(16),
-	    Observation = __webpack_require__(30),
+	    Observation = __webpack_require__(25),
 	    Taxon = __webpack_require__(21),
 	    User = __webpack_require__(24);
 
@@ -2317,114 +2428,6 @@
 	}();
 
 	module.exports = observations;
-
-/***/ },
-/* 30 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Model = __webpack_require__(10),
-	    Taxon = __webpack_require__(21),
-	    Photo = __webpack_require__(22),
-	    Identification = __webpack_require__(20);
-
-	var Observation = function (_Model) {
-	  _inherits(Observation, _Model);
-
-	  function Observation(attrs) {
-	    _classCallCheck(this, Observation);
-
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Observation).call(this, attrs));
-
-	    if (_this.private_geojson && _this.private_geojson.coordinates) {
-	      _this.latitude = _this.private_geojson.coordinates[1];
-	      _this.longitude = _this.private_geojson.coordinates[0];
-	    } else if (_this.geojson && _this.geojson.coordinates) {
-	      _this.latitude = _this.geojson.coordinates[1];
-	      _this.longitude = _this.geojson.coordinates[0];
-	    }
-	    if (_this.taxon) {
-	      _this.taxon = new Taxon(_this.taxon);
-	    }
-	    if (_this.photos && _this.photos.length > 0) {
-	      _this.photos = _this.photos.map(function (p) {
-	        return new Photo(p);
-	      });
-	    }
-	    if (_this.identifications && _this.identifications.length > 0) {
-	      _this.identifications = _this.identifications.map(function (i) {
-	        return new Identification(i);
-	      });
-	    }
-	    return _this;
-	  }
-
-	  _createClass(Observation, [{
-	    key: "photo",
-	    value: function photo(size) {
-	      this.cachedPhotos = this.cachedPhotos || {};
-	      size = size || "square";
-	      if (this.cachedPhotos[size]) {
-	        return this.cachedPhotos[size];
-	      }
-	      if (this.photos && this.photos.length > 0) {
-	        this.cachedPhotos[size] = this.photos[0].photoUrl(size);
-	      }
-	      return this.cachedPhotos[size];
-	    }
-	  }, {
-	    key: "hasPhotos",
-	    value: function hasPhotos() {
-	      if (!this.photos || this.photos.length === 0) {
-	        return false;
-	      }
-	      for (var i in this.photos) {
-	        if (this.photos[i].url) {
-	          return true;
-	        }
-	      }
-	      return false;
-	    }
-	  }, {
-	    key: "hasSounds",
-	    value: function hasSounds() {
-	      return this.sounds && this.sounds.length > 0;
-	    }
-	  }, {
-	    key: "hasMedia",
-	    value: function hasMedia() {
-	      if (this.hasPhotos() || this.hasSounds()) {
-	        return true;
-	      }
-	      return false;
-	    }
-	  }], [{
-	    key: "typifyResultsResponse",
-	    value: function typifyResultsResponse(response) {
-	      return _get(Object.getPrototypeOf(Observation), "typifyResultsResponse", this).call(this, response, Observation);
-	    }
-	  }, {
-	    key: "typifyInstanceResponse",
-	    value: function typifyInstanceResponse(response) {
-	      return _get(Object.getPrototypeOf(Observation), "typifyInstanceResponse", this).call(this, response, Observation);
-	    }
-	  }]);
-
-	  return Observation;
-	}(Model);
-
-	module.exports = Observation;
 
 /***/ },
 /* 31 */
