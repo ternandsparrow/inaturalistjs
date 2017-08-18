@@ -131,7 +131,7 @@
 	      var thisRoute = interpolated.route;
 	      var apiToken = options.useAuth ? iNaturalistAPI.apiToken(options) : null;
 	      var headers = apiToken ? { Authorization: apiToken } : {};
-	      return _fetch("" + iNaturalistAPI.apiURL + ("/" + thisRoute + query), { headers: headers }).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
+	      return _fetch(iNaturalistAPI.apiURL + "/" + thisRoute + query, { headers: headers }).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
 	    }
 	  }, {
 	    key: "post",
@@ -2840,6 +2840,13 @@
 	          return r;
 	        });
 	        return response;
+	      });
+	    }
+	  }, {
+	    key: "wanted",
+	    value: function wanted(params) {
+	      return iNaturalistAPI.get("taxa/:id/wanted", params).then(function (response) {
+	        return Taxon.typifyResultsResponse(response);
 	      });
 	    }
 	  }]);
