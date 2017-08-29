@@ -43,8 +43,10 @@ describe( "iNaturalistAPI", function( ) {
 
   describe( "post", function( ) {
     it( "will use CSRF if there is no API token", function( done ) {
-      var stubApiToken = sinon.stub( iNaturalistAPI, "apiToken", () => { return false; });
-      var stubCSRF = sinon.stub( iNaturalistAPI, "csrf", () => {
+      var stubApiToken = sinon.stub( iNaturalistAPI, "apiToken" ). callsFake( () => {
+        return false;
+      });
+      var stubCSRF = sinon.stub( iNaturalistAPI, "csrf" ).callsFake( () => {
         return { param: "p", token: "t" };
       });
       nock( "http://localhost:3000" ).
