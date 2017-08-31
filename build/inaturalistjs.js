@@ -113,7 +113,7 @@ var iNaturalistAPI = function () {
       var thisRoute = interpolated.route;
       var apiToken = options.useAuth ? iNaturalistAPI.apiToken(options) : null;
       var headers = apiToken ? { Authorization: apiToken } : {};
-      return _fetch("" + iNaturalistAPI.apiURL + ("/" + thisRoute + query), { headers: headers }).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
+      return _fetch(iNaturalistAPI.apiURL + "/" + thisRoute + query, { headers: headers }).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
     }
   }, {
     key: "post",
@@ -721,166 +721,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Model = __webpack_require__(1);
-
-var Annotation = function (_Model) {
-  _inherits(Annotation, _Model);
-
-  function Annotation() {
-    _classCallCheck(this, Annotation);
-
-    return _possibleConstructorReturn(this, (Annotation.__proto__ || Object.getPrototypeOf(Annotation)).apply(this, arguments));
-  }
-
-  _createClass(Annotation, null, [{
-    key: "typifyInstanceResponse",
-    value: function typifyInstanceResponse(response) {
-      return _get(Annotation.__proto__ || Object.getPrototypeOf(Annotation), "typifyInstanceResponse", this).call(this, response, Annotation);
-    }
-  }]);
-
-  return Annotation;
-}(Model);
-
-module.exports = Annotation;
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Model = __webpack_require__(1);
-
-var Comment = function (_Model) {
-  _inherits(Comment, _Model);
-
-  function Comment() {
-    _classCallCheck(this, Comment);
-
-    return _possibleConstructorReturn(this, (Comment.__proto__ || Object.getPrototypeOf(Comment)).apply(this, arguments));
-  }
-
-  _createClass(Comment, null, [{
-    key: "typifyInstanceResponse",
-    value: function typifyInstanceResponse(response) {
-      return _get(Comment.__proto__ || Object.getPrototypeOf(Comment), "typifyInstanceResponse", this).call(this, response, Comment);
-    }
-  }]);
-
-  return Comment;
-}(Model);
-
-module.exports = Comment;
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Model = __webpack_require__(1);
-
-var Flag = function (_Model) {
-  _inherits(Flag, _Model);
-
-  function Flag() {
-    _classCallCheck(this, Flag);
-
-    return _possibleConstructorReturn(this, (Flag.__proto__ || Object.getPrototypeOf(Flag)).apply(this, arguments));
-  }
-
-  _createClass(Flag, null, [{
-    key: "typifyInstanceResponse",
-    value: function typifyInstanceResponse(response) {
-      return _get(Flag.__proto__ || Object.getPrototypeOf(Flag), "typifyInstanceResponse", this).call(this, response, Flag);
-    }
-  }]);
-
-  return Flag;
-}(Model);
-
-module.exports = Flag;
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Model = __webpack_require__(1);
-
-var ObservationFieldValue = function (_Model) {
-  _inherits(ObservationFieldValue, _Model);
-
-  function ObservationFieldValue() {
-    _classCallCheck(this, ObservationFieldValue);
-
-    return _possibleConstructorReturn(this, (ObservationFieldValue.__proto__ || Object.getPrototypeOf(ObservationFieldValue)).apply(this, arguments));
-  }
-
-  _createClass(ObservationFieldValue, null, [{
-    key: "typifyInstanceResponse",
-    value: function typifyInstanceResponse(response) {
-      return _get(ObservationFieldValue.__proto__ || Object.getPrototypeOf(ObservationFieldValue), "typifyInstanceResponse", this).call(this, response, ObservationFieldValue);
-    }
-  }]);
-
-  return ObservationFieldValue;
-}(Model);
-
-module.exports = ObservationFieldValue;
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 var Model = __webpack_require__(1),
     Taxon = __webpack_require__(2),
     Photo = __webpack_require__(6),
@@ -972,6 +812,166 @@ var Observation = function (_Model) {
 }(Model);
 
 module.exports = Observation;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Model = __webpack_require__(1);
+
+var Annotation = function (_Model) {
+  _inherits(Annotation, _Model);
+
+  function Annotation() {
+    _classCallCheck(this, Annotation);
+
+    return _possibleConstructorReturn(this, (Annotation.__proto__ || Object.getPrototypeOf(Annotation)).apply(this, arguments));
+  }
+
+  _createClass(Annotation, null, [{
+    key: "typifyInstanceResponse",
+    value: function typifyInstanceResponse(response) {
+      return _get(Annotation.__proto__ || Object.getPrototypeOf(Annotation), "typifyInstanceResponse", this).call(this, response, Annotation);
+    }
+  }]);
+
+  return Annotation;
+}(Model);
+
+module.exports = Annotation;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Model = __webpack_require__(1);
+
+var Comment = function (_Model) {
+  _inherits(Comment, _Model);
+
+  function Comment() {
+    _classCallCheck(this, Comment);
+
+    return _possibleConstructorReturn(this, (Comment.__proto__ || Object.getPrototypeOf(Comment)).apply(this, arguments));
+  }
+
+  _createClass(Comment, null, [{
+    key: "typifyInstanceResponse",
+    value: function typifyInstanceResponse(response) {
+      return _get(Comment.__proto__ || Object.getPrototypeOf(Comment), "typifyInstanceResponse", this).call(this, response, Comment);
+    }
+  }]);
+
+  return Comment;
+}(Model);
+
+module.exports = Comment;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Model = __webpack_require__(1);
+
+var Flag = function (_Model) {
+  _inherits(Flag, _Model);
+
+  function Flag() {
+    _classCallCheck(this, Flag);
+
+    return _possibleConstructorReturn(this, (Flag.__proto__ || Object.getPrototypeOf(Flag)).apply(this, arguments));
+  }
+
+  _createClass(Flag, null, [{
+    key: "typifyInstanceResponse",
+    value: function typifyInstanceResponse(response) {
+      return _get(Flag.__proto__ || Object.getPrototypeOf(Flag), "typifyInstanceResponse", this).call(this, response, Flag);
+    }
+  }]);
+
+  return Flag;
+}(Model);
+
+module.exports = Flag;
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Model = __webpack_require__(1);
+
+var ObservationFieldValue = function (_Model) {
+  _inherits(ObservationFieldValue, _Model);
+
+  function ObservationFieldValue() {
+    _classCallCheck(this, ObservationFieldValue);
+
+    return _possibleConstructorReturn(this, (ObservationFieldValue.__proto__ || Object.getPrototypeOf(ObservationFieldValue)).apply(this, arguments));
+  }
+
+  _createClass(ObservationFieldValue, null, [{
+    key: "typifyInstanceResponse",
+    value: function typifyInstanceResponse(response) {
+      return _get(ObservationFieldValue.__proto__ || Object.getPrototypeOf(ObservationFieldValue), "typifyInstanceResponse", this).call(this, response, ObservationFieldValue);
+    }
+  }]);
+
+  return ObservationFieldValue;
+}(Model);
+
+module.exports = ObservationFieldValue;
 
 /***/ }),
 /* 12 */
@@ -1121,13 +1121,13 @@ module.exports = {
   sounds: __webpack_require__(40),
   taxa: __webpack_require__(41),
   users: __webpack_require__(42),
-  Annotation: __webpack_require__(7),
-  Comment: __webpack_require__(8),
+  Annotation: __webpack_require__(8),
+  Comment: __webpack_require__(9),
   ControlledTerm: __webpack_require__(4),
-  Flag: __webpack_require__(9),
+  Flag: __webpack_require__(10),
   Identification: __webpack_require__(5),
-  Observation: __webpack_require__(11),
-  ObservationFieldValue: __webpack_require__(10),
+  Observation: __webpack_require__(7),
+  ObservationFieldValue: __webpack_require__(11),
   Photo: __webpack_require__(6),
   Place: __webpack_require__(12),
   Post: __webpack_require__(13),
@@ -2093,7 +2093,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var iNaturalistAPI = __webpack_require__(0),
-    Annotation = __webpack_require__(7);
+    Annotation = __webpack_require__(8);
 
 var annotations = function () {
   function annotations() {
@@ -2139,7 +2139,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var iNaturalistAPI = __webpack_require__(0),
-    Comment = __webpack_require__(8);
+    Comment = __webpack_require__(9);
 
 var comments = function () {
   function comments() {
@@ -2238,7 +2238,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var iNaturalistAPI = __webpack_require__(0),
-    Flag = __webpack_require__(9);
+    Flag = __webpack_require__(10);
 
 var flags = function () {
   function flags() {
@@ -2276,7 +2276,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var iNaturalistAPI = __webpack_require__(0),
     Identification = __webpack_require__(5),
     Taxon = __webpack_require__(2),
-    User = __webpack_require__(3);
+    User = __webpack_require__(3),
+    Observation = __webpack_require__(7);
 
 var identifications = function () {
   function identifications() {
@@ -2305,6 +2306,22 @@ var identifications = function () {
         if (response.results) {
           response.results = response.results.map(function (r) {
             r.taxon = new Taxon(r.taxon);
+            return r;
+          });
+        }
+        return response;
+      });
+    }
+  }, {
+    key: "recent_taxa",
+    value: function recent_taxa(params, options) {
+      return iNaturalistAPI.get("identifications/recent_taxa", params, options).then(function (response) {
+        if (response.results) {
+          response.results = response.results.map(function (r) {
+            r.taxon = new Taxon(r.taxon);
+            r.identification = new Identification(r.identification);
+            delete r.identification.observation.identifications;
+            r.identification.observation = new Observation(r.identification.observation);
             return r;
           });
         }
@@ -2500,7 +2517,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var iNaturalistAPI = __webpack_require__(0),
-    ObservationFieldValue = __webpack_require__(10);
+    ObservationFieldValue = __webpack_require__(11);
 
 var observationFieldValues = function () {
   function observationFieldValues() {
@@ -2602,7 +2619,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var iNaturalistAPI = __webpack_require__(0),
     ControlledTerm = __webpack_require__(4),
-    Observation = __webpack_require__(11),
+    Observation = __webpack_require__(7),
     Taxon = __webpack_require__(2),
     User = __webpack_require__(3);
 
@@ -3073,6 +3090,13 @@ var taxa = function () {
           return r;
         });
         return response;
+      });
+    }
+  }, {
+    key: "wanted",
+    value: function wanted(params) {
+      return iNaturalistAPI.get("taxa/:id/wanted", params).then(function (response) {
+        return Taxon.typifyResultsResponse(response);
       });
     }
   }]);
