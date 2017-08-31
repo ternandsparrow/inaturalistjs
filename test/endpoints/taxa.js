@@ -108,6 +108,18 @@ describe( "Taxa", function( ) {
         done( );
       } );
     } );
-  } )
+  } );
+
+  describe( "wanted", function( ) {
+    it( "returns taxon objects", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/taxa/1/wanted?id=1" ).
+        reply( 200, testHelper.taxonResponse );
+      taxa.wanted( { id: 1 } ).then( r => {
+        expect( r.results[0].constructor.name ).to.eq( "Taxon" );
+        done( );
+      } );
+    } );
+  } );
 
 });
