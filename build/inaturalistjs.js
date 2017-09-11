@@ -96,7 +96,7 @@ var iNaturalistAPI = function () {
       }
       var apiToken = iNaturalistAPI.apiToken(options);
       var headers = apiToken ? { Authorization: apiToken } : {};
-      return _fetch("" + iNaturalistAPI.apiURL + ("/" + route + "/" + ids.join(",") + query), { headers: headers }).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
+      return _fetch("" + iNaturalistAPI.apiURL + ("/" + route + "/" + ids.join(",") + query), { headers: headers }).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
     }
   }, {
     key: "get",
@@ -113,7 +113,7 @@ var iNaturalistAPI = function () {
       var thisRoute = interpolated.route;
       var apiToken = options.useAuth ? iNaturalistAPI.apiToken(options) : null;
       var headers = apiToken ? { Authorization: apiToken } : {};
-      return _fetch(iNaturalistAPI.apiURL + "/" + thisRoute + query, { headers: headers }).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
+      return _fetch("" + iNaturalistAPI.apiURL + ("/" + thisRoute + query), { headers: headers }).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
     }
   }, {
     key: "post",
@@ -172,7 +172,7 @@ var iNaturalistAPI = function () {
       if (options.method === "delete" && Object.keys(params).length > 0) {
         query = "?" + querystring.stringify(params);
       }
-      return _fetch(host + "/" + thisRoute + query, fetchOpts).then(iNaturalistAPI.thenCheckStatus).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson);
+      return _fetch(host + "/" + thisRoute + query, fetchOpts).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson);
     }
 
     // a variant of post using the http PUT method
@@ -235,21 +235,17 @@ var iNaturalistAPI = function () {
       return options.api_token;
     }
   }, {
-    key: "thenCheckStatus",
-    value: function thenCheckStatus(response) {
-      if (response.status >= 200 && response.status < 300) {
-        return response;
-      } else {
-        var error = new Error(response.statusText);
-        error.response = response;
-        throw error;
-      }
-    }
-  }, {
     key: "thenText",
     value: function thenText(response) {
       // not using response.json( ) as there may be no JSON
-      return response.text();
+      return response.text().then(function (text) {
+        if (response.status >= 200 && response.status < 300) {
+          return text;
+        }
+        var error = new Error(text || response.statusText);
+        error.response = response;
+        throw error;
+      });
     }
   }, {
     key: "thenJson",
