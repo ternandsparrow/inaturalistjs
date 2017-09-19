@@ -76,8 +76,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var _fetch = __webpack_require__(16),
     querystring = __webpack_require__(18),
-    util = __webpack_require__(21),
-    iNaturalistAPIResponse = __webpack_require__(23);
+    FormData = FormData || __webpack_require__(21),
+    util = __webpack_require__(22),
+    iNaturalistAPIResponse = __webpack_require__(24);
 
 var iNaturalistAPI = function () {
   function iNaturalistAPI() {
@@ -390,7 +391,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var Model = __webpack_require__(1),
     Photo = __webpack_require__(6),
-    ConservationStatus = __webpack_require__(29);
+    ConservationStatus = __webpack_require__(31);
 
 var Taxon = function (_Model) {
   _inherits(Taxon, _Model);
@@ -1100,23 +1101,24 @@ var iNaturalistAPI = __webpack_require__(0);
 
 module.exports = {
   setConfig: iNaturalistAPI.setConfig,
-  annotations: __webpack_require__(24),
-  comments: __webpack_require__(25),
-  controlled_terms: __webpack_require__(26),
-  flags: __webpack_require__(27),
-  identifications: __webpack_require__(28),
-  observation_field_values: __webpack_require__(30),
-  observation_photos: __webpack_require__(31),
-  observation_sounds: __webpack_require__(32),
-  observations: __webpack_require__(33),
-  photos: __webpack_require__(34),
-  places: __webpack_require__(35),
-  posts: __webpack_require__(36),
-  projects: __webpack_require__(37),
-  project_observations: __webpack_require__(38),
-  sounds: __webpack_require__(40),
-  taxa: __webpack_require__(41),
-  users: __webpack_require__(42),
+  annotations: __webpack_require__(25),
+  comments: __webpack_require__(26),
+  computervision: __webpack_require__(27),
+  controlled_terms: __webpack_require__(28),
+  flags: __webpack_require__(29),
+  identifications: __webpack_require__(30),
+  observation_field_values: __webpack_require__(32),
+  observation_photos: __webpack_require__(33),
+  observation_sounds: __webpack_require__(34),
+  observations: __webpack_require__(35),
+  photos: __webpack_require__(36),
+  places: __webpack_require__(37),
+  posts: __webpack_require__(38),
+  projects: __webpack_require__(39),
+  project_observations: __webpack_require__(40),
+  sounds: __webpack_require__(42),
+  taxa: __webpack_require__(43),
+  users: __webpack_require__(44),
   Annotation: __webpack_require__(8),
   Comment: __webpack_require__(9),
   ControlledTerm: __webpack_require__(4),
@@ -1811,6 +1813,18 @@ var objectKeys = Object.keys || function (obj) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/* eslint-env browser */
+module.exports = (typeof self === 'undefined' ? 'undefined' : _typeof(self)) == 'object' ? self.FormData : window.FormData;
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1853,10 +1867,10 @@ var util = function () {
 }();
 
 module.exports = util;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(22)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)))
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2049,7 +2063,7 @@ process.umask = function () {
 };
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2078,7 +2092,7 @@ var iNaturalistAPIResponse = function (_Model) {
 module.exports = iNaturalistAPIResponse;
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2124,7 +2138,7 @@ var annotations = function () {
 module.exports = annotations;
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2165,7 +2179,39 @@ var comments = function () {
 module.exports = comments;
 
 /***/ }),
-/* 26 */
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var iNaturalistAPI = __webpack_require__(0);
+
+var computervision = function () {
+  function computervision() {
+    _classCallCheck(this, computervision);
+  }
+
+  _createClass(computervision, null, [{
+    key: "score_image",
+    value: function score_image(params) {
+      return iNaturalistAPI.upload("computervision/score_image", params).then(function (response) {
+        return response;
+      });
+    }
+  }]);
+
+  return computervision;
+}();
+
+module.exports = computervision;
+
+/***/ }),
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2223,7 +2269,7 @@ var controlled_terms = function () {
 module.exports = controlled_terms;
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2259,7 +2305,7 @@ var flags = function () {
 module.exports = flags;
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2345,7 +2391,7 @@ var identifications = function () {
 module.exports = identifications;
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2502,7 +2548,7 @@ var ConservationStatus = function (_Model) {
 module.exports = ConservationStatus;
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2543,7 +2589,7 @@ var observationFieldValues = function () {
 module.exports = observationFieldValues;
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2573,7 +2619,7 @@ var observationPhotos = function () {
 module.exports = observationPhotos;
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2603,7 +2649,7 @@ var observationSounds = function () {
 module.exports = observationSounds;
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2785,7 +2831,7 @@ var observations = function () {
 module.exports = observations;
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2815,7 +2861,7 @@ var photos = function () {
 module.exports = photos;
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2856,7 +2902,7 @@ var places = function () {
 module.exports = places;
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2887,7 +2933,7 @@ var posts = function () {
 module.exports = posts;
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2938,7 +2984,7 @@ var projects = function () {
 module.exports = projects;
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2949,7 +2995,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var iNaturalistAPI = __webpack_require__(0),
-    ProjectObservation = __webpack_require__(39);
+    ProjectObservation = __webpack_require__(41);
 
 var projectObservations = function () {
   function projectObservations() {
@@ -2979,7 +3025,7 @@ var projectObservations = function () {
 module.exports = projectObservations;
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3019,7 +3065,7 @@ var ProjectObservation = function (_Model) {
 module.exports = ProjectObservation;
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3049,7 +3095,7 @@ var sounds = function () {
 module.exports = sounds;
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3103,7 +3149,7 @@ var taxa = function () {
 module.exports = taxa;
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
