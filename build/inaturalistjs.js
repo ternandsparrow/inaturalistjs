@@ -2199,9 +2199,12 @@ var computervision = function () {
   _createClass(computervision, null, [{
     key: "score_image",
     value: function score_image(params) {
-      return iNaturalistAPI.upload("computervision/score_image", params).then(function (response) {
-        return response;
-      });
+      return iNaturalistAPI.upload("computervision/score_image", params);
+    }
+  }, {
+    key: "score_observation",
+    value: function score_observation(params) {
+      return iNaturalistAPI.get("computervision/score_observation/:id", params, { useAuth: true });
     }
   }]);
 
