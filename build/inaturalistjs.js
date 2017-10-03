@@ -314,6 +314,11 @@ var iNaturalistAPI = function () {
       }
       return { route: route, err: err };
     }
+  }, {
+    key: "optionsUseAuth",
+    value: function optionsUseAuth(options) {
+      return Object.assign({}, options, { useAuth: true });
+    }
   }]);
 
   return iNaturalistAPI;
@@ -2830,8 +2835,8 @@ var observations = function () {
     }
   }, {
     key: "subscriptions",
-    value: function subscriptions(params) {
-      return iNaturalistAPI.get("observations/:id/subscriptions", params, { useAuth: true });
+    value: function subscriptions(params, options) {
+      return iNaturalistAPI.get("observations/:id/subscriptions", params, iNaturalistAPI.optionsUseAuth(options));
     }
   }, {
     key: "taxonSummary",
@@ -2841,9 +2846,12 @@ var observations = function () {
   }, {
     key: "updates",
     value: function updates(params, options) {
-      options = options || {};
-      options.useAuth = true;
-      return iNaturalistAPI.get("observations/updates", params, options);
+      return iNaturalistAPI.get("observations/updates", params, iNaturalistAPI.optionsUseAuth(options));
+    }
+  }, {
+    key: "viewedUpdates",
+    value: function viewedUpdates(params, options) {
+      return iNaturalistAPI.put("observations/:id/viewed_updates", params, iNaturalistAPI.optionsUseAuth(options));
     }
   }]);
 

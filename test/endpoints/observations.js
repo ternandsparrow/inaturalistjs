@@ -1,3 +1,4 @@
+"use strict";
 var expect = require( "chai" ).expect,
     nock = require( "nock" ),
     observations = require( "../../lib/endpoints/observations" ),
@@ -273,5 +274,18 @@ describe( "Observation", function( ) {
         done( );
       } );
     } );
-  } )
-});
+  } );
+
+  describe( "viewedUpdates", ( ) => {
+    it( "puts to /observations/:id/viewed_updates", done => {
+      nock( "http://localhost:3000" ).
+        put( "/observations/1/viewed_updates", { id: 1 } ).
+        reply( 200, { response: "success" } );
+      observations.viewedUpdates( { id: 1 } ).then( r => {
+        expect( r.response ).to.eq( "success" );
+        done( );
+      } );
+    } );
+  } );
+
+} );
