@@ -746,6 +746,9 @@ var Observation = function (_Model) {
     if (_this.taxon) {
       _this.taxon = new Taxon(_this.taxon);
     }
+    if (_this.community_taxon) {
+      _this.communityTaxon = new Taxon(_this.community_taxon);
+    }
     if (_this.photos && _this.photos.length > 0) {
       _this.photos = _this.photos.map(function (p) {
         return new Photo(p);
