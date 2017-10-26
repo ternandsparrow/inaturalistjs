@@ -2811,7 +2811,7 @@ var observations = function () {
   }, {
     key: "speciesCounts",
     value: function speciesCounts(params) {
-      return iNaturalistAPI.get("observations/species_counts", params).then(function (response) {
+      return iNaturalistAPI.get("observations/species_counts", params, { useAuth: true }).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (r) {
             r.taxon = new Taxon(r.taxon);
@@ -3174,7 +3174,7 @@ var taxa = function () {
   }, {
     key: "wanted",
     value: function wanted(params) {
-      return iNaturalistAPI.get("taxa/:id/wanted", params).then(function (response) {
+      return iNaturalistAPI.get("taxa/:id/wanted", params, { useAuth: true }).then(function (response) {
         return Taxon.typifyResultsResponse(response);
       });
     }
