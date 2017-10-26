@@ -2531,6 +2531,8 @@ var identifications = function () {
   }, {
     key: "similar_species",
     value: function similar_species(params, options) {
+      options = options || {};
+      options.useAuth = true;
       return iNaturalistAPI.get("identifications/similar_species", params, options).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (r) {
@@ -2544,6 +2546,8 @@ var identifications = function () {
   }, {
     key: "recent_taxa",
     value: function recent_taxa(params, options) {
+      options = options || {};
+      options.useAuth = true;
       return iNaturalistAPI.get("identifications/recent_taxa", params, options).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (r) {
@@ -3154,7 +3158,7 @@ var taxa = function () {
   }, {
     key: "autocomplete",
     value: function autocomplete(params) {
-      return iNaturalistAPI.get("taxa/autocomplete", params).then(Taxon.typifyResultsResponse);
+      return iNaturalistAPI.get("taxa/autocomplete", params, { useAuth: true }).then(Taxon.typifyResultsResponse);
     }
   }, {
     key: "suggest",
