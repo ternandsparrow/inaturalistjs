@@ -113,7 +113,10 @@ var iNaturalistAPI = function () {
       }
       var thisRoute = interpolated.route;
       var apiToken = options.useAuth ? iNaturalistAPI.apiToken(options) : null;
-      var headers = apiToken ? { Authorization: apiToken } : {};
+      var headers = { Accept: "application/json" };
+      if (apiToken) {
+        headers.Authorization = apiToken;
+      }
       return _fetch("" + iNaturalistAPI.apiURL + ("/" + thisRoute + query), { headers: headers }).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
     }
   }, {
