@@ -399,6 +399,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var Model = __webpack_require__(1),
     Photo = __webpack_require__(4),
+    User = __webpack_require__(3),
     ConservationStatus = __webpack_require__(28);
 
 var Taxon = function (_Model) {
@@ -436,6 +437,11 @@ var Taxon = function (_Model) {
     if (_this.children && _this.children !== undefined) {
       _this.childTaxa = _this.children.map(function (a) {
         return new Taxon(a);
+      });
+    }
+    if (_this.taxon_curators && _this.taxon_curators !== undefined) {
+      _this.taxonCurators = _this.taxon_curators.map(function (tc) {
+        return { user: new User(tc.user) };
       });
     }
     return _this;
