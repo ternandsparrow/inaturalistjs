@@ -37,7 +37,7 @@ describe( "Observation", function( ) {
       expect( r.results[0].constructor.name ).to.eq( "Observation" );
       expect( r.results[0].name ).to.eq( "modelname" );
     });
-    it( "should be typify the taxon", function( ) {
+    it( "should typify the taxon", function( ) {
       var r = {
         results: [
           {
@@ -50,6 +50,20 @@ describe( "Observation", function( ) {
       expect( r.results[0].taxon ).to.be.an.instanceOf( Object );
       Observation.typifyResultsResponse( r );
       expect( r.results[0].taxon ).to.be.an.instanceOf( Taxon );
+    });
+    it( "should typify the community taxon", function( ) {
+      var r = {
+        results: [
+          {
+            community_taxon: {
+              name: "Taxon name"
+            }
+          }
+        ]
+      };
+      expect( r.results[0].community_taxon ).to.be.an.instanceOf( Object );
+      Observation.typifyResultsResponse( r );
+      expect( r.results[0].communityTaxon ).to.be.an.instanceOf( Taxon );
     });
   });
 

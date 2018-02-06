@@ -113,7 +113,10 @@ var iNaturalistAPI = function () {
       }
       var thisRoute = interpolated.route;
       var apiToken = options.useAuth ? iNaturalistAPI.apiToken(options) : null;
-      var headers = apiToken ? { Authorization: apiToken } : {};
+      var headers = { Accept: "application/json" };
+      if (apiToken) {
+        headers.Authorization = apiToken;
+      }
       return _fetch("" + iNaturalistAPI.apiURL + ("/" + thisRoute + query), { headers: headers }).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
     }
   }, {
@@ -396,6 +399,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var Model = __webpack_require__(1),
     Photo = __webpack_require__(4),
+    User = __webpack_require__(3),
     ConservationStatus = __webpack_require__(28);
 
 var Taxon = function (_Model) {
@@ -433,6 +437,11 @@ var Taxon = function (_Model) {
     if (_this.children && _this.children !== undefined) {
       _this.childTaxa = _this.children.map(function (a) {
         return new Taxon(a);
+      });
+    }
+    if (_this.taxon_curators && _this.taxon_curators !== undefined) {
+      _this.taxonCurators = _this.taxon_curators.map(function (tc) {
+        return { user: new User(tc.user) };
       });
     }
     return _this;
@@ -745,6 +754,9 @@ var Observation = function (_Model) {
     }
     if (_this.taxon) {
       _this.taxon = new Taxon(_this.taxon);
+    }
+    if (_this.community_taxon) {
+      _this.communityTaxon = new Taxon(_this.community_taxon);
     }
     if (_this.photos && _this.photos.length > 0) {
       _this.photos = _this.photos.map(function (p) {
@@ -2528,6 +2540,8 @@ var identifications = function () {
   }, {
     key: "similar_species",
     value: function similar_species(params, options) {
+      options = options || {};
+      options.useAuth = true;
       return iNaturalistAPI.get("identifications/similar_species", params, options).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (r) {
@@ -2541,6 +2555,8 @@ var identifications = function () {
   }, {
     key: "recent_taxa",
     value: function recent_taxa(params, options) {
+      options = options || {};
+      options.useAuth = true;
       return iNaturalistAPI.get("identifications/recent_taxa", params, options).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (r) {
@@ -2804,7 +2820,7 @@ var observations = function () {
   }, {
     key: "speciesCounts",
     value: function speciesCounts(params) {
-      return iNaturalistAPI.get("observations/species_counts", params).then(function (response) {
+      return iNaturalistAPI.get("observations/species_counts", params, { useAuth: true }).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (r) {
             r.taxon = new Taxon(r.taxon);
@@ -2951,6 +2967,11 @@ var posts = function () {
   }
 
   _createClass(posts, null, [{
+    key: "search",
+    value: function search(params, options) {
+      return iNaturalistAPI.get("posts", params, options).then(Post.typifyArrayResponse);
+    }
+  }, {
     key: "for_user",
     value: function for_user(params, options) {
       return iNaturalistAPI.get("posts/for_user", params, options).then(Post.typifyArrayResponse);
@@ -3151,7 +3172,7 @@ var taxa = function () {
   }, {
     key: "autocomplete",
     value: function autocomplete(params) {
-      return iNaturalistAPI.get("taxa/autocomplete", params).then(Taxon.typifyResultsResponse);
+      return iNaturalistAPI.get("taxa/autocomplete", params, { useAuth: true }).then(Taxon.typifyResultsResponse);
     }
   }, {
     key: "suggest",
@@ -3167,7 +3188,7 @@ var taxa = function () {
   }, {
     key: "wanted",
     value: function wanted(params) {
-      return iNaturalistAPI.get("taxa/:id/wanted", params).then(function (response) {
+      return iNaturalistAPI.get("taxa/:id/wanted", params, { useAuth: true }).then(function (response) {
         return Taxon.typifyResultsResponse(response);
       });
     }
