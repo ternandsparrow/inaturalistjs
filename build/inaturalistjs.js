@@ -271,8 +271,8 @@ var iNaturalistAPI = function () {
       var legacyEnv = iNaturalistAPI.legacyEnvConfig(config);
       var envURLConfig = legacyEnv.apiURL || util.browserMetaTagContent("config:inaturalist_api_url") || util.nodeENV("API_URL");
       var envWriteURLConfig = legacyEnv.writeApiURL || util.browserMetaTagContent("config:inaturalist_write_api_url") || util.nodeENV("WRITE_API_URL");
-      iNaturalistAPI.apiURL = config.apiURL || envURLConfig || "http://localhost:4000/v1";
-      iNaturalistAPI.writeApiURL = envWriteURLConfig || envURLConfig || config.writeApiURL || config.apiURL || "http://localhost:3000";
+      iNaturalistAPI.apiURL = config.apiURL || envURLConfig || "https://api.inaturalist.org/v1";
+      iNaturalistAPI.writeApiURL = envWriteURLConfig || envURLConfig || config.writeApiURL || config.apiURL || "https://www.inaturalist.org";
     }
   }, {
     key: "legacyEnvConfig",
