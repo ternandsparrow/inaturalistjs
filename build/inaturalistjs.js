@@ -2901,9 +2901,9 @@ var observations = function () {
       });
     }
   }, {
-    key: "collectionStats",
-    value: function collectionStats(params) {
-      return iNaturalistAPI.get("observations/collection_stats", params).then(function (response) {
+    key: "umbrellaProjectStats",
+    value: function umbrellaProjectStats(params) {
+      return iNaturalistAPI.get("observations/umbrella_project_stats", params).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (r) {
             r.project = new Project(r.project);
