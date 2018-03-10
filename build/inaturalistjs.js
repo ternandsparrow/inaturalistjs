@@ -2887,6 +2887,19 @@ var observations = function () {
       });
     }
   }, {
+    key: "iconicTaxaCounts",
+    value: function iconicTaxaCounts(params) {
+      return iNaturalistAPI.get("observations/iconic_taxa_counts", params, { useAuth: true }).then(function (response) {
+        if (response.results) {
+          response.results = response.results.map(function (r) {
+            r.taxon = new Taxon(r.taxon);
+            return r;
+          });
+        }
+        return response;
+      });
+    }
+  }, {
     key: "popularFieldValues",
     value: function popularFieldValues(params) {
       return iNaturalistAPI.get("observations/popular_field_values", params).then(function (response) {
@@ -3110,6 +3123,11 @@ var projects = function () {
     key: "remove",
     value: function remove(params, options) {
       return iNaturalistAPI.delete("projects/:id/remove", params, options);
+    }
+  }, {
+    key: "posts",
+    value: function posts(params, options) {
+      return iNaturalistAPI.get("projects/:id/posts", params, options);
     }
   }]);
 
