@@ -70,13 +70,30 @@
 "use strict";
 
 
+// cross-fetch wraps https://github.com/github/fetch, which doesn't seem to work
+// quite right in React Native (see https://github.com/github/fetch/issues/601
+// and https://github.com/lquixada/cross-fetch/issues/2). Conditional requires
+// like this seem to work, though they do result in unnecessarily large files
+// for React native
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var _fetch = __webpack_require__(16),
-    querystring = __webpack_require__(18),
-    FormData = FormData || __webpack_require__(21),
+var _fetch;
+if (typeof fetch !== "undefined") {
+  _fetch = fetch;
+} else {
+  _fetch = __webpack_require__(16);
+}
+var _FormData;
+if (typeof FormData !== "undefined") {
+  _FormData = FormData;
+} else {
+  _FormData = __webpack_require__(18);
+}
+
+var querystring = __webpack_require__(19),
     util = __webpack_require__(22),
     iNaturalistAPIResponse = __webpack_require__(24);
 
@@ -154,10 +171,11 @@ var iNaturalistAPI = function () {
       // make the request
       var body;
       if (options.upload) {
-        body = new FormData();
+        body = new _FormData();
         for (var k in params) {
           body.append(k, params[k]);
         }
+        headers["Content-Type"] = "multipart/form-data";
       } else {
         headers["Content-Type"] = "application/json";
         body = JSON.stringify(params);
@@ -176,7 +194,8 @@ var iNaturalistAPI = function () {
       if (options.method === "delete" && Object.keys(params).length > 0) {
         query = "?" + querystring.stringify(params);
       }
-      return _fetch(host + "/" + thisRoute + query, fetchOpts).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson);
+      var url = host + "/" + thisRoute + query;
+      return _fetch(url, fetchOpts).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson);
     }
 
     // a variant of post using the http PUT method
@@ -216,6 +235,9 @@ var iNaturalistAPI = function () {
     value: function methodHostPrefix(options) {
       if (options.same_origin) {
         return "";
+      }
+      if (options.apiURL) {
+        return options.apiURL;
       }
       return "" + iNaturalistAPI.writeApiURL;
     }
@@ -1672,11 +1694,23 @@ module.exports = function (module) {
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(19);
-exports.encode = exports.stringify = __webpack_require__(20);
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/* eslint-env browser */
+module.exports = (typeof self === 'undefined' ? 'undefined' : _typeof(self)) == 'object' ? self.FormData : window.FormData;
 
 /***/ }),
 /* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.decode = exports.parse = __webpack_require__(20);
+exports.encode = exports.stringify = __webpack_require__(21);
+
+/***/ }),
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1770,7 +1804,7 @@ var isArray = Array.isArray || function (xs) {
 };
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1859,18 +1893,6 @@ var objectKeys = Object.keys || function (obj) {
   }
   return res;
 };
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-/* eslint-env browser */
-module.exports = (typeof self === 'undefined' ? 'undefined' : _typeof(self)) == 'object' ? self.FormData : window.FormData;
 
 /***/ }),
 /* 22 */
@@ -2251,8 +2273,11 @@ var computervision = function () {
 
   _createClass(computervision, null, [{
     key: "score_image",
-    value: function score_image(params) {
-      return iNaturalistAPI.upload("computervision/score_image", params).then(function (response) {
+    value: function score_image(params, options) {
+      options = options || {};
+      options.useAuth = true;
+      options.apiURL = iNaturalistAPI.apiURL; // force the host to be the Node API
+      return iNaturalistAPI.upload("computervision/score_image", params, options).then(function (response) {
         response.results = response.results.map(function (r) {
           r.taxon = new Taxon(r.taxon);
           return r;
@@ -2265,8 +2290,10 @@ var computervision = function () {
     }
   }, {
     key: "score_observation",
-    value: function score_observation(params) {
-      return iNaturalistAPI.get("computervision/score_observation/:id", params, { useAuth: true }).then(function (response) {
+    value: function score_observation(params, options) {
+      options = options || {};
+      options.useAuth = true;
+      return iNaturalistAPI.get("computervision/score_observation/:id", params, options).then(function (response) {
         response.results = response.results.map(function (r) {
           r.taxon = new Taxon(r.taxon);
           return r;
