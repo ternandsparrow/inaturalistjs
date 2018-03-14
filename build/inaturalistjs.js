@@ -175,7 +175,6 @@ var iNaturalistAPI = function () {
         for (var k in params) {
           body.append(k, params[k]);
         }
-        headers["Content-Type"] = "multipart/form-data";
       } else {
         headers["Content-Type"] = "application/json";
         body = JSON.stringify(params);
