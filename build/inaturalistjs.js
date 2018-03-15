@@ -2900,6 +2900,19 @@ var observations = function () {
       });
     }
   }, {
+    key: "iconicTaxaSpeciesCounts",
+    value: function iconicTaxaSpeciesCounts(params) {
+      return iNaturalistAPI.get("observations/iconic_taxa_species_counts", params, { useAuth: true }).then(function (response) {
+        if (response.results) {
+          response.results = response.results.map(function (r) {
+            r.taxon = new Taxon(r.taxon);
+            return r;
+          });
+        }
+        return response;
+      });
+    }
+  }, {
     key: "popularFieldValues",
     value: function popularFieldValues(params) {
       return iNaturalistAPI.get("observations/popular_field_values", params).then(function (response) {
@@ -2930,6 +2943,11 @@ var observations = function () {
     key: "histogram",
     value: function histogram(params) {
       return iNaturalistAPI.get("observations/histogram", params);
+    }
+  }, {
+    key: "qualityGrades",
+    value: function qualityGrades(params) {
+      return iNaturalistAPI.get("observations/quality_grades", params);
     }
   }, {
     key: "subscriptions",
