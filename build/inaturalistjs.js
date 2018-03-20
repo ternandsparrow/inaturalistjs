@@ -2638,6 +2638,11 @@ var identifications = function () {
         return response;
       });
     }
+  }, {
+    key: "categories",
+    value: function categories(params) {
+      return iNaturalistAPI.get("identifications/categories", params);
+    }
   }]);
 
   return identifications;
@@ -3108,6 +3113,11 @@ var projects = function () {
       return iNaturalistAPI.fetch("projects", ids).then(Project.typifyResultsResponse);
     }
   }, {
+    key: "autocomplete",
+    value: function autocomplete(params) {
+      return iNaturalistAPI.get("projects/autocomplete", params).then(Project.typifyResultsResponse);
+    }
+  }, {
     key: "create",
     value: function create(params, options) {
       return iNaturalistAPI.upload("projects", params, options).then(Project.typifyInstanceResponse);
@@ -3146,6 +3156,16 @@ var projects = function () {
     key: "posts",
     value: function posts(params, options) {
       return iNaturalistAPI.get("projects/:id/posts", params, options);
+    }
+  }, {
+    key: "subscribe",
+    value: function subscribe(params, options) {
+      return iNaturalistAPI.post("subscriptions/Project/:id/subscribe", params, options);
+    }
+  }, {
+    key: "subscriptions",
+    value: function subscriptions(params, options) {
+      return iNaturalistAPI.get("projects/:id/subscriptions", params, iNaturalistAPI.optionsUseAuth(options));
     }
   }]);
 
