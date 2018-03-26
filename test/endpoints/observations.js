@@ -244,6 +244,48 @@ describe( "Observation", function( ) {
     } );
   } );
 
+  describe( "iconicTaxaCounts", function( ) {
+    it( "returns an array of objects that contain taxa and counts", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/observations/iconic_taxa_counts" ).
+        reply( 200, function( uri ) {
+          const r = Object.assign( testHelper.mockResponse( uri ), {
+            results: [
+              { count: 2, taxon: { id: 1 } },
+              { count: 1, taxon: { id: 2 } }
+            ]
+          } );
+          return r;
+        } );
+      observations.iconicTaxaCounts( ).then( function( r ) {
+        expect( r.results[0].taxon.constructor.name ).to.eq( "Taxon" );
+        expect( r.results[0].count ).to.exist;
+        done( );
+      } );
+    } );
+  } );
+
+  describe( "iconicTaxaSpeciesCounts", function( ) {
+    it( "returns an array of objects that contain taxa and counts", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/observations/iconic_taxa_species_counts" ).
+        reply( 200, function( uri ) {
+          const r = Object.assign( testHelper.mockResponse( uri ), {
+            results: [
+              { count: 2, taxon: { id: 1 } },
+              { count: 1, taxon: { id: 2 } }
+            ]
+          } );
+          return r;
+        } );
+      observations.iconicTaxaSpeciesCounts( ).then( function( r ) {
+        expect( r.results[0].taxon.constructor.name ).to.eq( "Taxon" );
+        expect( r.results[0].count ).to.exist;
+        done( );
+      } );
+    } );
+  } );
+
   describe( "histogram", function( ) {
     it( "returns a histogram", function( done ) {
       nock( "http://localhost:4000" ).
@@ -287,5 +329,27 @@ describe( "Observation", function( ) {
       } );
     } );
   } );
+
+  describe( "umbrellaProjectStats", function( ) {
+    it( "returns an array of objects that contain taxa and counts", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/observations/umbrella_project_stats" ).
+        reply( 200, function( uri ) {
+          const r = Object.assign( testHelper.mockResponse( uri ), {
+            results: [
+              { observation_count: 2, project: { id: 1 } },
+              { observation_count: 1, project: { id: 2 } }
+            ]
+          } );
+          return r;
+        } );
+      observations.umbrellaProjectStats( ).then( function( r ) {
+        expect( r.results[0].project.constructor.name ).to.eq( "Project" );
+        expect( r.results[0].observation_count ).to.exist;
+        done( );
+      } );
+    } );
+  } );
+
 
 } );
