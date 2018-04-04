@@ -351,5 +351,16 @@ describe( "Observation", function( ) {
     } );
   } );
 
+  describe( "identificationCategories", ( ) => {
+    it( "gets /observations/identification_categories", done => {
+      nock( "http://localhost:4000" ).
+        get( "/v1/observations/identification_categories" ).
+        reply( 200, { response: "success" } );
+      observations.identificationCategories( ).then( r => {
+        expect( r.response ).to.eq( "success" );
+        done( );
+      } );
+    } );
+  } );
 
 } );

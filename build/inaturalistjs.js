@@ -3035,6 +3035,11 @@ var observations = function () {
     value: function viewedUpdates(params, options) {
       return iNaturalistAPI.put("observations/:id/viewed_updates", params, iNaturalistAPI.optionsUseAuth(options));
     }
+  }, {
+    key: "identificationCategories",
+    value: function identificationCategories(params) {
+      return iNaturalistAPI.get("observations/identification_categories", params);
+    }
   }]);
 
   return observations;
