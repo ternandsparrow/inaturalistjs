@@ -3175,8 +3175,8 @@ var projects = function () {
 
   _createClass(projects, null, [{
     key: "fetch",
-    value: function fetch(ids) {
-      return iNaturalistAPI.fetch("projects", ids).then(Project.typifyResultsResponse);
+    value: function fetch(ids, params) {
+      return iNaturalistAPI.fetch("projects", ids, params).then(Project.typifyResultsResponse);
     }
   }, {
     key: "autocomplete",
