@@ -3238,6 +3238,11 @@ var projects = function () {
     value: function followers(params, options) {
       return iNaturalistAPI.get("projects/:id/followers", params, options);
     }
+  }, {
+    key: "members",
+    value: function members(params, options) {
+      return iNaturalistAPI.get("projects/:id/members", params, options);
+    }
   }]);
 
   return projects;

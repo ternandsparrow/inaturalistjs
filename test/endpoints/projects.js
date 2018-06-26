@@ -145,4 +145,16 @@ describe( "Projects", function( ) {
     });
   });
 
+  describe( "members", function( ) {
+    it( "gets /projects/:id/members", function( done ) {
+      nock( "http://localhost:4000" ).
+        get( "/v1/projects/1/members?id=1" ).
+        reply( 200, testHelper.mockResponse );
+      projects.members({ id: 1 }).then( function( r ) {
+        expect( r.test_uri ).to.eq( "/v1/projects/1/members?id=1" );
+        done( );
+      });
+    });
+  });
+
 });
