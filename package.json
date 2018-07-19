@@ -15,8 +15,8 @@
   "main": "./lib/inaturalistjs.js",
   "browser": "./build/inaturalistjs.js",
   "scripts": {
-    "test": "NODE_ENV=test istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec --recursive",
-    "coveralls": "NODE_ENV=test istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec --recursive && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "test": "NODE_ENV=test istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec --recursive --exit",
+    "coveralls": "NODE_ENV=test istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec --recursive  --exit && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "dependencies": {
     "cross-fetch": "^2.1.0"
