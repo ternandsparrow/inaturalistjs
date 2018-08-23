@@ -15,8 +15,19 @@ describe( "ObservationPhotos", function( ) {
     });
   });
 
+  describe( "update", function( ) {
+    it( "puts to /observation_photos/:id", function( done ) {
+      nock( "http://localhost:3000" ).
+        put( "/observation_photos/1" ).
+        reply( 200, { id: 1 } );
+      observation_photos.update({ id: 1 }).then( function( ) {
+        done( );
+      });
+    });
+  });
+
   describe( "delete", function( ) {
-    it( "deletes to /observation_photos", function( done ) {
+    it( "deletes to /observation_photos/:id", function( done ) {
       nock( "http://localhost:3000" ).
         delete( "/observation_photos/1?id=1", { id: 1 }).
         reply( 200, { id: 1 } );
