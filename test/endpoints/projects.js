@@ -157,4 +157,26 @@ describe( "Projects", function( ) {
     });
   });
 
+  describe( "feature", function( ) {
+    it( "puts to /projects/:id/feature", function( done ) {
+      nock( "http://localhost:3000" ).
+        put( "/projects/1/feature", { id: 1 }).
+        reply( 200, { id: 1 } );
+      projects.feature({ id: 1 }).then( function( ) {
+        done( );
+      });
+    });
+  });
+
+  describe( "unfeature", function( ) {
+    it( "puts to /projects/:id/unfeature", function( done ) {
+      nock( "http://localhost:3000" ).
+        put( "/projects/1/unfeature", { id: 1 }).
+        reply( 200, { id: 1 } );
+      projects.unfeature({ id: 1 }).then( function( ) {
+        done( );
+      });
+    });
+  });
+
 });
