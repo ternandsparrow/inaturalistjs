@@ -62,17 +62,23 @@ inatjs.comments.delete({ id: 0 }).then( () => { }).catch( e => {
 
 #### API Token
 
-In order to use methods requiring authentication, you'll need to use an
-iNaturalist API Token. For now, these are found at
-http://www.inaturalist.org/users/api_token . If running in the browser,
-iNaturalistJS will look for an `inaturalist-api-token` meta tag and use that for
-authenticating requests
+In order to use methods requiring authentication, you'll need an OAuth token and a JSON Web Token (JWT):
+
+1. [Create an iNaturalist application](https://www.inaturalist.org/oauth/applications/new)
+1. Retrieve an Oauth access token using one of the two methods described at https://www.inaturalist.org/pages/api+reference#auth
+1. Use the Oauth token to retrieve a JSON Web Token, e.g
+  ```bash
+  curl -H "Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN" https://www.inaturalist.org/users/api_token
+  ```
+If running in the browser,
+iNaturalistJS will look for the JWT in an `inaturalist-api-token` meta tag and use that for
+authenticating requests:
 
 ```html
 <meta name="inaturalist-api-token" content="... api token ...">
 ```
 
-Alternatively, the token can be passed as an option
+Alternatively, the token can be passed as an option:
 
 ```js
 var options = { api_token: "... iNaturalist API token ..." };
