@@ -134,7 +134,10 @@ var iNaturalistAPI = function () {
       }
       var thisRoute = interpolated.route;
       var apiToken = options.useAuth ? iNaturalistAPI.apiToken(options) : null;
-      var headers = { Accept: "application/json" };
+      var headers = {
+        Accept: "application/json",
+        Via: "inaturalistjs"
+      };
       if (apiToken) {
         headers.Authorization = apiToken;
       }
@@ -154,7 +157,8 @@ var iNaturalistAPI = function () {
       // set up request headers
       var headers = {
         Accept: "application/json",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, DELETE, HEAD"
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, DELETE, HEAD",
+        Via: "inaturalistjs"
       };
       if (options.user_agent) {
         headers["user-agent"] = options.user_agent;
@@ -2775,6 +2779,18 @@ var observationPhotos = function () {
     value: function create(params, options) {
       return iNaturalistAPI.upload("observation_photos", params, options);
     }
+  }, {
+    key: "update",
+    value: function update(params, options) {
+      var opts = Object.assign({}, options);
+      opts.method = "PUT";
+      return iNaturalistAPI.upload("observation_photos/:id", params, opts);
+    }
+  }, {
+    key: "delete",
+    value: function _delete(params, options) {
+      return iNaturalistAPI.delete("observation_photos/:id", params, options);
+    }
   }]);
 
   return observationPhotos;
@@ -3242,6 +3258,16 @@ var projects = function () {
     key: "members",
     value: function members(params, options) {
       return iNaturalistAPI.get("projects/:id/members", params, options);
+    }
+  }, {
+    key: "feature",
+    value: function feature(params, options) {
+      return iNaturalistAPI.put("projects/:id/feature", params, options);
+    }
+  }, {
+    key: "unfeature",
+    value: function unfeature(params, options) {
+      return iNaturalistAPI.put("projects/:id/unfeature", params, options);
     }
   }]);
 
