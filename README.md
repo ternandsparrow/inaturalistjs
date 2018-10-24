@@ -60,6 +60,29 @@ inatjs.comments.delete({ id: 0 }).then( () => { }).catch( e => {
 });
 ```
 
+#### Uploads
+
+Some methods need to upload files, and they use FormData (which is already defined in a browser context, otherwise uses the [FormData package](https://www.npmjs.com/package/form-data)) for creating `multiplart/form-data` requests. There are various ways to upload files, for example setting the value of a parameter to a Blob, or a file read stream. ReactNative expands [FormData](https://github.com/facebook/react-native/blob/master/Libraries/Network/FormData.js) to also accept uploads as an object with a uri, and optional name and type. When given objects as an attribute value, inatjs will flatten the object before sending it to FormData:
+
+```js
+{ attr: { nestedValue: 1 } } =>
+["attr[nestedValue]"] = 1
+```
+
+In order to get the ReactNative uri approach to work, the file object that contains the URI must be wrapped in soem class other than a basic JS Object. You can use inatjs.FileUpload for this:
+
+```js
+import inatjs, { FileUpload } from "inaturalistjs";
+const params = {
+  image: new FileUpload({
+    uri: ...,
+    name: ...,
+    type: ...
+  })
+};
+inatjs.uploadMethod( params ).then( () => { } );
+```
+
 #### API Token
 
 In order to use methods requiring authentication, you'll need an OAuth token and a JSON Web Token (JWT):

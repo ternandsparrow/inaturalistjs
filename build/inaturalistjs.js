@@ -1228,7 +1228,8 @@ module.exports = {
   Post: __webpack_require__(14),
   Project: __webpack_require__(8),
   Taxon: __webpack_require__(2),
-  User: __webpack_require__(3)
+  User: __webpack_require__(3),
+  FileUpload: __webpack_require__(45)
 };
 
 /***/ }),
@@ -3488,6 +3489,23 @@ var users = function () {
 }();
 
 module.exports = users;
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var FileUpload = function FileUpload(attrs) {
+  _classCallCheck(this, FileUpload);
+
+  Object.assign(this, attrs);
+};
+
+module.exports = FileUpload;
 
 /***/ })
 /******/ ])));
