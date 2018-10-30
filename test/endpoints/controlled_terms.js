@@ -1,14 +1,13 @@
-var nock = require( "nock" ),
-    expect = require( "chai" ).expect,
-    controlled_terms = require( "../../lib/endpoints/controlled_terms" );
+const { expect } = require( "chai" );
+const nock = require( "nock" );
+const controlledTerms = require( "../../lib/endpoints/controlled_terms" );
 
-describe( "ControlledTerms", function( ) {
-
-  describe( "search", function( ) {
-    it( "returns ControlledTerm records", function( done ) {
-      nock( "http://localhost:4000" ).
-        get( "/v1/controlled_terms" ).
-        reply( 200, {
+describe( "ControlledTerms", ( ) => {
+  describe( "search", ( ) => {
+    it( "returns ControlledTerm records", done => {
+      nock( "http://localhost:4000" )
+        .get( "/v1/controlled_terms" )
+        .reply( 200, {
           total_results: 1,
           page: 1,
           per_page: 1,
@@ -40,11 +39,10 @@ describe( "ControlledTerms", function( ) {
             }
           ]
         } );
-      controlled_terms.search( ).then( function( r ) {
+      controlledTerms.search( ).then( r => {
         expect( r.results[0].constructor.name ).to.eq( "ControlledTerm" );
         done( );
       } );
     } );
   } );
-
 } );

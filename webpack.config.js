@@ -1,6 +1,7 @@
-var path = require( "path" );
+const path = require( "path" );
 
-var config = {
+const config = {
+  mode: "none",
   entry: "./lib/inaturalistjs.js",
   output: {
     filename: "inaturalistjs.js",
@@ -8,11 +9,11 @@ var config = {
     libraryTarget: "commonjs"
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         loader: "babel-loader",
-        query: { presets: [ "es2015" ] }
+        query: { presets: ["@babel/preset-env"] }
       }
     ]
   }

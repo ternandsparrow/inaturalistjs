@@ -1,182 +1,180 @@
-var nock = require( "nock" ),
-    projects = require( "../../lib/endpoints/projects" ),
-    expect = require( "chai" ).expect,
-    testHelper = require( "../../lib/test_helper" );
+const { expect } = require( "chai" );
+const nock = require( "nock" );
+const projects = require( "../../lib/endpoints/projects" );
+const testHelper = require( "../../lib/test_helper" );
 
-describe( "Projects", function( ) {
-
-  describe( "fetch", function( ) {
-    it( "fetches projects by ID", function( done ) {
-      nock( "http://localhost:4000" ).
-        get( "/v1/projects/1" ).
-        reply( 200, testHelper.mockResponse );
-      projects.fetch( 1 ).then( function( r ) {
+describe( "Projects", ( ) => {
+  describe( "fetch", ( ) => {
+    it( "fetches projects by ID", done => {
+      nock( "http://localhost:4000" )
+        .get( "/v1/projects/1" )
+        .reply( 200, testHelper.mockResponse );
+      projects.fetch( 1 ).then( r => {
         expect( r.test_uri ).to.eq( "/v1/projects/1" );
         expect( r.constructor.name ).to.eq( "iNaturalistAPIResponse" );
         expect( r.total_results ).to.eq( 1 );
         expect( r.results[0].constructor.name ).to.eq( "Project" );
         expect( r.results[0].id ).to.eq( 1 );
         done( );
-      });
-    });
-  });
+      } );
+    } );
+  } );
 
-  describe( "join", function( ) {
-    it( "posts to /projects/:id/join", function( done ) {
-      nock( "http://localhost:3000" ).
-        post( "/projects/1/join" ).
-        reply( 200, { } );
-      projects.join({ id: 1 }).then( function( ) {
+  describe( "join", ( ) => {
+    it( "posts to /projects/:id/join", done => {
+      nock( "http://localhost:3000" )
+        .post( "/projects/1/join" )
+        .reply( 200, { } );
+      projects.join( { id: 1 } ).then( ( ) => {
         done( );
-      });
-    });
-  });
+      } );
+    } );
+  } );
 
-  describe( "leave", function( ) {
-    it( "deletes to /projects/:id/leave", function( done ) {
-      nock( "http://localhost:3000" ).
-        delete( "/projects/1/leave?id=1" ).
-        reply( 200, { } );
-      projects.leave({ id: 1 }).then( function( ) {
+  describe( "leave", ( ) => {
+    it( "deletes to /projects/:id/leave", done => {
+      nock( "http://localhost:3000" )
+        .delete( "/projects/1/leave?id=1" )
+        .reply( 200, { } );
+      projects.leave( { id: 1 } ).then( ( ) => {
         done( );
-      });
-    });
-  });
+      } );
+    } );
+  } );
 
-  describe( "add", function( ) {
-    it( "posts to /projects/:id/add", function( done ) {
-      nock( "http://localhost:3000" ).
-        post( "/projects/1/add" ).
-        reply( 200, { id: 1 } );
-      projects.add({ id: 1 }).then( function( ) {
+  describe( "add", ( ) => {
+    it( "posts to /projects/:id/add", done => {
+      nock( "http://localhost:3000" )
+        .post( "/projects/1/add" )
+        .reply( 200, { id: 1 } );
+      projects.add( { id: 1 } ).then( ( ) => {
         done( );
-      });
-    });
-  });
+      } );
+    } );
+  } );
 
-  describe( "update", function( ) {
-    it( "deletes to /projects/:id/remove", function( done ) {
-      nock( "http://localhost:3000" ).
-        delete( "/projects/1/remove?id=1" ).
-        reply( 200, { id: 1 } );
-      projects.remove({ id: 1 }).then( function( ) {
+  describe( "update", ( ) => {
+    it( "deletes to /projects/:id/remove", done => {
+      nock( "http://localhost:3000" )
+        .delete( "/projects/1/remove?id=1" )
+        .reply( 200, { id: 1 } );
+      projects.remove( { id: 1 } ).then( ( ) => {
         done( );
-      });
-    });
-  });
+      } );
+    } );
+  } );
 
-  describe( "autocomplete", function( ) {
-    it( "gets autocomplete results", function( done ) {
-      nock( "http://localhost:4000" ).
-        get( "/v1/projects/autocomplete?q=Animals" ).
-        reply( 200, testHelper.mockResponse );
-      projects.autocomplete({ q: "Animals" }).then( function( r ) {
+  describe( "autocomplete", ( ) => {
+    it( "gets autocomplete results", done => {
+      nock( "http://localhost:4000" )
+        .get( "/v1/projects/autocomplete?q=Animals" )
+        .reply( 200, testHelper.mockResponse );
+      projects.autocomplete( { q: "Animals" } ).then( r => {
         expect( r.test_uri ).to.eq( "/v1/projects/autocomplete?q=Animals" );
         done( );
-      });
-    });
-  });
+      } );
+    } );
+  } );
 
-  describe( "create", function( ) {
-    it( "posts to /projects", function( done ) {
-      nock( "http://localhost:3000" ).
-        post( "/projects" ).
-        reply( 200, { id: 1 } );
-      projects.create({ body: "testbody" }).then( function( ) {
+  describe( "create", ( ) => {
+    it( "posts to /projects", done => {
+      nock( "http://localhost:3000" )
+        .post( "/projects" )
+        .reply( 200, { id: 1 } );
+      projects.create( { body: "testbody" } ).then( ( ) => {
         done( );
-      });
-    });
-  });
+      } );
+    } );
+  } );
 
-  describe( "update", function( ) {
-    it( "puts to /projects/:id", function( done ) {
-      nock( "http://localhost:3000" ).
-        put( "/projects/1" ).
-        reply( 200, { id: 1 } );
-      projects.update({ id: 1, body: "testbody" }).then( function( ) {
+  describe( "update", ( ) => {
+    it( "puts to /projects/:id", done => {
+      nock( "http://localhost:3000" )
+        .put( "/projects/1" )
+        .reply( 200, { id: 1 } );
+      projects.update( { id: 1, body: "testbody" } ).then( ( ) => {
         done( );
-      });
-    });
-  });
+      } );
+    } );
+  } );
 
-  describe( "delete", function( ) {
-    it( "deletes to /projects/:id", function( done ) {
-      nock( "http://localhost:3000" ).
-        delete( "/projects/1?id=1", { id: 1 }).
-        reply( 200, { id: 1 } );
-      projects.delete({ id: 1 }).then( function( ) {
+  describe( "delete", ( ) => {
+    it( "deletes to /projects/:id", done => {
+      nock( "http://localhost:3000" )
+        .delete( "/projects/1?id=1", { id: 1 } )
+        .reply( 200, { id: 1 } );
+      projects.delete( { id: 1 } ).then( ( ) => {
         done( );
-      });
-    });
-  });
+      } );
+    } );
+  } );
 
-  describe( "posts", function( ) {
-    it( "gets posts", function( done ) {
-      nock( "http://localhost:4000" ).
-        get( "/v1/projects/1/posts?id=1" ).
-        reply( 200, testHelper.mockResponse );
-      projects.posts( { id: 1 } ).then( function( r ) {
+  describe( "posts", ( ) => {
+    it( "gets posts", done => {
+      nock( "http://localhost:4000" )
+        .get( "/v1/projects/1/posts?id=1" )
+        .reply( 200, testHelper.mockResponse );
+      projects.posts( { id: 1 } ).then( r => {
         expect( r.test_uri ).to.eq( "/v1/projects/1/posts?id=1" );
         done( );
-      });
-    });
-  });
+      } );
+    } );
+  } );
 
-  describe( "subscribe", function( ) {
-    it( "posts to /subscriptions/Project/:id/subscribe", function( done ) {
-      nock( "http://localhost:3000" ).
-        post( "/subscriptions/Project/1/subscribe" ).
-        reply( 200, { id: 1 } );
-      projects.subscribe({ id: 1 }).then( function( ) {
+  describe( "subscribe", ( ) => {
+    it( "posts to /subscriptions/Project/:id/subscribe", done => {
+      nock( "http://localhost:3000" )
+        .post( "/subscriptions/Project/1/subscribe" )
+        .reply( 200, { id: 1 } );
+      projects.subscribe( { id: 1 } ).then( ( ) => {
         done( );
-      });
-    });
-  });
+      } );
+    } );
+  } );
 
-  describe( "subscriptions", function( ) {
-    it( "gets posts", function( done ) {
-      nock( "http://localhost:4000" ).
-        get( "/v1/projects/1/subscriptions?id=1" ).
-        reply( 200, testHelper.mockResponse );
-      projects.subscriptions( { id: 1 } ).then( function( r ) {
+  describe( "subscriptions", ( ) => {
+    it( "gets posts", done => {
+      nock( "http://localhost:4000" )
+        .get( "/v1/projects/1/subscriptions?id=1" )
+        .reply( 200, testHelper.mockResponse );
+      projects.subscriptions( { id: 1 } ).then( r => {
         expect( r.test_uri ).to.eq( "/v1/projects/1/subscriptions?id=1" );
         done( );
-      });
-    });
-  });
+      } );
+    } );
+  } );
 
-  describe( "members", function( ) {
-    it( "gets /projects/:id/members", function( done ) {
-      nock( "http://localhost:4000" ).
-        get( "/v1/projects/1/members?id=1" ).
-        reply( 200, testHelper.mockResponse );
-      projects.members({ id: 1 }).then( function( r ) {
+  describe( "members", ( ) => {
+    it( "gets /projects/:id/members", done => {
+      nock( "http://localhost:4000" )
+        .get( "/v1/projects/1/members?id=1" )
+        .reply( 200, testHelper.mockResponse );
+      projects.members( { id: 1 } ).then( r => {
         expect( r.test_uri ).to.eq( "/v1/projects/1/members?id=1" );
         done( );
-      });
-    });
-  });
+      } );
+    } );
+  } );
 
-  describe( "feature", function( ) {
-    it( "puts to /projects/:id/feature", function( done ) {
-      nock( "http://localhost:3000" ).
-        put( "/projects/1/feature", { id: 1 }).
-        reply( 200, { id: 1 } );
-      projects.feature({ id: 1 }).then( function( ) {
+  describe( "feature", ( ) => {
+    it( "puts to /projects/:id/feature", done => {
+      nock( "http://localhost:3000" )
+        .put( "/projects/1/feature", { id: 1 } )
+        .reply( 200, { id: 1 } );
+      projects.feature( { id: 1 } ).then( ( ) => {
         done( );
-      });
-    });
-  });
+      } );
+    } );
+  } );
 
-  describe( "unfeature", function( ) {
-    it( "puts to /projects/:id/unfeature", function( done ) {
-      nock( "http://localhost:3000" ).
-        put( "/projects/1/unfeature", { id: 1 }).
-        reply( 200, { id: 1 } );
-      projects.unfeature({ id: 1 }).then( function( ) {
+  describe( "unfeature", ( ) => {
+    it( "puts to /projects/:id/unfeature", done => {
+      nock( "http://localhost:3000" )
+        .put( "/projects/1/unfeature", { id: 1 } )
+        .reply( 200, { id: 1 } );
+      projects.unfeature( { id: 1 } ).then( ( ) => {
         done( );
-      });
-    });
-  });
-
-});
+      } );
+    } );
+  } );
+} );
