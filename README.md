@@ -62,14 +62,16 @@ inatjs.comments.delete({ id: 0 }).then( () => { }).catch( e => {
 
 #### Uploads
 
-Some methods need to upload files, and they use FormData (which is already defined in a browser context, otherwise uses the [FormData package](https://www.npmjs.com/package/form-data)) for creating `multiplart/form-data` requests. There are various ways to upload files, for example setting the value of a parameter to a Blob, or a file read stream. ReactNative expands [FormData](https://github.com/facebook/react-native/blob/master/Libraries/Network/FormData.js) to also accept uploads as an object with a uri, and optional name and type. When given objects as an attribute value, inatjs will flatten the object before sending it to FormData:
+Some methods need to upload files, and they use FormData (which is already defined in a browser context, otherwise uses the [FormData package](https://www.npmjs.com/package/form-data)) for creating `multiplart/form-data` requests. There are various ways to upload files, for example setting the value of a parameter to a Blob, or a file read stream. ReactNative expands [FormData](https://github.com/facebook/react-native/blob/master/Libraries/Network/FormData.js) to also accept uploads as an object with a uri, name, and type.
+
+When given objects or arrays as parameter values, inatjs upload requests will flatten the parameters into a format expected by FormData:
 
 ```js
-{ attr: { nestedValue: 1 } } =>
-["attr[nestedValue]"] = 1
+{ attr: { nestedValue: [1] } } =>
+["attr[nestedValue][0]"] = 1
 ```
 
-In order to get the ReactNative uri approach to work, the file object that contains the URI must be wrapped in soem class other than a basic JS Object. You can use inatjs.FileUpload for this:
+In order to get the ReactNative uri approach to work, the file object that contains the URI must be wrapped in some class other than a basic JS Object. This will prevent it from being flattened, and ensure it is passed on to ReactNative's FormData extension as an object. You can use inatjs.FileUpload for this:
 
 ```js
 import inatjs, { FileUpload } from "inaturalistjs";

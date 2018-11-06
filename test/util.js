@@ -1,41 +1,38 @@
-"use strict";
-var expect = require( "chai" ).expect,
-    util = require( "../lib/util" );
+const { expect } = require( "chai" );
+const util = require( "../lib/util" );
 
-describe( "iNaturalistAPI", function( ) {
-
-  describe( "isBrowser", function( ) {
-    it( "returns true if document.querySelector is defined", function( ) {
+describe( "iNaturalistAPI", ( ) => {
+  describe( "isBrowser", ( ) => {
+    it( "returns true if document.querySelector is defined", ( ) => {
       expect( util.isBrowser( ) ).to.be.false;
-      global.document = { querySelector: function( ) { } };
+      global.document = { querySelector: ( ) => { } };
       expect( util.isBrowser( ) ).to.be.true;
       global.document = undefined;
       expect( util.isBrowser( ) ).to.be.false;
-    });
-  });
+    } );
+  } );
 
-  describe( "browserMetaTagContent", function( ) {
-    it( "returns the content attribute of the selector", function( ) {
-      global.document = { querySelector: function( ) {
-        return { getAttribute: function( ) {
-          return "test";
-        }};
-      }};
+  describe( "browserMetaTagContent", ( ) => {
+    it( "returns the content attribute of the selector", ( ) => {
+      global.document = {
+        querySelector: ( ) => (
+          { getAttribute: ( ) => "test" }
+        )
+      };
       expect( util.browserMetaTagContent( "attr" ) ).to.eq( "test" );
       global.document = undefined;
-    });
-  });
+    } );
+  } );
 
-  describe( "nodeENV", function( ) {
-    it( "returns nothing if isNode is false", function( ) {
+  describe( "nodeENV", ( ) => {
+    it( "returns nothing if isNode is false", ( ) => {
       expect( util.isNode( ) ).to.be.true;
-      var env = process.env;
+      const { env } = process;
       process.env = undefined;
       expect( util.isNode( ) ).to.be.false;
-      expect( util.nodeENV( "NODE_ENV" ) ).to.be.undefined;
+      expect( util.nodeENV( "NODE_ENV" ) ).to.not.exist;
       process.env = env;
       expect( util.isNode( ) ).to.be.true;
-    });
-  });
-
-});
+    } );
+  } );
+} );
