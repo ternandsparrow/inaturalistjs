@@ -96,6 +96,17 @@ describe( "Projects", ( ) => {
         done( );
       } );
     } );
+
+    it( "escapes non-ascii IDs", done => {
+      const nonAsciiName = "高中校";
+      const escapedName = encodeURI( nonAsciiName );
+      nock( "http://localhost:3000" )
+        .put( `/projects/${escapedName}` )
+        .reply( 200, { slug: nonAsciiName } );
+      projects.update( { id: nonAsciiName, body: "testbody" } ).then( ( ) => {
+        done( );
+      } );
+    } );
   } );
 
   describe( "delete", ( ) => {
