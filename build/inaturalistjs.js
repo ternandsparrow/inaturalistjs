@@ -218,7 +218,7 @@ function () {
       var apiToken = options.useAuth ? iNaturalistAPI.apiToken(options) : null;
       var headers = {
         Accept: "application/json",
-        Via: "inaturalistjs"
+        "X-Via": "inaturalistjs"
       };
 
       if (apiToken) {
@@ -246,7 +246,7 @@ function () {
       var headers = {
         Accept: "application/json",
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, DELETE, HEAD",
-        Via: "inaturalistjs"
+        "X-Via": "inaturalistjs"
       };
 
       if (options.user_agent) {
@@ -501,7 +501,7 @@ function () {
           var v = sym.substring(1);
 
           if (params && params[v]) {
-            interpolatedRoute = interpolatedRoute.replace(sym, params[v]);
+            interpolatedRoute = interpolatedRoute.replace(sym, encodeURI(params[v]));
           } else {
             err = new Promise(function (res, rej) {
               rej(new Error("".concat(v, " required")));
