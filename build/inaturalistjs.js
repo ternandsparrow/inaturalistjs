@@ -3337,6 +3337,19 @@ function () {
     value: function identificationCategories(params) {
       return iNaturalistAPI.get("observations/identification_categories", params);
     }
+  }, {
+    key: "lifelistTaxa",
+    value: function lifelistTaxa(params) {
+      return iNaturalistAPI.get("observations/lifelist_taxa", params).then(function (response) {
+        if (response.results) {
+          response.results = response.results.map(function (r) {
+            return new Taxon(r);
+          });
+        }
+
+        return response;
+      });
+    }
   }]);
 
   return observations;
@@ -3875,6 +3888,11 @@ function () {
     key: "fetch",
     value: function fetch(ids, params) {
       return iNaturalistAPI.fetch("taxa", ids, params).then(Taxon.typifyResultsResponse);
+    }
+  }, {
+    key: "search",
+    value: function search(params) {
+      return iNaturalistAPI.get("taxa", params, params).then(Taxon.typifyResultsResponse);
     }
   }, {
     key: "autocomplete",
