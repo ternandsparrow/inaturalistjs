@@ -3338,9 +3338,9 @@ function () {
       return iNaturalistAPI.get("observations/identification_categories", params);
     }
   }, {
-    key: "lifelistTaxa",
-    value: function lifelistTaxa(params) {
-      return iNaturalistAPI.get("observations/lifelist_taxa", params).then(function (response) {
+    key: "taxonomy",
+    value: function taxonomy(params) {
+      return iNaturalistAPI.get("observations/taxonomy", params).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (r) {
             return new Taxon(r);
