@@ -282,7 +282,7 @@ function () {
           if (params[k] && params[k].type === "custom" && params[k].value) {
             body.append(k, params[k].value, params[k].options);
           } else {
-            body.append(k, params[k]);
+            body.append(k, typeof params[k] === "boolean" ? params[k].toString() : params[k]);
           }
         });
       } else {
@@ -3942,7 +3942,9 @@ function () {
   }, {
     key: "update",
     value: function update(params, options) {
-      return iNaturalistAPI.put("users/:id", params, options).then(User.typifyInstanceResponse);
+      return iNaturalistAPI.upload("users/:id", params, Object.assign({}, options, {
+        method: "put"
+      })).then(User.typifyInstanceResponse);
     }
   }, {
     key: "update_session",
