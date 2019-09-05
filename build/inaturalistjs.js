@@ -3337,6 +3337,23 @@ function () {
     value: function identificationCategories(params) {
       return iNaturalistAPI.get("observations/identification_categories", params);
     }
+  }, {
+    key: "similarSpecies",
+    value: function similarSpecies(params, opts) {
+      var options = Object.assign({}, opts || {});
+      options.useAuth = true;
+      return iNaturalistAPI.get("observations/similar_species", params, options).then(function (response) {
+        if (response.results) {
+          response.results = response.results.map(function (r) {
+            return Object.assign({}, r, {
+              taxon: new Taxon(r.taxon)
+            });
+          });
+        }
+
+        return response;
+      });
+    }
   }]);
 
   return observations;
