@@ -2688,6 +2688,27 @@ function () {
       });
     }
   }, {
+    key: "recent_taxa_revisited",
+    value: function recent_taxa_revisited(params, opts) {
+      // eslint-disable-line camelcase
+      var options = Object.assign({}, opts || {});
+      options.useAuth = true;
+      return iNaturalistAPI.get("identifications/recent_taxa_revisited", params, options).then(function (response) {
+        if (response.results) {
+          response.results = response.results.map(function (res) {
+            var r = Object.assign({}, res);
+            r.taxon = new Taxon(r.taxon);
+            r.identification = new Identification(r.identification);
+            delete r.identification.observation.identifications;
+            r.identification.observation = new Observation(r.identification.observation);
+            return r;
+          });
+        }
+
+        return response;
+      });
+    }
+  }, {
     key: "identifiers",
     value: function identifiers(params, options) {
       return iNaturalistAPI.get("identifications/identifiers", params, options).then(function (response) {
