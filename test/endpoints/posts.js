@@ -38,4 +38,60 @@ describe( "Posts", ( ) => {
       } );
     } );
   } );
+
+  describe( "create", ( ) => {
+    it( "posts to /posts", done => {
+      nock( "http://localhost:3000" )
+        .post( "/posts", { body: "testbody" } )
+        .reply( 200, { id: 1 } );
+      postsEndpoint.create( { body: "testbody" } ).then( ( ) => {
+        done( );
+      } );
+    } );
+
+    it( "adds an authorization header for the api_token", done => {
+      nock( "http://localhost:3000", { reqheaders: { Authorization: "key" } } )
+        .post( "/posts", { body: "testbody" } )
+        .reply( 200, { id: 1 } );
+      postsEndpoint.create( { body: "testbody" }, { api_token: "key" } ).then( ( ) => {
+        done( );
+      } );
+    } );
+  } );
+
+  describe( "update", ( ) => {
+    it( "puts to /posts", done => {
+      nock( "http://localhost:3000" )
+        .put( "/posts/1", { id: 1, body: "testbody" } )
+        .reply( 200, { id: 1 } );
+      postsEndpoint.update( { id: 1, body: "testbody" } ).then( ( ) => {
+        done( );
+      } );
+    } );
+
+    it( "throws errors", done => {
+      postsEndpoint.update( { any: "thing" } ).catch( e => {
+        expect( e.message ).to.eq( "id required" );
+        done( );
+      } );
+    } );
+  } );
+
+  describe( "delete", ( ) => {
+    it( "deletes to /posts", done => {
+      nock( "http://localhost:3000" )
+        .delete( "/posts/1", { id: 1 } )
+        .reply( 200, { id: 1 } );
+      postsEndpoint.delete( { id: 1 } ).then( ( ) => {
+        done( );
+      } );
+    } );
+
+    it( "throws errors", done => {
+      postsEndpoint.delete( { any: "thing" } ).catch( e => {
+        expect( e.message ).to.eq( "id required" );
+        done( );
+      } );
+    } );
+  } );
 } );

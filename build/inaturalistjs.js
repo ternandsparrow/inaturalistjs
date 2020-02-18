@@ -3727,6 +3727,21 @@ function () {
       // eslint-disable-line camelcase
       return iNaturalistAPI.get("posts/for_user", params, options).then(Post.typifyArrayResponse);
     }
+  }, {
+    key: "create",
+    value: function create(params, options) {
+      return iNaturalistAPI.post("posts", params, options).then(Post.typifyInstanceResponse);
+    }
+  }, {
+    key: "update",
+    value: function update(params, options) {
+      return iNaturalistAPI.put("posts/:id", params, options).then(Post.typifyInstanceResponse);
+    }
+  }, {
+    key: "delete",
+    value: function _delete(params, options) {
+      return iNaturalistAPI.delete("posts/:id", params, options);
+    }
   }]);
 
   return posts;
@@ -3777,6 +3792,11 @@ function (_Model) {
     key: "typifyArrayResponse",
     value: function typifyArrayResponse(response) {
       return _get(_getPrototypeOf(Post), "typifyArrayResponse", this).call(this, response, Post);
+    }
+  }, {
+    key: "typifyInstanceResponse",
+    value: function typifyInstanceResponse(response) {
+      return _get(_getPrototypeOf(Post), "typifyInstanceResponse", this).call(this, response, Post);
     }
   }]);
 

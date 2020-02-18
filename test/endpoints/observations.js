@@ -358,4 +358,51 @@ describe( "Observation", ( ) => {
       } );
     } );
   } );
+
+  describe( "qualityGrades", ( ) => {
+    it( "gets /observations/quality_grades", done => {
+      nock( "http://localhost:4000" )
+        .get( "/v1/observations/quality_grades" )
+        .reply( 200, { response: "success" } );
+      observations.qualityGrades( ).then( r => {
+        expect( r.response ).to.eq( "success" );
+        done( );
+      } );
+    } );
+  } );
+
+  describe( "updates", ( ) => {
+    it( "gets /observations/updates", done => {
+      nock( "http://localhost:4000" )
+        .get( "/v1/observations/updates" )
+        .reply( 200, { response: "success" } );
+      observations.updates( ).then( r => {
+        expect( r.response ).to.eq( "success" );
+        done( );
+      } );
+    } );
+  } );
+
+  describe( "subscriptions", ( ) => {
+    it( "gets /observations/:id/subscriptions", done => {
+      nock( "http://localhost:4000", { reqheaders: { Authorization: "key" } } )
+        .get( "/v1/observations/1/subscriptions" )
+        .reply( 200, { id: 1 } );
+      observations.subscriptions( { id: 1 }, { api_token: "key" } ).then( ( ) => {
+        done( );
+      } );
+    } );
+  } );
+
+  describe( "taxonSummary", ( ) => {
+    it( "gets /observations/:id/taxon_summary", done => {
+      nock( "http://localhost:4000" )
+        .get( "/v1/observations/1/taxon_summary" )
+        .reply( 200, { id: 1 } );
+      observations.taxonSummary( { id: 1 } ).then( ( ) => {
+        done( );
+      } );
+    } );
+  } );
+
 } );
