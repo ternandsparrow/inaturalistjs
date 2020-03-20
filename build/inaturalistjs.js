@@ -4124,14 +4124,14 @@ var iNaturalistAPI = __webpack_require__(1);
 
 var UserMute = __webpack_require__(47);
 
-var messages =
+var userMutes =
 /*#__PURE__*/
 function () {
-  function messages() {
-    _classCallCheck(this, messages);
+  function userMutes() {
+    _classCallCheck(this, userMutes);
   }
 
-  _createClass(messages, null, [{
+  _createClass(userMutes, null, [{
     key: "create",
     value: function create(params, options) {
       return iNaturalistAPI.post("user_mutes", params, options).then(UserMute.typifyInstanceResponse);
@@ -4143,10 +4143,10 @@ function () {
     }
   }]);
 
-  return messages;
+  return userMutes;
 }();
 
-module.exports = messages;
+module.exports = userMutes;
 
 /***/ }),
 /* 47 */
