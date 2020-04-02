@@ -2555,6 +2555,11 @@ function () {
       return iNaturalistAPI.post("flags", params, options).then(Flag.typifyInstanceResponse);
     }
   }, {
+    key: "update",
+    value: function update(params, options) {
+      return iNaturalistAPI.put("flags/:id", params, options).then(Flag.typifyInstanceResponse);
+    }
+  }, {
     key: "delete",
     value: function _delete(params, options) {
       return iNaturalistAPI.delete("flags/:id", params, options);
@@ -3740,6 +3745,21 @@ function () {
       // eslint-disable-line camelcase
       return iNaturalistAPI.get("posts/for_user", params, options).then(Post.typifyArrayResponse);
     }
+  }, {
+    key: "create",
+    value: function create(params, options) {
+      return iNaturalistAPI.post("posts", params, options).then(Post.typifyInstanceResponse);
+    }
+  }, {
+    key: "update",
+    value: function update(params, options) {
+      return iNaturalistAPI.put("posts/:id", params, options).then(Post.typifyInstanceResponse);
+    }
+  }, {
+    key: "delete",
+    value: function _delete(params, options) {
+      return iNaturalistAPI.delete("posts/:id", params, options);
+    }
   }]);
 
   return posts;
@@ -3790,6 +3810,11 @@ function (_Model) {
     key: "typifyArrayResponse",
     value: function typifyArrayResponse(response) {
       return _get(_getPrototypeOf(Post), "typifyArrayResponse", this).call(this, response, Post);
+    }
+  }, {
+    key: "typifyInstanceResponse",
+    value: function typifyInstanceResponse(response) {
+      return _get(_getPrototypeOf(Post), "typifyInstanceResponse", this).call(this, response, Post);
     }
   }]);
 
@@ -4147,6 +4172,22 @@ function () {
       var options = Object.assign({}, opts);
       options.useAuth = true;
       return iNaturalistAPI.get("users/me", null, options).then(User.typifyResultsResponse);
+    }
+  }, {
+    key: "mute",
+    value: function mute(params) {
+      var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var options = Object.assign({}, opts);
+      options.useAuth = true;
+      return iNaturalistAPI.post("users/:id/mute", params, options);
+    }
+  }, {
+    key: "unmute",
+    value: function unmute(params) {
+      var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var options = Object.assign({}, opts);
+      options.useAuth = true;
+      return iNaturalistAPI.delete("users/:id/mute", params, options);
     }
   }]);
 

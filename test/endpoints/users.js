@@ -19,4 +19,24 @@ describe( "Users", ( ) => {
       } );
     } );
   } );
+  describe( "mute", ( ) => {
+    it( "succeeds", done => {
+      nock( "http://localhost:3000" )
+        .post( "/users/1/mute" )
+        .reply( 200 );
+      users.mute( { id: 1 } ).then( ( ) => {
+        done( );
+      } );
+    } );
+  } );
+  describe( "unmute", ( ) => {
+    it( "succeeds", done => {
+      nock( "http://localhost:3000" )
+        .delete( "/users/1/mute" )
+        .reply( 200 );
+      users.unmute( { id: 1 } ).then( ( ) => {
+        done( );
+      } );
+    } );
+  } );
 } );
