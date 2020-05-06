@@ -483,7 +483,7 @@ function () {
       var envURLConfig = legacyEnv.apiURL || util.browserMetaTagContent("config:inaturalist_api_url") || util.nodeENV("API_URL");
       var envWriteURLConfig = legacyEnv.writeApiURL || util.browserMetaTagContent("config:inaturalist_write_api_url") || util.nodeENV("WRITE_API_URL");
       iNaturalistAPI.apiURL = config.apiURL || envURLConfig || "https://api.inaturalist.org/v1";
-      iNaturalistAPI.writeApiURL = envWriteURLConfig || envURLConfig || config.writeApiURL || config.apiURL || "https://www.inaturalist.org";
+      iNaturalistAPI.writeApiURL = config.writeApiURL || envWriteURLConfig || envURLConfig || config.apiURL || "https://www.inaturalist.org";
     }
   }, {
     key: "legacyEnvConfig",
@@ -2454,8 +2454,6 @@ function () {
     // eslint-disable-line camelcase
     value: function for_taxon(params) {
       // eslint-disable-line camelcase
-      console.log("[DEBUG] iNaturalistAPI.apiURL: ", iNaturalistAPI.apiURL);
-
       if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/)) {
         var taxonIds = params.taxon_id.toString().split(",").join(",");
         var newParams = Object.assign({}, params);
