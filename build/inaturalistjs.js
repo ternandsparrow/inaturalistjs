@@ -4111,6 +4111,12 @@ function () {
       });
     }
   }, {
+    key: "lifelist_metadata",
+    value: function lifelist_metadata(params) {
+      // eslint-disable-line camelcase
+      return iNaturalistAPI.get("taxa/lifelist_metadata", params, params).then(Taxon.typifyResultsResponse);
+    }
+  }, {
     key: "wanted",
     value: function wanted(params) {
       return iNaturalistAPI.get("taxa/:id/wanted", params, {
