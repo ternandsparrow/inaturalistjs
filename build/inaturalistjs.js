@@ -1696,12 +1696,24 @@ function () {
   }, {
     key: "vote",
     value: function vote(params, options) {
-      return iNaturalistAPI.post("votes/vote/annotation/:id", params, options).then(Annotation.typifyInstanceResponse);
+      var endpoint = "votes/vote/annotation/:id";
+
+      if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/)) {
+        endpoint = "annotations/:id/vote";
+      }
+
+      return iNaturalistAPI.post(endpoint, params, options).then(Annotation.typifyInstanceResponse);
     }
   }, {
     key: "unvote",
     value: function unvote(params, options) {
-      return iNaturalistAPI.delete("votes/unvote/annotation/:id", params, options);
+      var endpoint = "votes/unvote/annotation/:id";
+
+      if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/)) {
+        endpoint = "annotations/:id/unvote";
+      }
+
+      return iNaturalistAPI.delete(endpoint, params, options);
     }
   }]);
 
