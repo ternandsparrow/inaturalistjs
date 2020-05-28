@@ -3496,6 +3496,11 @@ function () {
       return iNaturalistAPI.get("observations/identification_categories", params);
     }
   }, {
+    key: "taxonomy",
+    value: function taxonomy(params) {
+      return iNaturalistAPI.get("observations/taxonomy", params).then(Taxon.typifyResultsResponse);
+    }
+  }, {
     key: "similarSpecies",
     value: function similarSpecies(params, opts) {
       var options = Object.assign({}, opts || {});
@@ -4072,6 +4077,11 @@ function () {
       return iNaturalistAPI.fetch("taxa", ids, params).then(Taxon.typifyResultsResponse);
     }
   }, {
+    key: "search",
+    value: function search(params) {
+      return iNaturalistAPI.get("taxa", params, params).then(Taxon.typifyResultsResponse);
+    }
+  }, {
     key: "autocomplete",
     value: function autocomplete(params) {
       return iNaturalistAPI.get("taxa/autocomplete", params, {
@@ -4091,6 +4101,12 @@ function () {
         });
         return response;
       });
+    }
+  }, {
+    key: "lifelist_metadata",
+    value: function lifelist_metadata(params) {
+      // eslint-disable-line camelcase
+      return iNaturalistAPI.get("taxa/lifelist_metadata", params, params).then(Taxon.typifyResultsResponse);
     }
   }, {
     key: "wanted",
