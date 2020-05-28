@@ -3498,15 +3498,7 @@ function () {
   }, {
     key: "taxonomy",
     value: function taxonomy(params) {
-      return iNaturalistAPI.get("observations/taxonomy", params).then(function (response) {
-        if (response.results) {
-          response.results = response.results.map(function (r) {
-            return new Taxon(r);
-          });
-        }
-
-        return response;
-      });
+      return iNaturalistAPI.get("observations/taxonomy", params).then(Taxon.typifyResultsResponse);
     }
   }, {
     key: "similarSpecies",
