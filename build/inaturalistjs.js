@@ -3517,6 +3517,11 @@ function () {
         return response;
       });
     }
+  }, {
+    key: "taxa",
+    value: function taxa(params) {
+      return iNaturalistAPI.get("observations/taxa", params);
+    }
   }]);
 
   return observations;
