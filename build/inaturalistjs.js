@@ -185,16 +185,22 @@ function () {
         fetchIDs = [fetchIDs];
       }
 
-      var query = "";
-
-      if (params) {
-        query = "?".concat(querystring.stringify(params));
-      }
-
       var apiToken = iNaturalistAPI.apiToken(options);
       var headers = apiToken ? {
         Authorization: apiToken
       } : {};
+
+      if (params && params.fields && _typeof(params.fields) === "object") {
+        headers.Accept = "application/json";
+        headers["X-HTTP-Method-Override"] = "GET";
+        return localFetch("".concat(iNaturalistAPI.apiURL, "/").concat(route, "/").concat(fetchIDs.join(",")), {
+          method: "post",
+          headers: headers,
+          body: JSON.stringify(params)
+        }).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
+      }
+
+      var query = params ? "?".concat(querystring.stringify(params)) : "";
       return localFetch("".concat(iNaturalistAPI.apiURL) + "/".concat(route, "/").concat(fetchIDs.join(",")).concat(query), {
         headers: headers
       }).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
@@ -228,6 +234,16 @@ function () {
 
       if (interpolated.remainingParams && Object.keys(interpolated.remainingParams).length > 0) {
         url += "?".concat(querystring.stringify(interpolated.remainingParams));
+      }
+
+      if (params && params.fields && _typeof(params.fields) === "object") {
+        headers["X-HTTP-Method-Override"] = "GET";
+        headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS, PUT, DELETE, HEAD";
+        return localFetch(url, {
+          method: "post",
+          headers: headers,
+          body: JSON.stringify(params)
+        }).then(iNaturalistAPI.thenText).then(iNaturalistAPI.thenJson).then(iNaturalistAPI.thenWrap);
       }
 
       return localFetch(url, {
@@ -467,7 +483,7 @@ function () {
       var envURLConfig = legacyEnv.apiURL || util.browserMetaTagContent("config:inaturalist_api_url") || util.nodeENV("API_URL");
       var envWriteURLConfig = legacyEnv.writeApiURL || util.browserMetaTagContent("config:inaturalist_write_api_url") || util.nodeENV("WRITE_API_URL");
       iNaturalistAPI.apiURL = config.apiURL || envURLConfig || "https://api.inaturalist.org/v1";
-      iNaturalistAPI.writeApiURL = envWriteURLConfig || envURLConfig || config.writeApiURL || config.apiURL || "https://www.inaturalist.org";
+      iNaturalistAPI.writeApiURL = config.writeApiURL || envWriteURLConfig || envURLConfig || config.apiURL || "https://www.inaturalist.org";
     }
   }, {
     key: "legacyEnvConfig",
@@ -1680,12 +1696,24 @@ function () {
   }, {
     key: "vote",
     value: function vote(params, options) {
-      return iNaturalistAPI.post("votes/vote/annotation/:id", params, options).then(Annotation.typifyInstanceResponse);
+      var endpoint = "votes/vote/annotation/:id";
+
+      if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/)) {
+        endpoint = "annotations/:id/vote";
+      }
+
+      return iNaturalistAPI.post(endpoint, params, options).then(Annotation.typifyInstanceResponse);
     }
   }, {
     key: "unvote",
     value: function unvote(params, options) {
-      return iNaturalistAPI.delete("votes/unvote/annotation/:id", params, options);
+      var endpoint = "votes/unvote/annotation/:id";
+
+      if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/)) {
+        endpoint = "annotations/:id/unvote";
+      }
+
+      return iNaturalistAPI.delete(endpoint, params, options);
     }
   }]);
 
@@ -2412,6 +2440,20 @@ var iNaturalistAPI = __webpack_require__(1);
 
 var ControlledTerm = __webpack_require__(22);
 
+var typifyResponse = function typifyResponse(response) {
+  var typifiedResponse = ControlledTerm.typifyResultsResponse(response);
+
+  for (var i = 0; i < typifiedResponse.results.length; i += 1) {
+    if (typifiedResponse.results[i] && !typifiedResponse.results[i].values) {
+      typifiedResponse.results[i].values = typifiedResponse.results[i].values.map(function (v) {
+        return new ControlledTerm(v);
+      });
+    }
+  }
+
+  return typifiedResponse;
+};
+
 var controlledTerms =
 /*#__PURE__*/
 function () {
@@ -2424,36 +2466,19 @@ function () {
     // eslint-disable-line camelcase
     value: function for_taxon(params) {
       // eslint-disable-line camelcase
-      return iNaturalistAPI.get("controlled_terms/for_taxon", params).then(function (response) {
-        var typifiedResponse = ControlledTerm.typifyResultsResponse(response);
+      if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/)) {
+        var taxonIds = params.taxon_id.toString().split(",").join(",");
+        var newParams = Object.assign({}, params);
+        delete newParams.taxon_id;
+        return iNaturalistAPI.get("controlled_terms/for_taxon/".concat(taxonIds), newParams).then(typifyResponse);
+      }
 
-        for (var i = 0; i < typifiedResponse.results.length; i += 1) {
-          if (typifiedResponse.results[i] && !typifiedResponse.results[i].values) {
-            typifiedResponse.results[i].values = typifiedResponse.results[i].values.map(function (v) {
-              return new ControlledTerm(v);
-            });
-          }
-        }
-
-        return typifiedResponse;
-      });
+      return iNaturalistAPI.get("controlled_terms/for_taxon", params).then(typifyResponse);
     }
   }, {
     key: "search",
     value: function search(params) {
-      return iNaturalistAPI.get("controlled_terms", params, {}).then(function (response) {
-        var typifiedResponse = ControlledTerm.typifyResultsResponse(response);
-
-        for (var i = 0; i < response.results.length; i += 1) {
-          if (typifiedResponse.results[i] && !typifiedResponse.results[i].values) {
-            typifiedResponse.results[i].values = typifiedResponse.results[i].values.map(function (v) {
-              return new ControlledTerm(v);
-            });
-          }
-        }
-
-        return typifiedResponse;
-      });
+      return iNaturalistAPI.get("controlled_terms", params, {}).then(typifyResponse);
     }
   }]);
 
