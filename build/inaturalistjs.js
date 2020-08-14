@@ -523,10 +523,15 @@ function () {
 
           var v = sym.substring(1);
 
-          if (remainingParams && remainingParams[v]) {
+          if (remainingParams[v]) {
             interpolatedRoute = interpolatedRoute.replace(sym, encodeURI(remainingParams[v]));
             interpolatedParams[sym] = encodeURI(remainingParams[v]);
             delete remainingParams[v];
+          } else if (sym === ":id" && remainingParams.uuid) {
+            // If a UUID was provided but not an ID, sub that in instead
+            interpolatedRoute = interpolatedRoute.replace(sym, encodeURI(remainingParams.uuid));
+            interpolatedParams[sym] = encodeURI(remainingParams.uuid);
+            delete remainingParams.uuid;
           } else {
             err = new Promise(function (res, rej) {
               rej(new Error("".concat(v, " required")));
